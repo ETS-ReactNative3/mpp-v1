@@ -29,10 +29,13 @@ export default function App() {
         <Router history={history}>
           <div>
             <Switch>
-              <PrivateRoute exact path="/">
+              <Route exact path="/">
                 <HomePage />
-              </PrivateRoute>
-              <Route exact path="/login" component={Login} />
+              </Route>
+              <Route exact path="/login">
+                {' '}
+                <Login />
+              </Route>
               <Route exact path="/healthcheck" component={HealthCheck} />
 
               <Route component={NotFoundPage} />
