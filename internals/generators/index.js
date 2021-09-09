@@ -8,6 +8,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 const componentGenerator = require('./component/index.js');
+const mppComponentGenerator = require('./mppComponents/index.js');
 const containerGenerator = require('./container/index.js');
 const languageGenerator = require('./language/index.js');
 
@@ -18,6 +19,7 @@ const languageGenerator = require('./language/index.js');
 const BACKUPFILE_EXTENSION = 'rbgen';
 
 module.exports = plop => {
+  plop.setGenerator('mppComponents', mppComponentGenerator);
   plop.setGenerator('component', componentGenerator);
   plop.setGenerator('container', containerGenerator);
   plop.setGenerator('language', languageGenerator);
