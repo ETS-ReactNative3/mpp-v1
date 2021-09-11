@@ -1,0 +1,31 @@
+.login-container {
+	.login-bg {
+	min-height: 100vh;
+	min-width: 95vh;
+	background-image: url('https://therichpost.com/wp-content/uploads/2021/02/login-split.jpg');
+	background-repeat: no-repeat;
+	background-size: 100vh 100vh;
+}
+}
+
+.login-form {
+	min-height: 100vh;
+	min-width: 40vh;
+}
+.login-google{
+	float: none;
+	margin: auto;
+	position: absolute;
+	top: 50%;
+	left: 25%;
+}
+@media screen and (max-width:1000px){
+	.login-bg{
+		min-width: 0;
+		min-height: 0;
+	}
+	.login-form{
+		min-width: 100vh;
+		min-height: 100vh;
+	}
+}
