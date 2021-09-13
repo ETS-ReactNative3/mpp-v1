@@ -36,8 +36,6 @@ export function Login(props) {
         <Col span={12} className="login-form">
           <center>
             <div className="login-google">
-            <h4>Movie Pre Production</h4>
-            <p className="text-muted mb-4">Login to the World of Movies</p>
               <GoogleLogin
                 clientId="868456048541-hmp98dlujknnl8dsv9667i9vm7lt8h78.apps.googleusercontent.com"
                 buttonText="Login with Google"
