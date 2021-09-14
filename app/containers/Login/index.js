@@ -11,6 +11,10 @@ import { createSelector } from 'reselect';
 import { compose } from 'redux';
 import { GoogleLogin } from 'react-google-login';
 
+//Messages 
+import { FormattedMessage } from 'react-intl';
+import messages from './messages';
+
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import reducer from './reducer';
@@ -38,7 +42,7 @@ export function Login(props) {
             <div className="login-google">
               <GoogleLogin
                 clientId="868456048541-hmp98dlujknnl8dsv9667i9vm7lt8h78.apps.googleusercontent.com"
-                buttonText="Login with Google"
+                buttonText={<FormattedMessage {...messages.logingoogle}/>}
                 onSuccess={user => {
                   auth.signin(user);
                   console.log(props);

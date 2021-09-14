@@ -2,7 +2,7 @@
 
 // Individual exports for testing
 export function* login() {
-  yield put(loginSuccess({ email: 'ss@gmail.com', password: 'passwords' }));
+  yield put(loginSuccess({ email: '', password: '' }));
 }
 export default function* loginSaga() {
   // See example in containers/HomePage/saga.js
