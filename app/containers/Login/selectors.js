@@ -5,7 +5,7 @@ import { initialState } from './reducer';
  * Direct selector to the login state domain
  */
 
-const selectLoginDomain = state => state.login || initialState;
+const selectLoginDomain = state => initialState;
 
 /**
  * Other specific selectors
@@ -18,8 +18,16 @@ const selectLoginDomain = state => state.login || initialState;
 const makeSelectLogin = () =>
   createSelector(
     selectLoginDomain,
-    substate => substate,
+    substate => substate.toJS(),
   );
+const makeSelectEmail = createSelector(
+  selectLoginDomain,
+  substate => substate.email,
+);
+const makeSelectPassword = createSelector(
+  selectLoginDomain,
+  substate => substate.password,
+);
 
 export default makeSelectLogin;
-export { selectLoginDomain };
+export { selectLoginDomain, makeSelectEmail, makeSelectPassword };

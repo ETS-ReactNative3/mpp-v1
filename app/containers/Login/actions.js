@@ -4,10 +4,25 @@
  *
  */
 
-import { DEFAULT_ACTION } from './constants';
+import { UPDATE_INPUT, LOGIN_SUCCESS, LOGIN_ERROR } from '/constants';
 
-export function defaultAction() {
+export function loginSuccess(actions) {
   return {
-    type: DEFAULT_ACTION,
+    type: LOGIN_SUCCESS,
+    actions,
+  };
+}
+
+export function loginError(actions) {
+  return {
+    type: LOGIN_ERROR,
+    actions,
+  };
+}
+
+export function updateInput(actions) {
+  return {
+    type: UPDATE_INPUT,
+    actions,
   };
 }

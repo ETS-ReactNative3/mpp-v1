@@ -13,4 +13,8 @@ export default defineMessages({
     id: `${scope}.header`,
     defaultMessage: 'This is the Login container!',
   },
+  logingoogle : {
+    id: `${scope}.logingoogle`,
+    defaultMessage: 'Login with Google',
+  }
 });

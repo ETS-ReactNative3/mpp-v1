@@ -81,7 +81,6 @@
     "ip": "1.1.5",
     "lodash": "4.17.11",
     "minimist": "1.2.0",
-    "node-sass": "^4.14.1",
     "prop-types": "15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -95,6 +94,8 @@
     "redux-saga": "1.0.2",
     "reselect": "4.0.0",
     "sanitize.css": "8.0.0",
+    "sass": "^1.40.0",
+    "sass-loader": "^10.1.1",
     "styled-components": "4.2.0"
   },
   "devDependencies": {
@@ -153,7 +154,6 @@
     "react-test-renderer": "16.8.6",
     "react-testing-library": "6.1.2",
     "rimraf": "2.6.3",
-    "sass-loader": "^7.2.0",
     "shelljs": "^0.8.4",
     "style-loader": "0.23.1",
     "stylelint": "10.0.1",
