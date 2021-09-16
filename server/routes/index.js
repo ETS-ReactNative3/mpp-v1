@@ -1,7 +1,7 @@
+import storyLine from './gDrive.js';
+
 const express = require('express');
 const router = express.Router();
-
-import GDrive from './gDrive.js';
 
 router.get('/healthCheck', function(req, res, next) {
   console.log('insise health check');
@@ -10,6 +10,6 @@ router.get('/healthCheck', function(req, res, next) {
   //   next();
 });
 
-router.use('/GDrive',GDrive);
+router.use('/storyline', storyLine);
 
 module.exports = router;
