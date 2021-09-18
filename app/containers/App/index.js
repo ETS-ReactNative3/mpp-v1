@@ -10,7 +10,7 @@
 import React from 'react';
 import { Switch, Route, Router } from 'react-router-dom';
 
-import HomePage from 'containers/HomePage/Loadable';
+import Dashboard from 'containers/Dashboard/Loadable';
 import Login from 'containers/Login/Loadable';
 import HealthCheck from 'components/HealthCheck';
 import PrivateRoute from 'components/PrivateRoute';
@@ -30,7 +30,7 @@ export default function App() {
           <div>
             <Switch>
               <Route exact path="/">
-                <HomePage />
+                <Dashboard />
               </Route>
               <Route exact path="/login">
                 {' '}
