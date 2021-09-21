@@ -6,7 +6,7 @@ import set from 'lodash/set';
 import './style.scss';
 const {Option} = Select;
 const {Title} = Typography;
-const gsenreOptions = ['Action Adventure',
+const genreOptions = ['Action Adventure',
     'Thriller',
    'Romantic Comedy',
     'Horror',
