@@ -17,7 +17,7 @@ import PrivateRoute from 'components/PrivateRoute';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import { createBrowserHistory } from 'history';
 import { ProvideAuth } from '../../contexts/authContext';
-
+import LogLine from '../../components/Logline';
 import GlobalStyle from '../../global-styles';
 
 const history = createBrowserHistory();
@@ -33,8 +33,10 @@ export default function App() {
                 <Dashboard />
               </Route>
               <Route exact path="/login">
-                {' '}
                 <Login />
+              </Route>
+              <Route exact path="/storyline/new">
+                <LogLine />
               </Route>
               <Route exact path="/healthcheck" component={HealthCheck} />
 
