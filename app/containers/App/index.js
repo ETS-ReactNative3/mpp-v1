@@ -10,7 +10,7 @@
 import React from 'react';
 import { Switch, Route, Router } from 'react-router-dom';
 
-import HomePage from 'containers/HomePage/Loadable';
+import HomePage from 'containers/HomePage/index.js';
 import Login from 'containers/Login/Loadable';
 import HealthCheck from 'components/HealthCheck';
 import PrivateRoute from 'components/PrivateRoute';

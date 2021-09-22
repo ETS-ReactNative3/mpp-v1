@@ -9,6 +9,4 @@ const dashboardDetails = () => {
     return dashboard;
 }
 
-export default {
-    dashboardDetails
-}
+module.exports = dashboardDetails;

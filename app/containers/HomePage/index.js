@@ -8,7 +8,6 @@
 import React from 'react';
 
 import { FormattedMessage } from 'react-intl';
-import messages from './messages';
 import Button from '../../mppComponents/MppButton';
 import './styles.scss';
 export default function HomePage() {
