@@ -73,7 +73,8 @@ class Logline extends React.Component {
         return `${logline.character} ${logline.crisis} ${logline.response}`
     }
     onSave = () => {
-        this.setState({isEdit: false})
+        this.setState({isEdit: false});
+        
     }
     onEdit = () => {
         this.setState({isEdit: true})

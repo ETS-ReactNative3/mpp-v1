@@ -22,6 +22,7 @@ import Button from '../../mppComponents/MppButton/index.js';
 import ProvideAuth from '../../contexts/authContext';
 
 import history from '../../utils/history';
+import { Link } from 'react-router-dom';
 
 export default function Dashboard() {
   return (
@@ -58,9 +59,11 @@ export default function Dashboard() {
           <div className="cards-container">
             <Row gutter={16}>
               <Col span={8}>
-                <Card bordered={true}>
-                  <center><h2>Add Story</h2></center>
-                </Card>
+                <Link to="/storyline/new">
+                  <Card bordered={true}>
+                    <center><h2>Add Story</h2></center>
+                  </Card>
+                </Link>
               </Col>
               <Col span={8}>
                 <Card title="Card title" bordered={true}>
