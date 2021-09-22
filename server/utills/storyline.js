@@ -12,4 +12,6 @@ const storyDetails = () => {
     return story;
 }
 
-module.exports = storyDetails;
+export default {
+    storyDetails
+}

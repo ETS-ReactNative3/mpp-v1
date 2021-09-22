@@ -1,4 +1,4 @@
-const dashboardUtills = require('../utills/storyline.js');
+import dashboardUtills from '../utills/storyline.js';
 
 
 const getDashboardDetailsById = async (req, res, next) => {
@@ -11,7 +11,6 @@ const dashboardInfo = async (req, res, next) => {
     res.status(200).json({dashboard: dashboard});
 }
 
-module.exports =  {
-    getDashboardDetailsById,
-    dashboardInfo
+export default {
+    storySave
 }

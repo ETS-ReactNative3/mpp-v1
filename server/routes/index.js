@@ -1,5 +1,5 @@
-const storyLine = require('./storyline.js');
-const dashboard = require('./dashboard.js');
+import storyLine from './storyline.js';
+import dashboard from './dashboard.js';
 
 const express = require('express');
 const router = express.Router();

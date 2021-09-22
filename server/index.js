@@ -17,10 +17,7 @@ const app = express();
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // app.use('/api', myApi);
 app.use('/api', apiRouter);
-app.use(express.json());
-app.use(express.urlencoded({
-  extended: true
-}));
+
 // In production we need to pass these values in instead of relying on webpack
 setup(app, {
   outputPath: resolve(process.cwd(), 'build'),
@@ -44,7 +41,6 @@ app.listen(port, host, async err => {
   if (err) {
     return logger.error(err.message);
   }
-  console.log("Server Started on port: " + port);
 
   // Connect to ngrok in dev mode
   if (ngrok) {

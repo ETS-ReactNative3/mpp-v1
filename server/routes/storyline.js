@@ -1,16 +1,9 @@
-const storySave  = require('../controllers/storyline.js');
-const dashboardController = require('../controllers/dashboard.js');
+import storyController from '../controllers/storyline.js';
+import dashboardController from '../controllers/dashboard.js';
 
 const express = require('express');
 const router = express.Router();
 
 
-router.post('/new', function(req, res){
-  console.log(req.body);
-  storySave(req, res);
-})
-router.put('/:id', function(req, res){
-  storyController.storyEdit
-})
-
-module.exports = router;
+router.post('/:id',storyController.storySave)
+router.put('/:id',storyController.storyEdit)
