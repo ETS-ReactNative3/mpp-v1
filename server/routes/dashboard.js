@@ -1,7 +1,13 @@
-import dashboardController from '../controllers/dashboard.js';
+const dashboardController = require('../controllers/dashboard.js');
 
 const express = require('express');
 const router = express.Router();
 
-router.get('/dashboardInfo/:id',dashboardController.getDashboardDetailsById)
-router.get('/dashboardInfo',dashboardController.getDashboardDetails)
+router.get('/dashboardInfo/:id', function(req, res){
+  dashboardController.getDashboardDetailsById
+})
+router.get('/dashboardInfo', function(req, res){
+  dashboardController.getDashboardDetails
+})
+
+module.exports = router;

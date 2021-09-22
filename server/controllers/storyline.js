@@ -1,11 +1,11 @@
-import storyUtills from '../utills/storyline.js';
+const storyUtills = require('../utills/storyline.js');
 
 
 const storySave = async (req, res, next) => {
-    const story = storyUtills.storyDetails();
-    res.status(200).json({story: story});
+    const userId = req.params.userid || null;
+    const story = req.body;
+    console.log(req.body);
+    return res.status(200).json({story: story});
 }
 
-export default {
-    storySave
-}
+module.exports = storySave;
