@@ -74,7 +74,26 @@ class Logline extends React.Component {
     }
     onSave = () => {
         this.setState({isEdit: false});
-        
+        fetch(' http://localhost:5000/api/storyline/new', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                logline: {
+                    character: logline.character,
+                    crisis: logline.crisis,
+                    response: logline.response,
+                },
+                theme: this.state.theme,
+                genre: this.state.genre,
+                subGanre: this.state.subGanre,
+                title: this.state.title,
+            })
+        })
+        .then(function(response) {
+            console.log(response);
+        })
     }
     onEdit = () => {
         this.setState({isEdit: true})
