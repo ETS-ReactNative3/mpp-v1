@@ -6,7 +6,6 @@ const router = express.Router();
 
 
 router.post('/new', function(req, res){
-  console.log(req.body);
   storySave(req, res);
 })
 router.put('/:id', function(req, res){
