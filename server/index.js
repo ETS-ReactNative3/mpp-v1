@@ -42,9 +42,6 @@ app.get('*.js', (req, res, next) => {
   res.set('Content-Encoding', 'gzip');
   next();
 });
-app.post('abcd', req => {
-  console.log('abcd', req.body);
-});
 // Start your app.
 app.listen(port, host, async err => {
   if (err) {
