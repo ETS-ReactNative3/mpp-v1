@@ -10,7 +10,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
-import './styles.scss';
+//import './styles.scss';
 import 'antd/dist/antd.css';
 
 import Card from '../../mppComponents/MppCard/index.js';
@@ -32,6 +32,7 @@ export default function Dashboard() {
           
         <Card
           bordered={true}
+          className="dashboard-profilecard"
           style={{ width: 300, marginTop: 16 }}
         >
           <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
