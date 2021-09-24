@@ -21,6 +21,7 @@ import reducer from './reducer';
 import saga from './saga';
 import { useAuth } from '../../contexts/authContext';
 import { makeSelectEmail, makeSelectPassword } from './selectors';
+import history from '../../utils/history';
 
 // Ant Designs
 import Row from '../../mppComponents/MppRow/index.js'
@@ -46,6 +47,7 @@ export function Login(props) {
                 onSuccess={user => {
                   auth.signin(user);
                   console.log(props);
+                  history.push('/');
                 }}
                 onFailure={() => {}}
                 cookiePolicy="single_host_origin"
