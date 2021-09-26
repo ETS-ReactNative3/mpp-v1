@@ -104,49 +104,24 @@ class Logline extends React.Component {
       })
 
     }
-    console.log(this.state);
-  }
-
-  delete = () =>{
-    DeleteStory(this.state.id)
-    .then((response) =>{
-      console.log(response);
-    })
-    .catch((err) =>{
-      console.log(err);
-    })
-  }
-  
-  setVisible = value => {
-      this.setState({visible: value})
-  };
-  setFieldValue = (path, value) => {
-      this.setState((prev) => {
-      const newState = set(prev, path, value);
-        return newState
-    });
-  };
- 
-  getShortLogline = () => {
-      const {logline} = this.state;
-      return `${logline.character} ${logline.crisis} ${logline.response}`
-  };
-  onSave = () => {
-      this.setState({isEdit: false});
-    fetch('/api/storyline/new', {
-      method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-          'logline': {
-            'crisis': this.state.logline.crisis,
-            'response': this.state.logline.response,
-        },
-          'theme': this.state.theme,
-          'genre': this.state.genre,
-          'subGenre': this.state.subGenre,
-          'title': this.state.title,
+    onSave = () => {
+        this.setState({isEdit: false});
+        fetch(' http://localhost:5000/api/storyline/new', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'logline': {
+                    'character': this.state.logline.character,
+                    'crisis': this.state.logline.crisis,
+                    'response': this.state.logline.response,
+                },
+                'theme': this.state.theme,
+                'genre': this.state.genre,
+                'subGanre': this.state.subGanre,
+                'title': this.state.title,
+            })
         })
       })
         .then(function(response) {
@@ -188,13 +163,13 @@ class Logline extends React.Component {
                                 <Descriptions  column={1}>
                                     <Descriptions.Item label={<div>a. Your main character <Popover content={<div>(use adjectives, emotional state) who wants x (a basic desire) <div>E.g., A shy young suburban boy who wants to be noticed</div></div>}><QuestionCircleOutlined /></Popover></div> }/>
                                         
-                                    <Descriptions.Item><TextField value={logline.character} onChange={(ev) => setFieldValue('logline.character', ev.target.value)} fullWidth/></Descriptions.Item>
+                                    <Descriptions.Item><TextField value={logline.character} onChange={(ev) => setFieldValue('logline.character', ev.target.value)} /></Descriptions.Item>
                                     <Descriptions.Item label={<div>b. Crisis <Popover content={<div>what crisis he/she/are they facing ? <div>Hint: Start with an ACTIVE VERB.</div> <div>E.g., discovers a strange but friendly alien living in his shed</div></div>}><QuestionCircleOutlined/></Popover></div>}/>
                                         
-                                    <Descriptions.Item><TextField value={logline.crisis} onChange={(ev) => setFieldValue('logline.crisis', ev.target.value)} fullWidth /></Descriptions.Item>
+                                    <Descriptions.Item><TextField value={logline.crisis} onChange={(ev) => setFieldValue('logline.crisis', ev.target.value)} /></Descriptions.Item>
                                     <Descriptions.Item label={<div>c. Response <Popover content={<div>How does he/she/do they respond to try and deal with it ? <div>Hint: Not too much detail.</div><div>E.g., and tries to help him get home while keeping his existence a secret. (E.T., The Extra Terrestrial)</div></div>}><QuestionCircleOutlined/></Popover></div>}/>
                                         
-                                    <Descriptions.Item><TextField value={logline.response} onChange={(ev) => setFieldValue('logline.response', ev.target.value)} fullWidth/></Descriptions.Item>
+                                    <Descriptions.Item><TextField value={logline.response} onChange={(ev) => setFieldValue('logline.response', ev.target.value)} /></Descriptions.Item>
                                 </Descriptions>
                         </PageHeader>
                     </div>
@@ -224,7 +199,7 @@ class Logline extends React.Component {
                         >
                             <Descriptions  column={1}>
                                         <Descriptions.Item>
-                                            <TextField value={theme} onChange={(ev) => setFieldValue('theme', ev.target.value)} fullWidth />
+                                            <TextField value={theme} onChange={(ev) => setFieldValue('theme', ev.target.value)}  />
                                         </Descriptions.Item>
                             </Descriptions>
                         </PageHeader>
@@ -236,7 +211,7 @@ class Logline extends React.Component {
                         >
                             <Descriptions  column={1}>
                                         <Descriptions.Item>
-                                            <TextField value={title} onChange={(ev) => setFieldValue('title', ev.target.value)} fullWidth/>
+                                            <TextField value={title} onChange={(ev) => setFieldValue('title', ev.target.value)} />
                                         </Descriptions.Item>
                                         <Descriptions.Item>
                                             <Button onClick={this.onSave} type="primary">Save</Button>
