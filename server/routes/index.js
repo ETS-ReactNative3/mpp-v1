@@ -1,7 +1,6 @@
 const storyLine = require('./storyline.js');
 const dashboard = require('./dashboard.js');
 const google = require('./google.js');
-const login = require('./login.js');
 
 const express = require('express');
 const router = express.Router();
@@ -18,7 +17,10 @@ router.use('/storyline', storyLine);
 router.use('/dashboard',dashboard);
 
 router.use('/google',google);
+<<<<<<< HEAD
 
 router.use('/auth',login);
+=======
+>>>>>>> 9dfc08a (fix : Google Drive)
 
 module.exports = router;

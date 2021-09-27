@@ -119,7 +119,7 @@ class Logline extends React.Component {
                 },
                 'theme': this.state.theme,
                 'genre': this.state.genre,
-                'subGanre': this.state.subGanre,
+                'subGenre': this.state.subGenre,
                 'title': this.state.title,
             })
         })
