@@ -20,16 +20,11 @@ const oauth2Client = new google.auth.OAuth2(
 
 const storySave = async (req, res, next) => {
     const story = JSON.parse(JSON.stringify(req.body));
-    const fileData = (
-        "Logline \n\n" +
-       /* "Character : " + story.logline.character + "\n" + 
-        "Crisis : " + story.logline.crisis + "\n" + "" +
-        "Response : " + story.logline.response + "\n" +*/
-        "Theme : " + story.theme + "\n" +
-        "Sub-Genre : " + story.subGenre + "\n" +
-        "Title : " + story.title + "\n" 
-    )
-    //console.log(fileData);
+    let data = JSON.stringify(story);
+    let baseDir = path.join(__dirname, '../storage/temp.json');
+
+    fs.writeFileSync(baseDir, data);
+
     var url = oauth2Client.generateAuthUrl({
       access_type:'offline',
       scope:SCOPES
