@@ -18,7 +18,7 @@ const uploadFile = async (req, res, next) => {
     const code = req.query.code;
     const fileData = JSON.stringify(req.query.filedata);
     console.log(req.query);
-    console.log(fileData);
+    console.log("fileData", fileData);
 
    if(code){
     oauth2Client.getToken(code, function(err,tokens){
@@ -33,10 +33,10 @@ const uploadFile = async (req, res, next) => {
             var fileMetadata = {
                 name: 'mpp', // file name that will be saved in google drive
               };
-            
+              let baseDir = path.join(__dirname, '../storage/temp.json');
               var media = {
                 mimeType: 'plain/text',
-                body: fs.createReadStream('../storage/mpp.txt'), // Reading the file from our server
+                body: fs.createReadStream(baseDir), // Reading the file from our server
               };
             
               // Authenticating drive API
@@ -51,15 +51,24 @@ const uploadFile = async (req, res, next) => {
                 async (err, file) => {
                   if (err) {
                     // Handle error
-                    console.error(err.msg);
-            
+                    console.log(err.msg);
+                     fs.unlink(baseDir, (err) => { // we will change it async later
+                      if (err) throw err;
+                      console.log('successfully deleted /tmp/hello');
+                    });
+                    
                     return res
                       .status(400)
                       .json({ errors: [{ msg: 'Server Error try again later' }] });
                   } else {
+                    console.log("upload success", file.data)
                     // if file upload success then return the unique google drive id
                     res.status(200).json({
                       fileID: file.data.id,
+                    });
+                    fs.unlink(baseDir, (err) => { // we will change it async later
+                      if (err) throw err;
+                      console.log('successfully deleted /tmp/hello');
                     });
                   }
                 }

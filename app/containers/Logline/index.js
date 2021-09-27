@@ -74,7 +74,7 @@ class Logline extends React.Component {
     }
     onSave = () => {
         this.setState({isEdit: false});
-        fetch(' http://localhost:5000/api/storyline/new', {
+        fetch('/api/storyline/new', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
