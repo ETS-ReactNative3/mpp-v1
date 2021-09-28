@@ -5,7 +5,7 @@
  *
  */
 
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
@@ -20,11 +20,29 @@ import Skeleton from '../../mppComponents/MppSkeleton/index.js';
 import Avatar from '../../mppComponents/MppAvatar/index.js';
 import Button from '../../mppComponents/MppButton/index.js';
 import ProvideAuth from '../../contexts/authContext';
+import { useAuth } from '../../contexts/authContext';
 
 import history from '../../utils/history';
 import { Link } from 'react-router-dom';
 
 export default function Dashboard() {
+  const auth = useAuth();
+  const [user,setUser] = useState({
+    'profileName': '',
+    'profileEmail': '',
+    'profilePic' : ''
+  });
+  useEffect(()=>{
+    if(localStorage.getItem("user") !== null && localStorage.getItem("user") !== undefined ){
+      const User = JSON.parse(localStorage.getItem("user"));
+      setUser({
+        profileName : User.profileObj.name,
+        profileEmail : User.profileObj.email,
+        profilePic : User.profileObj.imageUrl
+      });
+    }
+  },[])
+
   return (
     <>
       <div className="container" style={{backgroundColor: '#eee'}}>
@@ -35,17 +53,18 @@ export default function Dashboard() {
           className="dashboard-profilecard"
           style={{ width: 300, marginTop: 16 }}
         >
-          <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+          <Avatar src={user.profilePic} />
           <br />
           <div>
             <center>
-              <h3>Profile Name</h3>
+              <h3>{user.profileName}</h3>
               <br />
-              <h3>Description</h3>
+              <h3>{user.profileEmail}</h3>
               <br /><br />
               <Button
                 type="primary"
                 danger
+                onClick={() => {auth.signout();history.push('/login')}}
               >
                 Logout  
               </Button>

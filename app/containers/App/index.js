@@ -10,11 +10,7 @@
 import React from 'react';
 import { Switch, Route, Router } from 'react-router-dom';
 
-<<<<<<< HEAD
-import HomePage from 'containers/HomePage/index.js';
-=======
 import Dashboard from 'containers/Dashboard/Loadable';
->>>>>>> d8576f96369adda8de79190a7ccfd0934fefe89c
 import Login from 'containers/Login/Loadable';
 import HealthCheck from 'components/HealthCheck';
 import PrivateRoute from 'components/PrivateRoute';
@@ -24,14 +20,13 @@ import { ProvideAuth } from '../../contexts/authContext';
 import LogLine from '../../containers/Logline';
 import GlobalStyle from '../../global-styles';
 
-const history = createBrowserHistory();
+const history = createBrowserHistory({forceRefresh:true});
 
 export default function App() {
   return (
     <div>
       <ProvideAuth>
         <Router history={history}>
-          <div>
             <Switch>
               <Route exact path="/">
                 <Dashboard />
@@ -46,7 +41,6 @@ export default function App() {
 
               <Route component={NotFoundPage} />
             </Switch>
-          </div>
         </Router>
       </ProvideAuth>
       <GlobalStyle />
