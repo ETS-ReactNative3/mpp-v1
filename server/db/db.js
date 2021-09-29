@@ -10,8 +10,4 @@ const connect = async (url, dbName = 'zeta') => {
 
 const get = () => db;
 
-<<<<<<< HEAD
-module.exports = { connect, get };
-=======
 export default { connect, get };
->>>>>>> 60a62b1 (fix : MongoDB , google drive)
