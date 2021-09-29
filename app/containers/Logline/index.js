@@ -125,36 +125,36 @@ class Logline extends React.Component {
         })
       })
         .then(function(response) {
-          console.log(response);
-    });
-  };
+            console.log(response);
+        })
+    }
 
-  linkDrive = () => {
-    fetch('/api/google/linkDrive', {
-        method: 'GET',
-      headers: {
-          'Content-Type': 'application/json'
-        }
-    })
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(res) {
-          window.open(`${res.url}`)
-      });
-  };
-  onEdit = () => {
-      this.setState({isEdit: true})
-  };
-  render() {
-      const {logline, visible, theme, genre, subGanre, title, isEdit} = this.state;
-      const {setVisible, setFieldValue} = this;
-    return (
-      <div className="logline-container">
-          <Button type="link" onClick={() => setVisible(true)}>
-          How to write a logline
-          </Button>
-          {isEdit ? (
+    linkDrive = () => {
+        fetch('/api/google/linkDrive', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(res) {
+            window.open(`${res.url}`)
+        })
+    }
+    onEdit = () => {
+        this.setState({isEdit: true})
+    }
+    render() {
+        const {logline, visible, theme, genre, subGanre, title, isEdit} = this.state;
+        const {setVisible, setFieldValue} = this;
+        return (
+            <div className="logline-container">
+            <Button type="link" onClick={() => setVisible(true)}>
+                How to write a logline
+            </Button>
+            {isEdit ? (
                 <div className="logline-create">
                     <div>
                         <PageHeader
@@ -215,6 +215,7 @@ class Logline extends React.Component {
                                         </Descriptions.Item>
                                         <Descriptions.Item>
                                             <Button onClick={this.onSave} type="primary">Save</Button>
+                                            <Button onClick={this.linkDrive} type="primary" danger>Link Drive</Button>
                                         </Descriptions.Item>
                             </Descriptions>
                         </PageHeader>
