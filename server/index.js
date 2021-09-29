@@ -2,6 +2,7 @@
 
 const express = require('express');
 const logger = require('./logger');
+const MongoDB = require('./db/db.js')
 const apiRouter = require('./routes/index');
 const argv = require('./argv');
 const port = require('./port');
@@ -20,6 +21,8 @@ app.use(
     extended: true,
   }),
 );
+
+await MongoDB.connect(process.env.MONGODB_URL);
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // app.use('/api', myApi);

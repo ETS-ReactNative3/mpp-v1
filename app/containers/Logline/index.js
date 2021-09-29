@@ -95,6 +95,21 @@ class Logline extends React.Component {
             console.log(response);
         })
     }
+
+    linkDrive = () => {
+        fetch('/api/google/linkDrive', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(res) {
+            window.open(`${res.url}`)
+        })
+    }
     onEdit = () => {
         this.setState({isEdit: true})
     }
@@ -167,7 +182,7 @@ class Logline extends React.Component {
                                         </Descriptions.Item>
                                         <Descriptions.Item>
                                             <Button onClick={this.onSave} type="primary">Save</Button>
-                                            <Button type="primary" danger>Link Drive</Button>
+                                            <Button onClick={this.linkDrive} type="primary" danger>Link Drive</Button>
                                         </Descriptions.Item>
                             </Descriptions>
                         </PageHeader>
