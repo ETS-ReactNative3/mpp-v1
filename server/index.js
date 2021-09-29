@@ -6,6 +6,7 @@ const MongoDB = require('./db/db.js')
 const apiRouter = require('./routes/index');
 const argv = require('./argv');
 const port = require('./port');
+const dotenv = require('dotenv');
 const setup = require('./middlewares/frontendMiddleware');
 const isDev = process.env.NODE_ENV !== 'production';
 const ngrok =
@@ -13,6 +14,7 @@ const ngrok =
     ? require('ngrok')
     : false;
 const { resolve } = require('path');
+dotenv.config();
 const app = express();
 
 app.use(express.json());
@@ -22,7 +24,7 @@ app.use(
   }),
 );
 
-await MongoDB.connect(process.env.MONGODB_URL);
+MongoDB.connect(process.env.MONGODB_URL);
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // app.use('/api', myApi);

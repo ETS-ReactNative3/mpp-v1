@@ -11,6 +11,6 @@ const addUser = async (user) => {
     return usersCollectionRef().insertOne(user);
 };
 
-export default {
+module.exports = {
     addUser,
 };
