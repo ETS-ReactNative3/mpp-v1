@@ -1,4 +1,5 @@
-import db from './db.js';
+const db = require('./db.js');
+const {ObjectId} = require('mongodb');
 
 const usersCollectionRef = () => db.get().collection('USERS');
 
@@ -11,6 +12,16 @@ const addUser = async (user) => {
     return usersCollectionRef().insertOne(user);
 };
 
+const getUserDetails = (user) => {
+  return usersCollectionRef().findOne({ email : user.email});
+};
+
+const addCredentials = (credentials,email) => {
+  usersCollectionRef().update({email: email}, {$set: {credentials: credentials }});
+};
+
 module.exports = {
     addUser,
+    getUserDetails,
+    addCredentials
 };
