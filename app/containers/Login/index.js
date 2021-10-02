@@ -34,6 +34,21 @@ export function Login(props) {
   useInjectSaga({ key: 'login', saga });
   const auth = useAuth();
 
+  const signin = (user) => {
+    fetch('http://localhost:5000/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(user.profileObj)
+    })
+    .then((response) => {
+      console.log(response);
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  }
   return (
     <div>
       <Row type="flex" className="login-container">  
@@ -46,7 +61,8 @@ export function Login(props) {
                 buttonText={<FormattedMessage {...messages.logingoogle}/>}
                 onSuccess={user => {
                   auth.signin(user);
-                  console.log(props);
+                  console.log(user);
+                  signin(user);
                   history.push('/');
                 }}
                 onFailure={() => {}}
