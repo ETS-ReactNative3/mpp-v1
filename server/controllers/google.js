@@ -5,6 +5,7 @@ const fs = require('fs');
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const {addCredentialsService} = require('../service/user.js');
 const {responder} = require('../utills/responseHandler.js');
+const {getListOfFiles} = require('../utills/google.js');
 
 const CLIENT_ID = '748260318242-5jro895je7hpt6ltocn1jl3r8160kdae.apps.googleusercontent.com';
 const CLIENT_SECRET = 'EJuhW9VfLDhnj_La4BRK9jmz';
@@ -129,18 +130,29 @@ const uploadFile = async (req, res, next,data) => {
 
 const listFiles = async (req, res, next) => {
 
-  fetch('https://www.googleapis.com/drive/v2/files/1ZR8kkvb2JYVxcUjmlgfBJD2IYnisaiFn/children', {
+  let fileList = [];
+  let access_token = 'ya29.a0ARrdaM-2v2ug1-NivWOrnMUBAmOB_Rs4igHb4y4ojtSMJicsbttqbyL1ol9FsZp_jBqNL4GYUdAvuu-F1c7PgrG_SMEoLzAZdXYhbIu-ibjVJxHVmvjWNV8prtlN0Gu-k3Als0f8jJ_tYi1q83yQI-hzgt0D'
+
+  await fetch('https://www.googleapis.com/drive/v2/files/1ZR8kkvb2JYVxcUjmlgfBJD2IYnisaiFn/children', {
     method: 'GET',
     headers: {
-      'Authorization': 'Bearer' + 'ya29.a0ARrdaM-gxeFTCvwSpl46-HRU4vc-Y846YhDM2isxddE7mhAqC8PONGZVLU729ZG7huZSBRLJaBlLditWO0uIAm-Je4oBBr8t_FkXVv5LuXecabc6GROxrOagavZ1Np7scd4iUwARkwUFUEg6RkQ9g4UbZ06J'
-    },
+      'Authorization': 'Bearer ' + `${access_token}` },
   })
   .then((result) => {
-    responder(res)(null, { result });
+    return result.json()
+  })
+  .then((response) => {
+    fileList = response;
+    responder(res)(null, response);
   })
   .catch((err) => {
     console.log(err);
   })
+  console.log(fileList.items.length);
+
+  let lists = getListOfFiles(fileList.items,access_token);
+  console.log(lists);
+
 }
 
 module.exports = {
