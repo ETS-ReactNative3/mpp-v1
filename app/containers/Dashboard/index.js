@@ -26,7 +26,22 @@ import history from '../../utils/history';
 import { Link } from 'react-router-dom';
 
 export default function Dashboard() {
-  const auth = useAuth();
+  const [stories,setStories] = useState([]);
+
+  useEffect(()=> {
+    fetch('http://localhost:5000/api/dashboard/dashboardInfo')
+    .then(function(response) {
+      return response.json()
+    }).then(function(json) {
+      setStories(json.data);
+      console.log(json.data.items);
+    })
+    .catch(function(ex) {
+      console.log('parsing failed', ex)
+    })
+
+  },[]);
+
   return (
     <>
       <div className="container" style={{backgroundColor: '#eee'}}>
@@ -69,16 +84,16 @@ export default function Dashboard() {
                   </Card>
                 </Link>
               </Col>
-              <Col span={8}>
-                <Card title="Card title" bordered={true}>
-                  Card content
-                </Card>
-              </Col>
-              <Col span={8}>
-                <Card title="Card title" bordered={true}>
-                  Card content
-                </Card>
-              </Col>
+
+              {Object.keys(stories).map((item, i) => (
+               <Col span={8}>
+                 <Link to={`/storyline/${stories[item].title}`}>
+                    <Card title={stories[item].title} bordered={true}>
+                    </Card>
+                  </Link>
+               </Col>
+              ))}  
+            
             </Row>
              
           </div>

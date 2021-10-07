@@ -34,7 +34,7 @@ export default function App() {
               <Route exact path="/login">
                 <Login />
               </Route>
-              <Route exact path="/storyline/new">
+              <Route exact path="/storyline/:id">
                 <LogLine />
               </Route>
               <Route exact path="/healthcheck" component={HealthCheck} />

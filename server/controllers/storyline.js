@@ -1,4 +1,4 @@
-const { uploadFile } = require('./google.js');
+const { uploadFile } = require('./google/google.js');
 
 
 const storySave = async (req, res, next) => {
