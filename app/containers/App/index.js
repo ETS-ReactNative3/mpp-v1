@@ -17,7 +17,7 @@ import PrivateRoute from 'components/PrivateRoute';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import { createBrowserHistory } from 'history';
 import { ProvideAuth } from '../../contexts/authContext';
-import LogLine from '../../containers/Logline';
+import LogLine from '../Logline';
 import GlobalStyle from '../../global-styles';
 
 const history = createBrowserHistory();
