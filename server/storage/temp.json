@@ -1,1 +1,6 @@
-{"logline":{"character":"h","crisis":"j","response":"s"},"theme":"s","genre":"Action Adventure","title":"s"}
+{
+  "logline": { "character": "hello", "crisis": "hello", "response": "hello" },
+  "theme": "hi",
+  "genre": "Action Adventure",
+  "title": ""
+}

@@ -57,9 +57,23 @@ const subGenreOptions = [
   'Fish-out-of water',
   'Coming-of-age'];
 class Logline extends React.Component {
-  constructor(props) {
-    super(props);
-    console.log(props);
+    constructor(props) {
+        super(props);
+        this.state = {
+            id:props.id,
+            visible: false,
+            logline: {
+                character: "",
+                crisis: "",
+                response: "",
+            },
+            theme: "",
+            genre: genreOptions[0],
+            subGanre: subGenreOptions[0],
+            title: "",
+            isEdit: true,
+        }
+    }
     
     this.state = {
       id : "1X3eEKZL8ack71q7ZI8TThkoA664YXYM8",

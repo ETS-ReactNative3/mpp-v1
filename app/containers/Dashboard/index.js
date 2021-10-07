@@ -5,7 +5,7 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
+import React,{useState,useEffect} from 'react';
 
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
@@ -28,18 +28,21 @@ import { Link } from 'react-router-dom';
 import {GetDashboardInfo} from '../../utils/APIcalls/dashboard';
 
 export default function Dashboard() {
-  const [stories, setStories] = useState([]);
+  const [stories,setStories] = useState([]);
 
-  useEffect(() => {
-    GetDashboardInfo()
-      .then((res)=>{
-        console.log(res);
-        setStories(res.data);
-      })
-      .catch((err)=> {
-        console.log(err);
-      });
-  }, []);
+  useEffect(()=> {
+    fetch('http://localhost:5000/api/dashboard/dashboardInfo')
+    .then(function(response) {
+      return response.json()
+    }).then(function(json) {
+      setStories(json.data);
+      console.log(json.data.items);
+    })
+    .catch(function(ex) {
+      console.log('parsing failed', ex)
+    })
+
+  },[]);
 
   return (
     <>
@@ -83,13 +86,15 @@ export default function Dashboard() {
                 </Link>
               </Col>
 
-              {stories && Object.keys(stories).map((item, i) => (
-                <Col span={8}>
-                  <Link to={`/storyline/${stories[item].id}`}>
-                    <Card title={stories[item].title} bordered />
+              {Object.keys(stories).map((item, i) => (
+               <Col span={8}>
+                 <Link to={`/storyline/${stories[item].title}`}>
+                    <Card title={stories[item].title} bordered={true}>
+                    </Card>
                   </Link>
-                </Col>
-              ))}
+               </Col>
+              ))}  
+            
             </Row>
           </div>
         </div>
