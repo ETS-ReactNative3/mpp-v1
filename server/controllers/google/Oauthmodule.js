@@ -1,14 +1,11 @@
 const { google } = require('googleapis');
 const fs = require('fs');
 
-const CLIENT_ID =
-  '748260318242-5jro895je7hpt6ltocn1jl3r8160kdae.apps.googleusercontent.com';
-const CLIENT_SECRET = 'EJuhW9VfLDhnj_La4BRK9jmz';
-const REDIRECT_URL = 'http://localhost:5000/api/google/callback';
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const REDIRECT_URL = process.env.REDIRECT_URL;
 const SCOPES = [
   'https://www.googleapis.com/auth/drive',
-  'https://www.googleapis.com/auth/drive.file',
-  'https://www.googleapis.com/auth/drive.appdata',
   'https://www.googleapis.com/auth/userinfo.email',
 ];
 

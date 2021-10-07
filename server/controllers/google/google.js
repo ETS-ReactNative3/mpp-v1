@@ -12,16 +12,9 @@ const utils = require('./Oauthmodule');
 const {drive} = utils;
 const driveutils = require('./Drivmodule');
 
-const CLIENT_ID =
-  '748260318242-5jro895je7hpt6ltocn1jl3r8160kdae.apps.googleusercontent.com';
-const CLIENT_SECRET = 'EJuhW9VfLDhnj_La4BRK9jmz';
-const REDIRECT_URL = 'http://localhost:5000/api/google/callback';
-const SCOPES = [
-  'https://www.googleapis.com/auth/drive',
-  'https://www.googleapis.com/auth/drive.file',
-  'https://www.googleapis.com/auth/drive.appdata',
-  'https://www.googleapis.com/auth/userinfo.email',
-];
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
+
 const TOKEN_PATH = 'token.json';
 
 const refreshToken = async (req, res, next) => {
@@ -56,7 +49,7 @@ const refreshToken = async (req, res, next) => {
           responder (res)(err,null);
         })
     });
-    });
+    
   } catch (error) {
     responder(res)(error,null);
   }
@@ -125,16 +118,7 @@ const callBack = async (req, res, next) => {
 };
 
 const getFile = async (req, res, next) => {
-  utils.oAuth2Client.credentials = {
-    access_token:
-      'ya29.a0ARrdaM85Eo4PRmRRjY5GfhxIMQXfjC-LuJtdtfWAc-pVwkkXeCM7-6gOmKEcaEqhPmzLU7xnfI5w_4usqwAWadiEA9L7mldwuiu9ZX8l2Y22EivMYsicl7pgxOwclsrTSoQAtuTITrEEs3hzlgS7sDgPaNNr',
-    scope:
-      'openid https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive',
-    token_type: 'Bearer',
-    id_token:
-      'eyJhbGciOiJSUzI1NiIsImtpZCI6IjhkOTI5YzYzZmYxMDgyYmJiOGM5OWY5OTRmYTNmZjRhZGFkYTJkMTEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI3NDgyNjAzMTgyNDItNWpybzg5NWplN2hwdDZsdG9jbjFqbDNyODE2MGtkYWUuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI3NDgyNjAzMTgyNDItNWpybzg5NWplN2hwdDZsdG9jbjFqbDNyODE2MGtkYWUuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDI5NjY3NTE4OTY0ODY4NjQ3MjAiLCJoZCI6ImlpaXRzLmluIiwiZW1haWwiOiJzaGFzaGFuay5tMTlAaWlpdHMuaW4iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6IkRlT1c2bXlGMkprU2lyRnN2T01lM0EiLCJpYXQiOjE2MzM1MzI4NTgsImV4cCI6MTYzMzUzNjQ1OH0.xj9PWvBjt_gxxytBGGjodP5-YWdhKvN5PMXLzbYMD0aojZ8KrFOhbq6W7ZGXJDDZwrFnqcwpzeS-ngAv7J39x1i7_5bpoyOX77T3xcyzwembNMBxbsWL55_eryGLR4RcpOVZc6Jg606kTX_VbyhshPji_fyYYc8ArnbG6VqAl__Mkuij-RoKjxwK3a25e7SOyEegka3vc3pOyxQUDSE-5yjFApGFCUVnVE9h517wM92GO_dm_7M-e6hzhn6PLPeCo20ObYc56nStC4y5rUlDuzqTkRKQxoJKifVSQLf3vj89gy2opX__RRKKXJ7ueCDrIWzqojP81kSEgDeLw7bmNQ',
-    expiry_date: 1633536449337,
-  };
+  utils.oAuth2Client.credentials = 'REPLACE_WITH_TOKENS'
   console.log(utils.oAuth2Client);
 
   await drive.files.get(
@@ -179,51 +163,6 @@ const uploadFile = async (req, res, next, data) => {
   } catch (error) {
     responder(res)(error, null);
   }
-
-  /*
-  var fileMetadata = {
-    name: 'mpp', // file name that will be saved in google drive
-  };
-  var media = {
-    mimeType: 'plain/text',
-    body: fs.createReadStream(baseDir), // Reading the file from our server
-  };
-
-  // Uploading Single image to drive
-
-  drive.files.create(
-    {
-      resource: fileMetadata,
-      media: media,
-    },
-    function (err, file){
-      if (err) {
-        // Handle error
-        //console.log(err);
-        console.log(err.message);
-          fs.unlink(baseDir, (err) => { // we will change it async later
-          if (err) {
-            throw err;
-          }
-          console.log('successfully deleted /tmp/hello');
-        });
-        
-        return res
-          .status(400)
-          .json({ errors: [{ msg: 'Server Error try again later'}] });
-      } else {
-        console.log("upload success", file.data)
-        // if file upload success then return the unique google drive id
-        res.status(200).json({
-          fileID: file.data.id,
-        });
-        fs.unlink(baseDir, (err) => { // we will change it async later
-          if (err) throw err;
-          console.log('successfully deleted /tmp/hello');
-        });
-      }
-    }
-  ); */
 };
 
 const listFiles = async (req, res, next) => {
@@ -240,8 +179,7 @@ const listFiles = async (req, res, next) => {
   console.log('hi');
   let fileList = [];
   console.log(tokens);
-  const access_token =
-    'ya29.a0ARrdaM8I-aadt_4hM2TuPPOJL5S4dUkC9oSn8qayV192G3JYbRNwBYN8XZpCgbIwQa4ycW_UDX8TMkC01dFIwuyQ87d4OjPCuZvQDOJVrGFWtLlZjHcRJsc1HSRNsrY179FwQi4wZKXIn7xhwdgIGTO-nMxi';
+  const access_token ='REPLACE_WITH_ACCESS_TOKEN';
 
   await fetch(
     'https://www.googleapis.com/drive/v2/files/1urJh-QUxraU-VXBGI13lpbK9b81crcBP/children',
