@@ -8,8 +8,8 @@ const folderName = 'MPP';
 async function iSfolderExist() {
 
      console.log("folder")
-     utils.oAuth2Client.credentials = 'REPLACE_WITH_TOKENS';
-     console.log(utils.oAuth2Client);   
+     let tokens = require('../../../token.json');
+     utils.oAuth2Client.credentials = tokens;
 
      const res = await drive.files.list(
           {
@@ -37,8 +37,8 @@ async function iSfolderExist() {
 
 
 async function cReateFolder() {
-  utils.oAuth2Client.credentials = 'REPLACE_WITH_TOKENS';
-  console.log(utils.oAuth2Client);   
+  let tokens = require('../../../token.json');
+  utils.oAuth2Client.credentials = tokens; 
   console.log("creating the new Foler ")
   // creating folder
   var folderMetadata = {
@@ -55,6 +55,8 @@ async function cReateFolder() {
 }
 
 function sEndFile(fileMetadata, media) {
+  let tokens = require('../../../token.json');
+  utils.oAuth2Client.credentials = tokens; 
   console.log(utils.oAuth2Client); 
   return drive.files.create(
     {

@@ -19,16 +19,8 @@ const TOKEN_PATH = 'token.json';
 
 const refreshToken = async (req, res, next) => {
   try {
-    let tokens;
-    try {
-      tokens = fs.readFile(TOKEN_PATH, (err, token) => {
-        if (err) return null;
-        console.log('hello');
-        return JSON.parse(token);
-      });
-    } catch (err) {
-      console.error(err);
-    }
+    let tokens = require('../../../token.json');
+    console.log("HI")
     if (!tokens) {
       return null;
     }
@@ -67,9 +59,10 @@ const linkDrive = async (req, res, next) => {
 const callBack = async (req, res, next) => {
   const {code} = req.query;
   if(code){
-    utils.oAuth2Client.getToken(code, function(err,tokens){
+   await utils.oAuth2Client.getToken(code, function(err,tokens){
       if (err) {
         console.error("Error in authenticating");
+        res.redirect('http://localhost:5000/storyline/new');
       } else {
         let user_email;
         console.log("Successfully authenticated");
@@ -90,10 +83,7 @@ const callBack = async (req, res, next) => {
 
         promise1.then((value) => {
           user_email = value;
-          // expected output: "Success!"
         });
-
-        console.log(tokens);
 
         utils.sToreToken(tokens);
 
@@ -103,9 +93,6 @@ const callBack = async (req, res, next) => {
 
         console.log(user_email);
 
-        const promise2 = new Promise((resolve, reject) => {
-          resolve(addCredentialsService(tokens,user_email));
-        });
 
         fs.writeFile(TOKEN_PATH, JSON.parse(tokens), err => {
           if (err) console.error(err);
@@ -118,13 +105,14 @@ const callBack = async (req, res, next) => {
 };
 
 const getFile = async (req, res, next) => {
-  utils.oAuth2Client.credentials = 'REPLACE_WITH_TOKENS'
+  let tokens = require('../../../token.json');
+  utils.oAuth2Client.credentials = tokens;
   console.log(utils.oAuth2Client);
 
   await drive.files.get(
     {
       auth: utils.oAuth2Client,
-      fileId: '1ZR8kkvb2JYVxcUjmlgfBJD2IYnisaiFn',
+      fileId: req.body._id,
       alt: 'media',
     },
     function(err, response) {
@@ -143,14 +131,12 @@ const uploadFile = async (req, res, next, data) => {
   console.log(data);
 
   try {
-    console.log('HI');
     let FID = await driveutils.iSfolderExist();
     console.log('FID' + FID);
 
-    if (FID != '') {
       const fileMetadata = {
         name: 'mpp.json',
-        parents: [FID],
+        parents: '1nVk0ylIrlR_N5P_6jmzO3g8N_lnMXRFi',
       };
       const media = {
         mimeType: 'application/json',
@@ -159,30 +145,22 @@ const uploadFile = async (req, res, next, data) => {
       console.log('Sending file...');
       const resdata = driveutils.sEndFile(fileMetadata, media);
       responder(res)(null, resdata);
-    }
   } catch (error) {
     responder(res)(error, null);
   }
 };
 
 const listFiles = async (req, res, next) => {
-  let tokens;
-  try {
-    fs.readFile(TOKEN_PATH, (err, token) => {
-      if (err) return console.log(err);
-      console.log('hello');
-      tokens = JSON.parse(token);
-    });
-  } catch (err) {
-    console.error(err);
-  }
-  console.log('hi');
+  let tokens = require('../../../token.json');
+  console.log(tokens);
+  console.log("HI")
   let fileList = [];
   console.log(tokens);
-  const access_token ='REPLACE_WITH_ACCESS_TOKEN';
+
+  const access_token =tokens.access_token;
 
   await fetch(
-    'https://www.googleapis.com/drive/v2/files/1urJh-QUxraU-VXBGI13lpbK9b81crcBP/children',
+    'https://www.googleapis.com/drive/v2/files/1fkPN96QOmCvLNkR7Puw7vqkwhsstsGop/children',
     {
       method: 'GET',
       headers: {
