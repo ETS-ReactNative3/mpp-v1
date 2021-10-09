@@ -19,6 +19,7 @@ import { createBrowserHistory } from 'history';
 import { ProvideAuth } from '../../contexts/authContext';
 import LogLine from '../Logline';
 import GlobalStyle from '../../global-styles';
+import LogLineParent from 'containers/LogLineParent';
 import Logline from '../Logline';
 
 const history = createBrowserHistory();
@@ -35,8 +36,8 @@ export default function App() {
               <Route exact path="/login">
                 <Login />
               </Route>
-              <Route exact path="/storyline/:id">
-                <LogLine />
+              <Route path="/storyline/:id">
+                <Logline />
               </Route>
               <Route exact path="/healthcheck" component={HealthCheck} />
 
