@@ -18,7 +18,7 @@ const oAuth2Client = new google.auth.OAuth2(
 
 // If modifying these scopes, delete token.json.
 
-const TOKEN_PATH = 'token.json';
+const TOKEN_PATH = '../../token.json';
 
 console.log(CLIENT_SECRET,"HI");
 // Generate an OAuth URL and redirect there

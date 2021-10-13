@@ -86,7 +86,7 @@ export default function Dashboard() {
                 </Link>
               </Col>
 
-              {Object.keys(stories).map((item, i) => (
+              {stories && Object.keys(stories).map((item, i) => (
                 <Col span={8}>
                   <Link to={`/storyline/${stories[item].id}`}>
                     <Card title={stories[item].title} bordered />

@@ -59,6 +59,7 @@ class Logline extends React.Component {
     console.log(props);
     
     this.state = {
+      id : "1X3eEKZL8ack71q7ZI8TThkoA664YXYM8",
       visible: false,
       logline: {
         character: "",
@@ -72,9 +73,50 @@ class Logline extends React.Component {
       isEdit: true,
     }
   }
+
   componentDidMount() {
-    console.log(this.props);
+    console.log(this.state.id);
+    if(this.state.id === "new") {
+      this.setState({isEdit:true});
+    }
+    else {
+      this.setState({isEdit:false});
+      fetch(`http://localhost:5000/api/storyline/${this.state.id}`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((json) => {
+        console.log(json.data);
+        this.setState({genre : json.data.genre});
+        this.setState({theme : json.data.theme});
+        this.setState({title : json.data.title});
+        this.setState(prevstate =>({
+          logline:{
+            ...prevstate.logline,
+            character : json.data.logline.character,
+            crisis : json.data.logline.crisis,
+            response : json.data.logline.response,
+          }
+        }));
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+
+    }
+    console.log(this.state);
   }
+
+  delete = () =>{
+    fetch(`https://www.googleapis.com/drive/v2/files/${this.state.id}`)
+    .then((response) =>{
+      console.log(response);
+    })
+    .catch((err) =>{
+      console.log(err);
+    })
+  }
+  
   setVisible = value => {
       this.setState({visible: value})
   };
@@ -84,6 +126,7 @@ class Logline extends React.Component {
         return newState
     });
   };
+ 
   getShortLogline = () => {
       const {logline} = this.state;
       return `${logline.character} ${logline.crisis} ${logline.response}`
@@ -97,7 +140,6 @@ class Logline extends React.Component {
       },
       body: JSON.stringify({
           'logline': {
-            'character': this.state.logline.character,
             'crisis': this.state.logline.crisis,
             'response': this.state.logline.response,
         },
@@ -216,6 +258,9 @@ class Logline extends React.Component {
                         <Button key="2">Print</Button>,
                         <Button key="1" type="primary" onClick={this.onEdit}>
                         Edit
+                        </Button>,
+                        <Button type="primary" danger onClick={this.delete}>
+                        Delete
                         </Button>,
                     ]}
                     >

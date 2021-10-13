@@ -56,8 +56,7 @@ async function cReateFolder() {
 
 function sEndFile(fileMetadata, media) {
   let tokens = require('../../../token.json');
-  utils.oAuth2Client.credentials = tokens; 
-  console.log(utils.oAuth2Client); 
+  utils.oAuth2Client.credentials = tokens;
   return drive.files.create(
     {
       resource: fileMetadata,

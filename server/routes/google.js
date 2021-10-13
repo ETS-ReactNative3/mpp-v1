@@ -3,7 +3,6 @@ const router = express.Router();
 const {
   linkDrive,
   callBack,
-  getFile,
   refreshToken,
 } = require('../controllers/google/google.js');
 
@@ -19,8 +18,5 @@ router.post('/refreshToken', function(req, res, next) {
   refreshToken(req, res, next);
 });
 
-router.get('/getFile', function(req, res, next) {
-  getFile(req, res, next);
-});
 
 module.exports = router;
