@@ -34,7 +34,6 @@ const refreshToken = async (req, res, next) => {
         grant_type: 'refresh_token',
       })
         .then((response) => {
-          console.log(response);
           responder (res)(null,response);
         })
         .catch((err) => {
@@ -87,9 +86,8 @@ const callBack = async (req, res, next) => {
 
         utils.sToreToken(tokens);
 
+        console.log(tokens);
         utils.oAuth2Client.credentials = (tokens);
-
-        console.log(utils.oAuth2Client);
 
         console.log(user_email);
 
@@ -104,15 +102,32 @@ const callBack = async (req, res, next) => {
   res.redirect('http://localhost:5000/storyline/new');
 };
 
-const getFile = async (req, res, next) => {
+const deleteFile = async (req, res, next) => {
   let tokens = require('../../../token.json');
   utils.oAuth2Client.credentials = tokens;
-  console.log(utils.oAuth2Client);
+
+  await drive.files.delete({
+    auth: utils.oAuth2Client,
+    fileId: req.params.id,
+    },
+    function(err, response) {
+      if (err) {
+        console.log(`The API returned an error: ${  err}`);
+        return responder(res)(err, null);
+      }
+      responder(res)(null, response);
+    },
+  );
+};
+
+const updateFile = async (req, res, next) => {
+  let tokens = require('../../../token.json');
+  utils.oAuth2Client.credentials = tokens;
 
   await drive.files.get(
     {
       auth: utils.oAuth2Client,
-      fileId: req.body._id,
+      fileId: req.params.id,
       alt: 'media',
     },
     function(err, response) {
@@ -125,10 +140,31 @@ const getFile = async (req, res, next) => {
   );
 };
 
+const getFile = async (req, res, next) => {
+  let tokens = require('../../../token.json');
+  utils.oAuth2Client.credentials = tokens;
+
+  await fetch(
+      `https://www.googleapis.com/drive/v2/files/${req.params.id}?alt=media&source=downloadUrl`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + `${tokens.access_token}`,
+      },
+    },
+  )
+    .then((result) => result.json())
+    .then((response) => {
+      responder(res)(null, response);
+    })
+    .catch((err) => {
+      responder(res)(err, null);
+    })
+};
+
 const uploadFile = async (req, res, next, data) => {
   const baseDir = path.join(__dirname, '../../storage/temp.json');
   fs.writeFileSync(baseDir, data);
-  console.log(data);
 
   try {
     let FID = await driveutils.iSfolderExist();
@@ -136,7 +172,7 @@ const uploadFile = async (req, res, next, data) => {
 
       const fileMetadata = {
         name: 'mpp.json',
-        parents: '1nVk0ylIrlR_N5P_6jmzO3g8N_lnMXRFi',
+        parents: ["1urJh-QUxraU-VXBGI13lpbK9b81crcBP"],
       };
       const media = {
         mimeType: 'application/json',
@@ -152,11 +188,7 @@ const uploadFile = async (req, res, next, data) => {
 
 const listFiles = async (req, res, next) => {
   let tokens = require('../../../token.json');
-  console.log(tokens);
-  console.log("HI")
   let fileList = [];
-  console.log(tokens);
-
   const access_token =tokens.access_token;
 
   await fetch(
@@ -188,4 +220,6 @@ module.exports = {
   listFiles,
   getFile,
   refreshToken,
+  updateFile,
+  deleteFile
 };
