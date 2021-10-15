@@ -1,5 +1,6 @@
 import React, { useContext, createContext, useState } from 'react';
 import { useGoogleLogin } from 'react-google-login';
+import {SetLocalStorage,GetLocalStorage,RemoveLocalStorage} from '../utils/localStorage/storage';
 
 const authContext = createContext();
 
@@ -12,14 +13,14 @@ export function useAuth() {
 }
 
 export function useProvideAuth() {
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = GetLocalStorage('user');
   const setUser = u => {
-    localStorage.setItem('user', JSON.stringify(u));
+    SetLocalStorage('user', JSON.stringify(u));
   };
 
   const signin = ud => setUser(ud);
 
-  const signout = () => localStorage.removeItem('user');
+  const signout = () => RemoveLocalStorage('user');
 
   return {
     user,
