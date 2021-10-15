@@ -31,16 +31,13 @@ export default function Dashboard() {
   const [stories, setStories] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/dashboard/dashboardInfo')
-      .then(function(response) {
-        return response.json();
+    GetDashboardInfo()
+      .then((res)=>{
+        console.log(res);
+        setStories(res.data);
       })
-      .then(function(json) {
-        setStories(json.data);
-        console.log(json.data.items);
-      })
-      .catch(function(ex) {
-        console.log('parsing failed', ex);
+      .catch((err)=> {
+        console.log(err);
       });
   }, []);
 

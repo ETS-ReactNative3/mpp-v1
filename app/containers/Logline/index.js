@@ -14,6 +14,9 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 // import TextField from '@material-ui/core/TextField';
 import set from 'lodash/set';
 import './style.scss';
+
+import {GetStory,DeleteStory} from '../../utils/APIcalls/storyline';
+
 const { Option } = Select;
 const { Title } = Typography;
 const genreOptions = [
@@ -81,10 +84,7 @@ class Logline extends React.Component {
     }
     else {
       this.setState({isEdit:false});
-      fetch(`http://localhost:5000/api/storyline/${this.state.id}`)
-      .then((response) => {
-        return response.json();
-      })
+      GetStory(this.state.id)
       .then((json) => {
         console.log(json.data);
         this.setState({genre : json.data.genre});
@@ -108,7 +108,7 @@ class Logline extends React.Component {
   }
 
   delete = () =>{
-    fetch(`https://www.googleapis.com/drive/v2/files/${this.state.id}`)
+    DeleteStory(this.state.id)
     .then((response) =>{
       console.log(response);
     })

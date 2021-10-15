@@ -19,7 +19,6 @@ import { createBrowserHistory } from 'history';
 import { ProvideAuth } from '../../contexts/authContext';
 import LogLine from '../Logline';
 import GlobalStyle from '../../global-styles';
-import LogLineParent from 'containers/LogLineParent';
 import Logline from '../Logline';
 
 const history = createBrowserHistory();
