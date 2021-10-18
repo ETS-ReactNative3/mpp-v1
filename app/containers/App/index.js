@@ -20,7 +20,7 @@ import { ProvideAuth } from '../../contexts/authContext';
 import LogLine from '../../containers/Logline';
 import GlobalStyle from '../../global-styles';
 
-const history = createBrowserHistory({forceRefresh:true});
+const history = createBrowserHistory();
 
 export default function App() {
   return (
