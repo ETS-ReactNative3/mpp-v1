@@ -62,7 +62,7 @@ class Logline extends React.Component {
     console.log(props);
     
     this.state = {
-      id : "1X3eEKZL8ack71q7ZI8TThkoA664YXYM8",
+      id : "new",
       visible: false,
       logline: {
         character: "",

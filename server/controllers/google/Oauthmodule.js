@@ -20,7 +20,6 @@ const oAuth2Client = new google.auth.OAuth2(
 
 const TOKEN_PATH = '../../token.json';
 
-console.log(CLIENT_SECRET,"HI");
 // Generate an OAuth URL and redirect there
 function gEtURL() {
   return oAuth2Client.generateAuthUrl({

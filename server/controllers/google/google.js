@@ -89,13 +89,7 @@ const callBack = async (req, res, next) => {
         console.log(tokens);
         utils.oAuth2Client.credentials = (tokens);
 
-        console.log(user_email);
-
-
-        fs.writeFile(TOKEN_PATH, JSON.parse(tokens), err => {
-          if (err) console.error(err);
-          console.log('Token stored to', TOKEN_PATH);
-        });
+        console.log(user_email)
       }
     })
   }
@@ -179,9 +173,10 @@ const uploadFile = async (req, res, next, data) => {
         body: fs.createReadStream(baseDir),
       };
       console.log('Sending file...');
-      const resdata = driveutils.sEndFile(fileMetadata, media);
+      const resdata = await driveutils.sEndFile(fileMetadata, media);
       responder(res)(null, resdata);
   } catch (error) {
+    console.log(error);
     responder(res)(error, null);
   }
 };

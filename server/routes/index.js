@@ -18,11 +18,6 @@ router.use('/storyline', storyLine);
 router.use('/dashboard',dashboard);
 
 router.use('/google',google);
-<<<<<<< HEAD
-
-router.use('/auth',login);
-=======
->>>>>>> 9dfc08a (fix : Google Drive)
 
 router.use('/auth',login);
 
