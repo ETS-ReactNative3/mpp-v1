@@ -5,7 +5,7 @@
  *
  */
 
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
@@ -20,11 +20,13 @@ import Skeleton from '../../mppComponents/MppSkeleton/index.js';
 import Avatar from '../../mppComponents/MppAvatar/index.js';
 import Button from '../../mppComponents/MppButton/index.js';
 import ProvideAuth from '../../contexts/authContext';
+import { useAuth, user } from '../../contexts/authContext';
 
 import history from '../../utils/history';
 import { Link } from 'react-router-dom';
 
 export default function Dashboard() {
+  const auth = useAuth();
   return (
     <>
       <div className="container" style={{backgroundColor: '#eee'}}>
@@ -35,17 +37,18 @@ export default function Dashboard() {
           className="dashboard-profilecard"
           style={{ width: 300, marginTop: 16 }}
         >
-          <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+          <Avatar src={auth.user.profileObj.imageUrl || null} />
           <br />
           <div>
             <center>
-              <h3>Profile Name</h3>
+              <h3>{auth.user.profileObj.name || null}</h3>
               <br />
-              <h3>Description</h3>
+              <h3>{auth.user.profileObj.email || null}</h3>
               <br /><br />
               <Button
                 type="primary"
                 danger
+                onClick={() => {auth.signout();history.push('/login')}}
               >
                 Logout  
               </Button>

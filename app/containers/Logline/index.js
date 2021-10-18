@@ -167,6 +167,7 @@ class Logline extends React.Component {
                                         </Descriptions.Item>
                                         <Descriptions.Item>
                                             <Button onClick={this.onSave} type="primary">Save</Button>
+                                            <Button type="primary" danger>Link Drive</Button>
                                         </Descriptions.Item>
                             </Descriptions>
                         </PageHeader>

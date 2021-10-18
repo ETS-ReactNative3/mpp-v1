@@ -12,7 +12,7 @@ export function useAuth() {
 }
 
 export function useProvideAuth() {
-  const user = localStorage.getItem('user');
+  const user = JSON.parse(localStorage.getItem('user'));
   const setUser = u => {
     localStorage.setItem('user', JSON.stringify(u));
   };
