@@ -1,112 +1,185 @@
-import React, {useState} from 'react';
-import {PageHeader, Descriptions, Select, Typography, Button, Modal, Popover, Input as TextField} from 'antd';
-import {QuestionCircleOutlined} from '@ant-design/icons'
+import React, { useState } from 'react';
+import { withRouter } from "react-router";
+import {
+  PageHeader,
+  Descriptions,
+  Select,
+  Typography,
+  Button,
+  Modal,
+  Popover,
+  Input as TextField,
+} from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 // import TextField from '@material-ui/core/TextField';
 import set from 'lodash/set';
 import './style.scss';
-const {Option} = Select;
-const {Title} = Typography;
-const genreOptions = ['Action Adventure',
-    'Thriller',
-   'Romantic Comedy',
-    'Horror',
-    'Drama',
-    'Romantic Drama',
-    'Mystery',
-    'Science Fiction',
-    'Horror',
-    'Love Story',
-    'Family',
-    'Fantasy',
-    'Animation',
-    'Western',
-    'Period',
-    'Historical',
-    'Musical'];
-const subGenreOptions = ['None',
-    'Comedy',
-    'Horror',
-    'Drama',
-    'Thriller',
-    'Family',
-    'Psychological',
-    'Political',
-    'Parody',
-    'Farce',
-    'Slapstick',
-    'Dark',
-    'Epic',
-    'True Story',
-    'Suspense',
-    'Erotic',
-    'Fish-out-of water',
-    'Coming-of-age'];
+
+import {GetStory,DeleteStory} from '../../utils/APIcalls/storyline';
+
+const { Option } = Select;
+const { Title } = Typography;
+const genreOptions = [
+  'Action Adventure',
+  'Thriller',
+  'Romantic Comedy',
+  'Horror',
+  'Drama',
+  'Romantic Drama',
+  'Mystery',
+  'Science Fiction',
+  'Horror',
+  'Love Story',
+  'Family',
+  'Fantasy',
+  'Animation',
+  'Western',
+  'Period',
+  'Historical',
+  'Musical'];
+const subGenreOptions = [
+  'None',
+  'Comedy',
+  'Horror',
+  'Drama',
+  'Thriller',
+  'Family',
+  'Psychological',
+  'Political',
+  'Parody',
+  'Farce',
+  'Slapstick',
+  'Dark',
+  'Epic',
+  'True Story',
+  'Suspense',
+  'Erotic',
+  'Fish-out-of water',
+  'Coming-of-age'];
 class Logline extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            visible: false,
-            logline: {
-                character: "",
-                crisis: "",
-                response: "",
-            },
-            theme: "",
-            genre: genreOptions[0],
-            subGanre: subGenreOptions[0],
-            title: "",
-            isEdit: true,
-        }
-    }
+  constructor(props) {
+    super(props);
+    console.log(props);
     
-    setVisible = (value) => {
-        this.setState({visible: value})
+    this.state = {
+      id : "new",
+      visible: false,
+      logline: {
+        character: "",
+        crisis: "",
+        response: "",
+      },
+      theme: "",
+      genre: genreOptions[0],
+      subGanre: subGenreOptions[0],
+      title: "",
+      isEdit: true,
     }
-    setFieldValue = (path, value) => {
-        this.setState((prev) => {
-            const newState = set(prev, path, value);
-            return newState
-        });
+  }
+
+  componentDidMount() {
+    console.log(this.state.id);
+    if(this.state.id === "new") {
+      this.setState({isEdit:true});
     }
-    getShortLogline = () => {
-        const {logline} = this.state;
-        return `${logline.character} ${logline.crisis} ${logline.response}`
+    else {
+      this.setState({isEdit:false});
+      GetStory(this.state.id)
+      .then((json) => {
+        console.log(json.data);
+        this.setState({genre : json.data.genre});
+        this.setState({theme : json.data.theme});
+        this.setState({title : json.data.title});
+        this.setState(prevstate =>({
+          logline:{
+            ...prevstate.logline,
+            character : json.data.logline.character,
+            crisis : json.data.logline.crisis,
+            response : json.data.logline.response,
+          }
+        }));
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+
     }
-    onSave = () => {
-        this.setState({isEdit: false});
-        fetch(' http://localhost:5000/api/storyline/new', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                logline: {
-                    character: logline.character,
-                    crisis: logline.crisis,
-                    response: logline.response,
-                },
-                theme: this.state.theme,
-                genre: this.state.genre,
-                subGanre: this.state.subGanre,
-                title: this.state.title,
-            })
+    console.log(this.state);
+  }
+
+  delete = () =>{
+    DeleteStory(this.state.id)
+    .then((response) =>{
+      console.log(response);
+    })
+    .catch((err) =>{
+      console.log(err);
+    })
+  }
+  
+  setVisible = value => {
+      this.setState({visible: value})
+  };
+  setFieldValue = (path, value) => {
+      this.setState((prev) => {
+      const newState = set(prev, path, value);
+        return newState
+    });
+  };
+ 
+  getShortLogline = () => {
+      const {logline} = this.state;
+      return `${logline.character} ${logline.crisis} ${logline.response}`
+  };
+  onSave = () => {
+      this.setState({isEdit: false});
+    fetch('/api/storyline/new', {
+      method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          'logline': {
+            'crisis': this.state.logline.crisis,
+            'response': this.state.logline.response,
+        },
+          'theme': this.state.theme,
+          'genre': this.state.genre,
+          'subGenre': this.state.subGenre,
+          'title': this.state.title,
         })
+      })
         .then(function(response) {
-            console.log(response);
-        })
-    }
-    onEdit = () => {
-        this.setState({isEdit: true})
-    }
-    render() {
-        const {logline, visible, theme, genre, subGanre, title, isEdit} = this.state;
-        const {setVisible, setFieldValue} = this;
-        return (
-            <div className="logline-container">
-            <Button type="link" onClick={() => setVisible(true)}>
-                How to write a logline
-            </Button>
-            {isEdit ? (
+          console.log(response);
+    });
+  };
+
+  linkDrive = () => {
+    fetch('/api/google/linkDrive', {
+        method: 'GET',
+      headers: {
+          'Content-Type': 'application/json'
+        }
+    })
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(res) {
+          window.open(`${res.url}`)
+      });
+  };
+  onEdit = () => {
+      this.setState({isEdit: true})
+  };
+  render() {
+      const {logline, visible, theme, genre, subGanre, title, isEdit} = this.state;
+      const {setVisible, setFieldValue} = this;
+    return (
+      <div className="logline-container">
+          <Button type="link" onClick={() => setVisible(true)}>
+          How to write a logline
+          </Button>
+          {isEdit ? (
                 <div className="logline-create">
                     <div>
                         <PageHeader
@@ -167,7 +240,6 @@ class Logline extends React.Component {
                                         </Descriptions.Item>
                                         <Descriptions.Item>
                                             <Button onClick={this.onSave} type="primary">Save</Button>
-                                            <Button type="primary" danger>Link Drive</Button>
                                         </Descriptions.Item>
                             </Descriptions>
                         </PageHeader>
@@ -186,6 +258,9 @@ class Logline extends React.Component {
                         <Button key="2">Print</Button>,
                         <Button key="1" type="primary" onClick={this.onEdit}>
                         Edit
+                        </Button>,
+                        <Button type="primary" danger onClick={this.delete}>
+                        Delete
                         </Button>,
                     ]}
                     >
@@ -208,19 +283,23 @@ class Logline extends React.Component {
                 </PageHeader>
             </div>
             )}
-            <Modal
-                title="How to write log line"
-                visible={visible}
-                onOk={() => setVisible(false)}
-                onCancel={() => setVisible(false)}
-                width={600}
-                footer={null}
-                >
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/r0Fj_H9Q73k" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-            </Modal>
-        </div>
-        )
-    }
+
+
+
+        <Modal
+          title="How to write log line"
+            visible={visible}
+          onOk={() => setVisible(false)}
+          onCancel={() => setVisible(false)}
+            width={600}
+          footer={null}
+        >
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/r0Fj_H9Q73k" frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+          />
+        </Modal>
+      </div>
+      )
+  }
 }
-export default Logline;
+export default withRouter(Logline);

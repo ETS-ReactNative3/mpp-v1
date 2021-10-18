@@ -1,7 +1,9 @@
 /* eslint consistent-return:0 import/order:0 */
-
+const dotenv = require('dotenv');
+dotenv.config();
 const express = require('express');
 const logger = require('./logger');
+const MongoDB = require('./db/db.js')
 const apiRouter = require('./routes/index');
 const argv = require('./argv');
 const port = require('./port');
@@ -12,6 +14,7 @@ const ngrok =
     ? require('ngrok')
     : false;
 const { resolve } = require('path');
+
 const app = express();
 
 app.use(express.json());
@@ -20,6 +23,7 @@ app.use(
     extended: true,
   }),
 );
+MongoDB.connect(process.env.MONGODB_URL);
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // app.use('/api', myApi);

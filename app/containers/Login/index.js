@@ -28,7 +28,9 @@ import Row from '../../mppComponents/MppRow/index.js'
 import Col from '../../mppComponents/MppCol/index.js'
 
 //css
-import "./style.scss"
+import "./style.scss";
+
+import {UserLogin} from '../../utils/APIcalls/user';
 export function Login(props) {
   useInjectReducer({ key: 'login', reducer });
   useInjectSaga({ key: 'login', saga });
@@ -46,7 +48,8 @@ export function Login(props) {
                 buttonText={<FormattedMessage {...messages.logingoogle}/>}
                 onSuccess={user => {
                   auth.signin(user);
-                  console.log(props);
+                  console.log(user);
+                  UserLogin(user);
                   history.push('/');
                 }}
                 onFailure={() => {}}

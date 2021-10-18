@@ -1,17 +1,14 @@
-const dashboardUtills = require('../utills/storyline.js');
-
+const { listFiles } = require('./google/google.js');
 
 const getDashboardDetailsById = async (req, res, next) => {
-    const dashboard =  dashboardUtills.dashboardDetails();
-    res.status(200).json({dashboard: dashboard});
-}
+  res.status(200).json({ dashboard });
+};
 
 const dashboardInfo = async (req, res, next) => {
-    const dashboard =  dashboardUtills.dashboardDetails();
-    res.status(200).json({dashboard: dashboard});
-}
+  await listFiles(req, res, next);
+};
 
-module.exports =  {
-    getDashboardDetailsById,
-    dashboardInfo
-}
+module.exports = {
+  getDashboardDetailsById,
+  dashboardInfo,
+};
