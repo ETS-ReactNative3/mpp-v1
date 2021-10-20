@@ -24,4 +24,21 @@ const getListOfFiles = async (list, access_token) => {
   return arr;
 };
 
-module.exports = { getListOfFiles };
+const getValidTokens = async (tokens) => {
+  if(!tokens) return null;
+  await fetch( `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${tokens.access_token}`,{method: 'POST'})
+  .then((response) => {
+    if(response.status === 200) {
+      return tokens;
+    }
+    else{
+
+    }
+  })
+  .catch((err) => {
+    console.log(err);
+    return null;
+  })
+}
+
+module.exports = { getListOfFiles,getValidTokens };
