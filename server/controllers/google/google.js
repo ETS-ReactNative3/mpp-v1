@@ -7,7 +7,7 @@ const fetch = (...args) =>
   import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const { addCredentialsService } = require('../../service/user.js');
 const { responder } = require('../../utills/responseHandler.js');
-const { getListOfFiles } = require('../../utills/google.js');
+const { getListOfFiles, getValidTokens} = require('../../utills/google.js');
 
 const utils = require('./Oauthmodule');
 const {drive} = utils;
@@ -15,32 +15,34 @@ const driveutils = require('./Drivmodule');
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
+const TOKEN_PATH = 'token.json';
 
 const refreshToken = async (req, res, next) => {
   try {
     let tokens = require('../../../token.json');
     console.log("HI")
-    if (!tokens) {
-      return null;
-    }
+    console.log(tokens)
 
-    fetch('https://oauth2.googleapis.com/token', {
-      method: 'POST',
+    await fetch('https://oauth2.googleapis.com/token', {
+      method: 'POST', 
       body: new URLSearchParams({
         client_id: CLIENT_ID,
         client_secret: CLIENT_SECRET,
-        refresh_token: tokens.refresh_token,
+        refresh_token: REFRESH_TOKEN,
         grant_type: 'refresh_token',
       })
-        .then((response) => {
-          responder (res)(null,response);
-        })
-        .catch((err) => {
-          responder (res)(err,null);
-        })
-    });
+      })
+      .then(response => response.json())
+      .then(data => {
+        responder (res)(null,data);
+      })
+      .catch((error) => {
+        responder (res)(error,null);
+      });
     
   } catch (error) {
+    console.log(error);
     responder(res)(error,null);
   }
 };
@@ -189,8 +191,10 @@ const uploadFile = async (req, res, next, data) => {
 const listFiles = async (req, res, next) => {
   let tokens = require('../../../token.json');
   let fileList = [];
-  const access_token =tokens.access_token;
-  console.log(access_token);
+  let newTokens = await getValidTokens(tokens);
+
+  const access_token = (newTokens.access_token) ? newTokens.access_token : null;
+
   await fetch(
     'https://www.googleapis.com/drive/v2/files/1fkPN96QOmCvLNkR7Puw7vqkwhsstsGop/children',
     {
