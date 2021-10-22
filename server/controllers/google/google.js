@@ -1,6 +1,7 @@
 const { google } = require('googleapis');
 const path = require('path');
 const fs = require('fs');
+const stream = require('stream');
 // var FormData = require('form-data');
 const fetch = (...args) =>
   import('node-fetch').then(({ default: fetch }) => fetch(...args));
@@ -14,8 +15,6 @@ const driveutils = require('./Drivmodule');
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
-
-const TOKEN_PATH = 'token.json';
 
 const refreshToken = async (req, res, next) => {
   try {
@@ -118,26 +117,32 @@ const updateFile = async (req, res, next) => {
   let tokens = require('../../../token.json');
   utils.oAuth2Client.credentials = tokens;
 
-  await drive.files.get(
-    {
-      auth: utils.oAuth2Client,
+  const content = JSON.stringify(req.body);
+  const buf = Buffer.from(content, 'binary');
+  const buffer = Uint8Array.from(buf);
+  var bufferStream = new stream.PassThrough();
+  bufferStream.end(buffer);
+  const media = {
+      mimeType: 'application/json',
+      body: bufferStream,
+  };
+  drive.files.update({
       fileId: req.params.id,
-      alt: 'media',
-    },
-    function(err, response) {
+      media: media,
+  }, (err, response) => {
       if (err) {
-        console.log(`The API returned an error: ${  err}`);
-        return responder(res)(err, null);
+          console.log(err);
+          responder(400)(err, null);
       }
-      responder(res)(null, response);
-    },
-  );
+      console.log(response.data)
+      responder(res)(null, response.data);
+  });
 };
 
 const getFile = async (req, res, next) => {
   let tokens = require('../../../token.json');
   utils.oAuth2Client.credentials = tokens;
-
+  console.log(tokens);
   await fetch(
       `https://www.googleapis.com/drive/v2/files/${req.params.id}?alt=media&source=downloadUrl`,
     {
@@ -185,7 +190,7 @@ const listFiles = async (req, res, next) => {
   let tokens = require('../../../token.json');
   let fileList = [];
   const access_token =tokens.access_token;
-
+  console.log(access_token);
   await fetch(
     'https://www.googleapis.com/drive/v2/files/1fkPN96QOmCvLNkR7Puw7vqkwhsstsGop/children',
     {
