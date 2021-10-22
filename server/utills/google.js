@@ -1,7 +1,3 @@
-const CLIENT_ID = process.env.CLIENT_ID;
-const CLIENT_SECRET = process.env.CLIENT_SECRET;
-const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
-
 const fetch = (...args) =>
   import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
@@ -28,26 +24,28 @@ const getListOfFiles = async (list, access_token) => {
   return arr;
 };
 
-const refreshToken = async () =>{
-  await fetch('https://oauth2.googleapis.com/token', {
-    method: 'POST',
-    body: new URLSearchParams({
-      client_id: CLIENT_ID,
-      client_secret: CLIENT_SECRET,
-      refresh_token: REFRESH_TOKEN,
-      grant_type: 'refresh_token',
-    })
-  })
-  .then(response => response.json())
-  .then((data) => {
-    console.log("DATA");
-    console.log(data)
-    return data;
-  })
-  .catch((err) => {
+async function refreshToken(){
+  try {
+    await fetch('https://oauth2.googleapis.com/token', {
+      method: 'POST', 
+      body: new URLSearchParams({
+        client_id: CLIENT_ID,
+        client_secret: CLIENT_SECRET,
+        refresh_token: REFRESH_TOKEN,
+        grant_type: 'refresh_token',
+      })
+      })
+      .then(response => response.json())
+      .then(data => {
+        return data;
+      })
+      .catch((error) => {
+        return null;
+      });
+    
+  } catch (error) {
     return null;
-  })
-
+  }
 }
 
 const getValidTokens = async (tokens) => {
@@ -67,7 +65,8 @@ const getValidTokens = async (tokens) => {
     return null;
   })
 
-  let newTokens = await refreshToken();
+  const newTokens = await refreshToken();
+  console.log(newTokens); 
   return newTokens;
 }
 

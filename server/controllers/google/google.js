@@ -20,10 +20,6 @@ const TOKEN_PATH = 'token.json';
 
 const refreshToken = async (req, res, next) => {
   try {
-    let tokens = require('../../../token.json');
-    console.log("HI")
-    console.log(tokens)
-
     await fetch('https://oauth2.googleapis.com/token', {
       method: 'POST', 
       body: new URLSearchParams({
@@ -35,15 +31,14 @@ const refreshToken = async (req, res, next) => {
       })
       .then(response => response.json())
       .then(data => {
-        responder (res)(null,data);
+        return data;
       })
       .catch((error) => {
-        responder (res)(error,null);
+        return null;
       });
     
   } catch (error) {
-    console.log(error);
-    responder(res)(error,null);
+    return null;
   }
 };
 
