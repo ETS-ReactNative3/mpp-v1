@@ -63,6 +63,7 @@ class Logline extends React.Component {
     
     this.state = {
       id : "new",
+      updatedId: '1X3eEKZL8ack71q7ZI8TThkoA664YXYM8',
       visible: false,
       logline: {
         character: "",
@@ -154,20 +155,28 @@ class Logline extends React.Component {
     });
   };
 
-  linkDrive = () => {
-    fetch('/api/google/linkDrive', {
-        method: 'GET',
-      headers: {
+  update = () => {
+    fetch(`/api/storyline/${this.state.updatedId}`, {
+      method: 'PUT',
+        headers: {
           'Content-Type': 'application/json'
-        }
-    })
-      .then(function(response) {
-        return response.json();
+      },
+      body: JSON.stringify({
+          'logline': {
+            'crisis': this.state.logline.crisis,
+            'response': this.state.logline.response,
+        },
+          'theme': this.state.theme,
+          'genre': this.state.genre,
+          'subGenre': this.state.subGenre,
+          'title': this.state.title,
+        })
       })
-      .then(function(res) {
-          window.open(`${res.url}`)
-      });
-  };
+        .then(function(response) {
+          console.log(response);
+    });
+  }
+
   onEdit = () => {
       this.setState({isEdit: true})
   };
@@ -241,6 +250,9 @@ class Logline extends React.Component {
                                         <Descriptions.Item>
                                             <Button onClick={this.onSave} type="primary">Save</Button>
                                         </Descriptions.Item>
+                                        <Descriptions.Item>
+                                            <Button onClick={this.update} type="primary">Update</Button>
+                                        </Descriptions.Item>
                             </Descriptions>
                         </PageHeader>
                     </div>
@@ -284,9 +296,6 @@ class Logline extends React.Component {
             </div>
             )}
 
-
-
-
         <Modal
           title="How to write log line"
             visible={visible}
@@ -296,7 +305,6 @@ class Logline extends React.Component {
           footer={null}
         >
             <iframe width="560" height="315" src="https://www.youtube.com/embed/r0Fj_H9Q73k" frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-          />
         </Modal>
       </div>
       )

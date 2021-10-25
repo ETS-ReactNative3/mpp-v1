@@ -1,3 +1,7 @@
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
+
 const fetch = (...args) =>
   import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
@@ -26,7 +30,7 @@ const getListOfFiles = async (list, access_token) => {
 
 async function refreshToken(){
   try {
-    await fetch('https://oauth2.googleapis.com/token', {
+    return await fetch('https://oauth2.googleapis.com/token', {
       method: 'POST', 
       body: new URLSearchParams({
         client_id: CLIENT_ID,
@@ -44,6 +48,8 @@ async function refreshToken(){
       });
     
   } catch (error) {
+    console.log("catch");
+    console.log(error);
     return null;
   }
 }
@@ -65,9 +71,11 @@ const getValidTokens = async (tokens) => {
     return null;
   })
 
+  if(isTokenExpired){
   const newTokens = await refreshToken();
-  console.log(newTokens); 
   return newTokens;
+  }
+  return tokens;
 }
 
 module.exports = { getListOfFiles,getValidTokens };

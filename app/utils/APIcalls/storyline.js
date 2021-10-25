@@ -1,6 +1,6 @@
 
 export const GetStory = (id) => {
-    return fetch(`http://localhost:5000/api/storyline/${id}`)
+    return fetch(`/api/storyline/${id}`)
     .then((response) => {
       return response.json();
     })

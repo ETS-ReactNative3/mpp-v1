@@ -1,6 +1,6 @@
 
 export const GetDashboardInfo = () => {
-    return fetch('http://localhost:5000/api/dashboard/dashboardInfo')
+    return fetch('/api/dashboard/dashboardInfo')
     .then(function(response) {
       return response.json();
     })
