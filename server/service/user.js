@@ -1,22 +1,19 @@
-const {addUser,getUserDetails,addCredentials} = require('../db/user.js');
+const User = require('../db/user.js');
 
 const loginUserService = async (user) => {
-    const User = await addUser(user);
-    return User;
+    var new_user = new User(user)
+      
+    new_user.save(function(err,result){
+        if (err){
+            console.log(err);
+        }
+        else{
+            console.log(result)
+            return result;
+        }
+    })
 };
-
-const getUserService = async (user) => {
-    const User = await getUserDetails(user);
-    return User;
-};
-
-const addCredentialsService = async (credentials,email) => {
-    const User = await addCredentials(credentials,email);
-    return User;
-}
 
 module.exports = {
-    loginUserService,
-    getUserService,
-    addCredentialsService
+    loginUserService
 };

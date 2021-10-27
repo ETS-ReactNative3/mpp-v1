@@ -1,16 +1,14 @@
-const { MongoClient } = require('mongodb');
+const mongoose = require('mongoose');
 
-let db;
 
-const connect = async (url, dbName = 'MPP') => {
-  const client = new MongoClient(url, {
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-  });
-  await client.connect();
-  db = client.db(dbName);
+const connect = async (url, options) => {
+  try {
+    await mongoose.connect(url, options);
+    console.log('Connected to Mongoose');
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-const get = () => db;
 
-module.exports = { connect, get };
+module.exports = { connect };
