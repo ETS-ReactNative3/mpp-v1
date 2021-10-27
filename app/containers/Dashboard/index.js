@@ -41,6 +41,21 @@ export default function Dashboard() {
       });
   }, []);
 
+  function linkDrive(){
+    fetch('/api/google/linkDrive', {
+        method: 'GET',
+      headers: {
+          'Content-Type': 'application/json'
+        }
+    })
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(res) {
+          window.open(`${res.url}`)
+      });
+  };
+
   return (
     <>
       <div className="container" style={{ backgroundColor: '#eee' }}>
@@ -58,6 +73,10 @@ export default function Dashboard() {
                 <br />
                 <h3>Description</h3>
                 <br />
+                <br />
+                <Button onClick={linkDrive()} type="primary">
+                  Link Drive
+                </Button>
                 <br />
                 <Button type="primary" danger>
                   Logout

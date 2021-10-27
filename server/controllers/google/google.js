@@ -7,7 +7,7 @@ const fetch = (...args) =>
   import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const { addCredentialsService } = require('../../service/user.js');
 const { responder } = require('../../utills/responseHandler.js');
-const { getListOfFiles } = require('../../utills/google.js');
+const { getListOfFiles, getValidTokens} = require('../../utills/google.js');
 
 const utils = require('./Oauthmodule');
 const {drive} = utils;
@@ -15,33 +15,30 @@ const driveutils = require('./Drivmodule');
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
+const TOKEN_PATH = 'token.json';
 
 const refreshToken = async (req, res, next) => {
   try {
-    let tokens = require('../../../token.json');
-    console.log("HI")
-    if (!tokens) {
-      return null;
-    }
-
-    fetch('https://oauth2.googleapis.com/token', {
-      method: 'POST',
+    await fetch('https://oauth2.googleapis.com/token', {
+      method: 'POST', 
       body: new URLSearchParams({
         client_id: CLIENT_ID,
         client_secret: CLIENT_SECRET,
-        refresh_token: tokens.refresh_token,
+        refresh_token: REFRESH_TOKEN,
         grant_type: 'refresh_token',
       })
-        .then((response) => {
-          responder (res)(null,response);
-        })
-        .catch((err) => {
-          responder (res)(err,null);
-        })
-    });
+      })
+      .then(response => response.json())
+      .then(data => {
+        return data;
+      })
+      .catch((error) => {
+        return null;
+      });
     
   } catch (error) {
-    responder(res)(error,null);
+    return null;
   }
 };
 
@@ -84,21 +81,22 @@ const callBack = async (req, res, next) => {
         });
 
         utils.sToreToken(tokens);
-
-        console.log(tokens);
         utils.oAuth2Client.credentials = (tokens);
 
         console.log(user_email)
       }
     })
   }
+  let FID = await driveutils.iSfolderExist();
+  console.log('FID' + FID);
   res.redirect('http://localhost:5000/storyline/new');
 };
 
 const deleteFile = async (req, res, next) => {
   let tokens = require('../../../token.json');
-  utils.oAuth2Client.credentials = tokens;
-
+  let newTokens = await getValidTokens(tokens);
+  utils.oAuth2Client.credentials = newTokens;
+  
   await drive.files.delete({
     auth: utils.oAuth2Client,
     fileId: req.params.id,
@@ -115,18 +113,11 @@ const deleteFile = async (req, res, next) => {
 
 const updateFile = async (req, res, next) => {
   let tokens = require('../../../token.json');
-  utils.oAuth2Client.credentials = tokens;
-
-  const content = JSON.stringify(req.body);
-  const buf = Buffer.from(content, 'binary');
-  const buffer = Uint8Array.from(buf);
-  var bufferStream = new stream.PassThrough();
-  bufferStream.end(buffer);
-  const media = {
-      mimeType: 'application/json',
-      body: bufferStream,
-  };
-  drive.files.update({
+  let newTokens = await getValidTokens(tokens);
+  utils.oAuth2Client.credentials = newTokens;
+  await drive.files.get(
+    {
+      auth: utils.oAuth2Client,
       fileId: req.params.id,
       media: media,
   }, (err, response) => {
@@ -142,13 +133,13 @@ const updateFile = async (req, res, next) => {
 const getFile = async (req, res, next) => {
   let tokens = require('../../../token.json');
   utils.oAuth2Client.credentials = tokens;
-  console.log(tokens);
+  let newTokens = await getValidTokens(tokens);
   await fetch(
       `https://www.googleapis.com/drive/v2/files/${req.params.id}?alt=media&source=downloadUrl`,
     {
       method: 'GET',
       headers: {
-        Authorization: 'Bearer ' + `${tokens.access_token}`,
+        Authorization: 'Bearer ' + `${newTokens.access_token}`,
       },
     },
   )
@@ -166,9 +157,6 @@ const uploadFile = async (req, res, next, data) => {
   fs.writeFileSync(baseDir, data);
 
   try {
-    let FID = await driveutils.iSfolderExist();
-    console.log('FID' + FID);
-
       const fileMetadata = {
         name: 'mpp.json',
         parents: ["1urJh-QUxraU-VXBGI13lpbK9b81crcBP"],
@@ -189,8 +177,10 @@ const uploadFile = async (req, res, next, data) => {
 const listFiles = async (req, res, next) => {
   let tokens = require('../../../token.json');
   let fileList = [];
-  const access_token =tokens.access_token;
-  console.log(access_token);
+  let newTokens = await getValidTokens(tokens);
+
+  const access_token = (newTokens.access_token) ? newTokens.access_token : null;
+
   await fetch(
     'https://www.googleapis.com/drive/v2/files/1fkPN96QOmCvLNkR7Puw7vqkwhsstsGop/children',
     {
