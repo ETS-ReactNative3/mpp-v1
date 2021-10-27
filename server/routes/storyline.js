@@ -1,6 +1,6 @@
 const express = require('express');
 const storySave = require('../controllers/storyline.js');
-const {getFile,deleteFile} = require('../controllers/google/google.js');
+const {getFile, deleteFile, updateFile} = require('../controllers/google/google.js');
 const router = express.Router();
 
 router.post('/new', function(req, res, next) {
