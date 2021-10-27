@@ -19,42 +19,42 @@ import Col from '../../mppComponents/MppCol/index.js';
 import Skeleton from '../../mppComponents/MppSkeleton/index.js';
 import Avatar from '../../mppComponents/MppAvatar/index.js';
 import Button from '../../mppComponents/MppButton/index.js';
-import { useAuth, user } from ProvideAuth from '../../contexts/authContext';
-
+import ProvideAuth from '../../contexts/authContext';
+import { useAuth, user } from '../../contexts/authContext';
 
 import history from '../../utils/history';
 import { Link } from 'react-router-dom';
 
-import { GetDashboardInfo } from '../../utils/APIcalls/dashboard';
+import {GetDashboardInfo} from '../../utils/APIcalls/dashboard';
 
 export default function Dashboard() {
   const [stories, setStories] = useState([]);
 
   useEffect(() => {
     GetDashboardInfo()
-      .then(res => {
+      .then((res)=>{
         console.log(res);
         setStories(res.data);
       })
-      .catch(err => {
+      .catch((err)=> {
         console.log(err);
       });
   }, []);
 
-  function linkDrive() {
+  function linkDrive(){
     fetch('/api/google/linkDrive', {
-      method: 'GET',
+        method: 'GET',
       headers: {
-        'Content-Type': 'application/json'
-      }
+          'Content-Type': 'application/json'
+        }
     })
       .then(function(response) {
         return response.json();
       })
       .then(function(res) {
-        window.open(`${res.url}`)
+          window.open(`${res.url}`)
       });
-  }
+  };
 
   return (
     <>
@@ -102,14 +102,13 @@ export default function Dashboard() {
                 </Link>
               </Col>
 
-              {stories &&
-                Object.keys(stories).map((item, i) => (
-                  <Col span={8}>
-                    <Link to={`/storyline/${stories[item].id}`}>
-                      <Card title={stories[item].title} bordered />
-                    </Link>
-                  </Col>
-                ))}
+              {stories && Object.keys(stories).map((item, i) => (
+                <Col span={8}>
+                  <Link to={`/storyline/${stories[item].id}`}>
+                    <Card title={stories[item].title} bordered />
+                  </Link>
+                </Col>
+              ))}
             </Row>
           </div>
         </div>
