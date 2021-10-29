@@ -28,7 +28,6 @@ async function iSfolderExist() {
      }
      
           console.log("folder  dose't exist");
-          console.log(res.data.files);
            return await cReateFolder();
 }
 
@@ -43,7 +42,7 @@ async function createSubFolder(folderName,parentId) {
     fields: 'id,name'
   });
   console.log("Created Sub Folder", folderName , "parent id : " , parentId);
-  console.log(res.data);
+  return res.data.id;
 }
 
 
@@ -51,7 +50,7 @@ async function cReateFolder() {
   let tokens = require('../../../token.json');
   let newTokens = await getValidTokens(tokens);
   utils.oAuth2Client.credentials = newTokens;
-  console.log("creating the new Foler ")
+  console.log("creating the new Foler ");
   // creating folder
   var folderMetadata = {
     'name': 'MPP',
@@ -61,15 +60,17 @@ async function cReateFolder() {
     resource: folderMetadata,
     fields: 'id,name'
   });
-
-  await console.log(res);
-  await createSubFolder("MyProjects",res.data.id);
-  await createSubFolder("SharedProjects",res.data.id);
+  let myprojectsId = await createSubFolder("MyProjects",res.data.id);
+  let sharedprojectsId = await createSubFolder("SharedProjects",res.data.id);
 
   console.log(`res.data.id${res.data.id}`);
 
-  
-  return res.data.id;
+  const ids = {
+    "parentId": res.data.id,
+    "myprojectsId":myprojectsId,
+    "sharedprojectsId":sharedprojectsId
+  } 
+  return ids;
 }
 
 async function sEndFile(fileMetadata, media) {

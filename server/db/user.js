@@ -2,12 +2,20 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-    email:  String,
+    email:  {type: 'String', required: true,unique: true},
     familyName: String,
     givenName:  String,
     googleId:  String,
     imageUrl:  String,
-    name:  String
+    name:  String,
+    DriveAPI : { 
+        parentId : String,
+        myprojectsId: String,
+        sharedprojectsId: String,
+    },
+    Users : String
+},{
+    timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
 });
 
 module.exports = User = mongoose.model('User',userSchema); 

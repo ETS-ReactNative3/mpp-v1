@@ -5,7 +5,7 @@ const stream = require('stream');
 // var FormData = require('form-data');
 const fetch = (...args) =>
   import('node-fetch').then(({ default: fetch }) => fetch(...args));
-const { addCredentialsService } = require('../../service/user.js');
+const { linkDriveDB } = require('../../service/user.js');
 const { responder } = require('../../utills/responseHandler.js');
 const { getListOfFiles, getValidTokens} = require('../../utills/google.js');
 
@@ -53,43 +53,47 @@ const linkDrive = async (req, res, next) => {
 
 const callBack = async (req, res, next) => {
   const {code} = req.query;
+  let user_email;
+  let id_token;
   if(code){
    await utils.oAuth2Client.getToken(code, function(err,tokens){
       if (err) {
         console.error("Error in authenticating");
         res.redirect('http://localhost:5000/storyline/new');
       } else {
-        let user_email;
         console.log("Successfully authenticated");
-        const {id_token} = tokens;
-
-        const promise1 = new Promise((resolve, reject) => {
-          fetch(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${id_token}`)
-            .then(function(response) {
-              return response.json();
-            })
-            .then(function(json) {
-              resolve(json.email);
-            })
-            .catch(function(ex) {
-              console.log('parsing failed', ex);
-            });
-        });
-
-        promise1.then((value) => {
-          user_email = value;
-        });
-
+        id_token = tokens.id_token;
         utils.sToreToken(tokens);
         utils.oAuth2Client.credentials = (tokens);
-
-        console.log(user_email)
+        console.log("Id TOKEN");
+        console.log(id_token);
       }
-    })
+    });
+    console.log(id_token);
+    await fetch(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${id_token}`)
+      .then((json) => {
+        console.log("EMAIL");
+        console.log(json);
+        console.log(json.json());
+        console.log(json.response);
+        console.log("data");
+        console.log(json.data);
+        user_email = json.email;
+      })
+      .catch(error => {
+        console.log(error);
+    });
   }
-  let FID = await driveutils.iSfolderExist();
-  console.log('FID' + FID);
-  res.redirect('http://localhost:5000/storyline/new');
+    else {
+      return responder(res)(500)
+    }
+    console.log("Fetching id's");
+    let fids = await driveutils.iSfolderExist();
+    console.log(fids);
+    user_email = "shashank.m19@iiits.in";
+    console.log(user_email);
+    await linkDriveDB(user_email,fids);
+    res.redirect('http://localhost:5000/storyline/new');
 };
 
 const deleteFile = async (req, res, next) => {

@@ -8,7 +8,8 @@ const { responder } = require('../utills/responseHandler.js');
 const loginUser = async (req, res, next) => {
   try {
     const user = await loginUserService(req.body);
-    return responder(res)(null, { user });
+    console.log(user);
+    return responder(res)(null, user);
   } catch (ex) {
     return next(ex);
   }

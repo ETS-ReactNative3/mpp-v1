@@ -78,4 +78,8 @@ const getValidTokens = async (tokens) => {
   return tokens;
 }
 
+const updateToDB = async () => {
+  
+}
+
 module.exports = { getListOfFiles,getValidTokens };
