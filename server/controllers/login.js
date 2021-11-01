@@ -3,13 +3,15 @@ const {
   getUserService,
   addCredentialsService,
 } = require('../service/user.js');
-const { responder } = require('../utills/responseHandler.js');
 
 const loginUser = async (req, res, next) => {
   try {
     const user = await loginUserService(req.body);
+    if(!user){
+      return res.status(404).send({msg: 'User not found'});
+    }
     console.log(user);
-    return responder(res)(null, user);
+    return res.status(200).send({msg: 'User successfully logged in',user})
   } catch (ex) {
     return next(ex);
   }
@@ -18,7 +20,10 @@ const loginUser = async (req, res, next) => {
 const getuser = async (req, res, next) => {
   try {
     const user = await getUserService(req.body);
-    return responder(res)(null, { user });
+    if(!user){
+      return res.status(404).send({msg: 'User does not exists'});
+    }
+    return res.status(200).send({user})
   } catch (ex) {
     return next(ex);
   }
@@ -27,7 +32,10 @@ const getuser = async (req, res, next) => {
 const updateuser = async (req, res, next) => {
   try {
     const user = await addCredentialsService(req.body, req.body.email);
-    return responder(res)(null, { user });
+    if(!user){
+      return res.status(400).send({msg: 'Error updating user'})
+    }
+    return res.status(200).send({msg: 'User successfully updated',user})
   } catch (ex) {
     return next(ex);
   }
