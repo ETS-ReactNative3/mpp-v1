@@ -7,8 +7,6 @@ const user = require('./user.js');
 const express = require('express');
 const router = express.Router();
 
-const {verifyAuthToken} = require('../utills/utills.js');
-
 router.get('/healthCheck', function(req, res, next) {
   console.log('insise health check');
   //   res.setHeader('Content-Type', 'application/json');
@@ -16,11 +14,11 @@ router.get('/healthCheck', function(req, res, next) {
   //   next();
 });
 
-router.use('/storyline', storyLine, verifyAuthToken);
+router.use('/storyline', storyLine);
 
-router.use('/dashboard',dashboard, verifyAuthToken);
+router.use('/dashboard',dashboard);
 
-router.use('/google',google, verifyAuthToken);
+router.use('/google',google);
 
 router.use('/auth',login);
 

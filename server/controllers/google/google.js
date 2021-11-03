@@ -13,7 +13,8 @@ const {
   linkDriveDB,
   updateTokens,
   getTokens,
-  getRefreshToken
+  getRefreshToken,
+  getDriveDetails
 } = require('../../service/user.js');
 const {
   responder
@@ -77,38 +78,25 @@ const callBack = async (req, res, next) => {
   const {
     code
   } = req.query;
-  let user_email;
+
+  let user_email = "shashank.m19@iiits.in";
+  if(!user_email){
+    return res.status(400).send({msg: "Invalid id_token", error: error});
+  }
   if (code) {
     utils.oAuth2Client.getToken(code, function (err, tokens) {
       if (err) {
         console.error("Error in authenticating");
       } else {
-        let email = "shashank.m19@iiits.in"
-        utils.sToreToken(email, tokens);
+        //let email = "shashank.m19@iiits.in"
+        utils.sToreToken(user_email, tokens);
         utils.oAuth2Client.credentials = (tokens);
         //console.log(tokens);
         return tokens;
       }
     })
 
-    user_email = "shashank.m19@iiits.in"
     let googletokens = await getTokens(user_email);
-
-    console.log(googletokens);
-    /* console.log(id_token);
-     console.log(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${id_token}`);
-     user_email = await fetch(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${id_token}`)
-       .then((response) => {
-         return response.json();
-       })
-       .then((json) => {
-         console.log(json);
-         return json.email;
-       })
-       .catch(error => {
-         console.log(error);
-       });
-       */
 
     console.log("Fetching id's");
     let fids = await driveutils.iSfolderExist();
@@ -119,19 +107,26 @@ const callBack = async (req, res, next) => {
       await linkDriveDB(user_email, fids);
     }
     console.log("TOKENS");
-    console.log(googletokens);
     await updateTokens(user_email, googletokens);
 
     res.redirect('http://localhost:5000/storyline/new');
   } else {
-    return responder(res)(500)
+    return res.status(500).send({msg: 'Internal server error'});
   }
 };
 
 const deleteFile = async (req, res, next) => {
-  let tokens = require('../../../token.json');
-  let newTokens = await getValidTokens(tokens);
-  utils.oAuth2Client.credentials = newTokens;
+  let email = await getEmail(req, res, next);
+  if(!email){
+    return res.status(400).send({msg: "Invalid id_token", error: error});
+  }
+  let tokens = await getTokens(email);
+  let refreshToken = await getRefreshToken(email);
+  if(!refreshToken){
+    return res.status(401).send({msg: "refresh_token not exists in db. Please revoke/link drive access"})
+  }
+  let newTokens = await getValidTokens(tokens,refreshToken);
+  let updateTokenstoDB = await updateTokens(email,newTokens);
 
   await drive.files.delete({
       auth: utils.oAuth2Client,
@@ -148,9 +143,18 @@ const deleteFile = async (req, res, next) => {
 };
 
 const updateFile = async (req, res, next) => {
-  let tokens = require('../../../token.json');
-  let newTokens = await getValidTokens(tokens);
-  utils.oAuth2Client.credentials = newTokens;
+  let email = await getEmail(req, res, next);
+  if(!email){
+    return res.status(400).send({msg: "Invalid id_token", error: error});
+  }
+  let tokens = await getTokens(email);
+  let refreshToken = await getRefreshToken(email);
+  if(!refreshToken){
+    return res.status(401).send({msg: "refresh_token not exists in db. Please revoke/link drive access"})
+  }
+  let newTokens = await getValidTokens(tokens,refreshToken);
+  let updateTokenstoDB = await updateTokens(email,newTokens);
+
   await drive.files.get({
     auth: utils.oAuth2Client,
     fileId: req.params.id,
@@ -166,9 +170,18 @@ const updateFile = async (req, res, next) => {
 };
 
 const getFile = async (req, res, next) => {
-  let tokens = require('../../../token.json');
-  utils.oAuth2Client.credentials = tokens;
-  let newTokens = await getValidTokens(tokens);
+  let email = await getEmail(req, res, next);
+  if(!email){
+    return res.status(400).send({msg: "Invalid id_token", error: error});
+  }
+  let tokens = await getTokens(email);
+  let refreshToken = await getRefreshToken(email);
+  if(!refreshToken){
+    return res.status(401).send({msg: "refresh_token not exists in db. Please revoke/link drive access"})
+  }
+  let newTokens = await getValidTokens(tokens,refreshToken);
+  let updateTokenstoDB = await updateTokens(email,newTokens);
+
   await fetch(
       `https://www.googleapis.com/drive/v2/files/${req.params.id}?alt=media&source=downloadUrl`, {
         method: 'GET',
@@ -187,30 +200,46 @@ const getFile = async (req, res, next) => {
 };
 
 const uploadFile = async (req, res, next, data) => {
+  let email = await getEmail(req, res, next);
+  if(!email){
+    return res.status(400).send({msg: "Invalid id_token"});
+  }
+  let tokens = await getTokens(email);
+  let refreshToken = await getRefreshToken(email);
+  if(!refreshToken){
+    return res.status(401).send({msg: "refresh_token not exists in db. Please revoke/link drive access"})
+  }
+  let newTokens = await getValidTokens(tokens,refreshToken);
+  let updateTokenstoDB = await updateTokens(email,newTokens);
   const baseDir = path.join(__dirname, '../../storage/temp.json');
   fs.writeFileSync(baseDir, data);
+
+  const driveIds = await getDriveDetails(email);
+  if(!driveIds){
+    return res.status(401).send({msg: "Drive Not Linked.Plese Link Drive..."})
+  }
+
+  console.log(driveIds.p_fid)
 
   try {
     const fileMetadata = {
       name: 'mpp.json',
-      parents: ["1urJh-QUxraU-VXBGI13lpbK9b81crcBP"],
+      parents: [driveIds.myp_fid],
     };
     const media = {
       mimeType: 'application/json',
       body: fs.createReadStream(baseDir),
     };
     console.log('Sending file...');
-    const resdata = await driveutils.sEndFile(fileMetadata, media);
-    responder(res)(null, resdata);
+    return await driveutils.sEndFile(res,fileMetadata, media,newTokens);
+     
   } catch (error) {
     console.log(error);
-    responder(res)(error, null);
+    res.status(500).send({msg:"Error Sending File", error : error});
   }
 };
 
 const listFiles = async (req, res, next) => {
-  /*let tokens = require('../../../token.json');*/
-  /*let email = "shashank.m19@iiits.in";*/
   let email = await getEmail(req, res, next);
   if(!email){
     return res.status(400).send({msg: "Invalid id_token", error: error});
@@ -220,20 +249,21 @@ const listFiles = async (req, res, next) => {
   if(!refreshToken){
     return res.status(401).send({msg: "refresh_token not exists in db. Please revoke/link drive access"})
   }
-  let fileList = [];
-  let newTokens = await getValidTokens(tokens);
+  let newTokens = await getValidTokens(tokens,refreshToken);
   let updateTokenstoDB = await updateTokens(email,newTokens);
-  if(!updateTokenstoDB){
-    return res.status(401).send({msg: "DB Error : Failed to Update tokens"})
-  }
-  console.log(email);
-  console.log(tokens);
+
+  let fileList = [];
+
+  console.log("Successfully upated tokens to DB...");
   const access_token = (newTokens.access_token) ? newTokens.access_token : null;
 
-  //const driveIds = await getDriveDetails(email);
+  const driveIds = await getDriveDetails(email);
+  if(!driveIds){
+    return res.status(401).send({msg: "Drive Not Linked.Plese Link Drive..."})
+  }
 
   await fetch(
-      'https://www.googleapis.com/drive/v2/files/1fkPN96QOmCvLNkR7Puw7vqkwhsstsGop/children', {
+      `https://www.googleapis.com/drive/v2/files/${driveIds.myp_fid}/children`, {
         method: 'GET',
         headers: {
           Authorization: 'Bearer ' + `${access_token}`,
@@ -250,9 +280,7 @@ const listFiles = async (req, res, next) => {
     })
 
   const lists = await getListOfFiles(fileList.items, access_token);
-  /*if(!lists){
-    return res.status(400).send({msg:"Failed to fetch files"});
-  }*/
+
   return res.status(200).send(lists);
 };
 

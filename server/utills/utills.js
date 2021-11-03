@@ -1,3 +1,8 @@
+const fetch = (...args) =>
+  import('node-fetch').then(({
+    default: fetch
+  }) => fetch(...args));
+
 const verifyAuthToken = async (req, res, next) => {
     const token = req.header("x-auth-token");
     if (!token) {
@@ -5,9 +10,13 @@ const verifyAuthToken = async (req, res, next) => {
     }
   
     try {
-    await fetch(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${id_token}`)
+    await fetch(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${token}`)
       .then((response) => {
-        if(response.status === 200) {
+       return response.json();
+      })
+      .then((json)=>{
+        //console.log(json);
+        if(json.email_verified === "true") {
           next();
         }
         else{
@@ -20,6 +29,7 @@ const verifyAuthToken = async (req, res, next) => {
       });
 
     } catch (err) {
+      console.log(err);
       return res.status(401).json({ msg: "Not valid" });
     }
 };
@@ -31,7 +41,7 @@ const getEmail = async (req, res, next) => {
       return response.json();
     })
     .then((json) => {
-      console.log(json);
+      //console.log(json);
       return json.email;
     })
     .catch(error => {

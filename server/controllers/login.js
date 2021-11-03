@@ -6,12 +6,8 @@ const {
 
 const loginUser = async (req, res, next) => {
   try {
-    const user = await loginUserService(req.body);
-    if(!user){
-      return res.status(404).send({msg: 'User not found'});
-    }
-    console.log(user);
-    return res.status(200).send({msg: 'User successfully logged in',user})
+    const user = await loginUserService(req.body.email,req);
+      return res.status(200).send({msg: 'User successfully logged in',user})
   } catch (ex) {
     return next(ex);
   }

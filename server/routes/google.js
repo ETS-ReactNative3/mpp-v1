@@ -7,8 +7,6 @@ const {
 } = require('../controllers/google/google.js');
 const {verifyAuthToken} = require('../utills/utills.js');
 
-router.use(verifyAuthToken);
-
 router.get('/callback', function(req, res, next) {
   callBack(req, res, next);
 });

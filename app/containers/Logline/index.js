@@ -16,6 +16,7 @@ import set from 'lodash/set';
 import './style.scss';
 
 import {GetStory,DeleteStory} from '../../utils/APIcalls/storyline';
+import {GetLocalStorage} from '../../utils/localStorage/storage.js';
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -63,7 +64,8 @@ class Logline extends React.Component {
     
     this.state = {
       id : "new",
-      updatedId: '1X3eEKZL8ack71q7ZI8TThkoA664YXYM8',
+      updatedId: '',
+      authToken:"",
       visible: false,
       logline: {
         character: "",
@@ -79,6 +81,11 @@ class Logline extends React.Component {
   }
 
   componentDidMount() {
+    let user = GetLocalStorage("user");
+    if(user){
+      this.setState({authToken : user.tokenId})
+    };
+    console.log(this.state.authToken);
     console.log(this.state.id);
     if(this.state.id === "new") {
       this.setState({isEdit:true});
@@ -134,10 +141,12 @@ class Logline extends React.Component {
   };
   onSave = () => {
       this.setState({isEdit: false});
+     
     fetch('/api/storyline/new', {
       method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'x-auth-token': this.state.authToken
       },
       body: JSON.stringify({
           'logline': {
@@ -159,7 +168,8 @@ class Logline extends React.Component {
     fetch(`/api/storyline/${this.state.updatedId}`, {
       method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'x-auth-token': this.state.authToken
       },
       body: JSON.stringify({
           'logline': {

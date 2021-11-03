@@ -78,28 +78,23 @@ async function cReateFolder() {
   return ids;
 }
 
-async function sEndFile(fileMetadata, media) {
-  let email = "shashank.m19@iiits.in";
-  let tokens = await getTokens(email);
-  let newTokens = await getValidTokens(tokens);
+async function sEndFile(res,fileMetadata, media,newTokens) {
 
   utils.oAuth2Client.credentials = newTokens;
   return await drive.files.create({
       resource: fileMetadata,
       media: media,
       fields: "id",
-    }
-    // (err, file) => {
-    //   if (err) {
-    //     // Handle error
-    //     console.error(err);
-    //   } else {
-    //     fs.unlinkSync(req.file.path)
-    //     //console.log(file);
-    //     res.render("success", { name: name, pic: pic, success: true })
-    //   }
-
-    // }
+    },
+     (err, file) => {
+    if (err) {
+      console.log(err);
+      return res.status(401).send({msg:"Error Sending File", error : error});
+     } else {
+         //console.log(file);
+         return res.status(200).send({msg:"File Successfully sent",file})
+      }
+     }
   );
 }
 

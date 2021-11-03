@@ -13,11 +13,8 @@ const userSchema = new Schema({
         myprojectsId: String,
         sharedprojectsId: String,
     },
-    OAuth : {
-        tokens : String,
-        refreshToken : String,
-    }
-   
+    tokens : String,
+    refreshToken : String,
 },{
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
 });

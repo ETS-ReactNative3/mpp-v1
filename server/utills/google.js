@@ -54,7 +54,7 @@ async function refreshToken(refreshToken) {
   }
 }
 
-const getValidTokens = async (tokens,refreshToken) => {
+const getValidTokens = async (tokens,refresh_token) => {
   let isTokenExpired = false;
   if(!tokens) return null;
   await fetch( `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${tokens.access_token}`,{method: 'POST'})
@@ -72,7 +72,7 @@ const getValidTokens = async (tokens,refreshToken) => {
   })
 
   if(isTokenExpired){
-  const newTokens = await refreshToken(refreshToken);
+  const newTokens = await refreshToken(refresh_token);
   return newTokens;
   }
   return tokens;

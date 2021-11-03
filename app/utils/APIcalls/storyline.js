@@ -1,6 +1,11 @@
 
 export const GetStory = (id) => {
-    return fetch(`/api/storyline/${id}`)
+    return fetch(`/api/storyline/${id}`, {
+      method: 'GET',
+      headers: {
+        'x-auth-token': authToken
+      }
+    })
     .then((response) => {
       return response.json();
     })
@@ -13,7 +18,12 @@ export const GetStory = (id) => {
 }
 
 export const DeleteStory = (id) => {
-    return fetch(`https://www.googleapis.com/drive/v2/files/${id}`)
+    return fetch(`https://www.googleapis.com/drive/v2/files/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'x-auth-token': authToken
+      }
+    })
     .then((response) =>{
       return response;
     })
