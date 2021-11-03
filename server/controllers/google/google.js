@@ -219,11 +219,32 @@ const uploadFile = async (req, res, next, data) => {
     return res.status(401).send({msg: "Drive Not Linked.Plese Link Drive..."})
   }
 
-  console.log(driveIds.p_fid)
+  //console.log(driveIds.p_fid)
+
+  let file_name;
+  console.log("Title : " + req.body.title);
+  if(req.body.title === null || req.body.title === undefined || !req.body.title){
+    console.log("Title is Null")
+    file_name = "story_line.json"
+  }
+  else{
+    file_name = req.body.title;
+
+    if ((/\s/.test(file_name))) {
+      console.log("Title contains whitespaces");
+      const removeSpaces = file_name.replace(/\s/g, '_');
+      file_name = `${removeSpaces}.json`;
+    }
+    else{
+      file_name = `${req.body.title}.json`;
+    }
+  }
+
+  console.log(file_name);
 
   try {
     const fileMetadata = {
-      name: 'mpp.json',
+      name: file_name,
       parents: [driveIds.myp_fid],
     };
     const media = {
