@@ -24,7 +24,8 @@ const {
   getValidTokens
 } = require('../../utills/google.js');
 const {
-  getEmail
+  getEmail,
+  getEmailWithId
 } = require('../../utills/utills.js');
 
 const utils = require('./Oauthmodule');
@@ -79,34 +80,46 @@ const callBack = async (req, res, next) => {
     code
   } = req.query;
 
-  let user_email = "shashank.m19@iiits.in";
-  if(!user_email){
-    return res.status(400).send({msg: "Invalid id_token", error: error});
-  }
+
   if (code) {
-    utils.oAuth2Client.getToken(code, function (err, tokens) {
-      if (err) {
-        console.error("Error in authenticating");
-      } else {
-        //let email = "shashank.m19@iiits.in"
-        utils.sToreToken(user_email, tokens);
-        utils.oAuth2Client.credentials = (tokens);
-        //console.log(tokens);
-        return tokens;
-      }
-    })
+
+    let user_email;
+    try {
+
+      let currTokens = await utils.oAuth2Client.getToken(code);
+  
+      let tokens = currTokens.tokens;
+  
+      user_email = await getEmailWithId(tokens.id_token);
+  
+      await utils.sToreToken(user_email, tokens);
+  
+      utils.oAuth2Client.credentials = (tokens);
+      
+    } catch (error) {
+      return res.status(500).send({msg: "Error In Authentication"});
+    }
+
+    console.log("Successfully authenticated")
+ 
+    /*
+    let id_token = currTokens.tokens.id_token;
+    
+    user_email = await getEmailWithId(id_token);
+    */
+    if(!user_email){
+      return res.status(400).send({msg: "Invalid id_token"});
+    }
 
     let googletokens = await getTokens(user_email);
 
     console.log("Fetching id's");
-    let fids = await driveutils.iSfolderExist();
-    console.log(fids);
-    console.log("EMAIL");
-    console.log(user_email);
+    let fids = await driveutils.iSfolderExist(googletokens);
+  
     if(fids){
       await linkDriveDB(user_email, fids);
     }
-    console.log("TOKENS");
+
     await updateTokens(user_email, googletokens);
 
     res.redirect('http://localhost:5000/storyline/new');

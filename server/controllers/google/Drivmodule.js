@@ -6,19 +6,11 @@ const {
 
 const folderName = 'MPP';
 
-const {
-  getValidTokens
-} = require('../../utills/google.js');
-const {
-  getTokens
-} = require('../../service/user.js');
 // check the folder is exist
 
-async function iSfolderExist() {
-  let email = "shashank.m19@iiits.in";
-  let tokens = await getTokens(email);
-  let newTokens = await getValidTokens(tokens);
-  utils.oAuth2Client.credentials = newTokens;
+async function iSfolderExist(tokens) {
+
+  utils.oAuth2Client.credentials = tokens;
 
   const res = await drive.files.list({
     q: `mimeType='application/vnd.google-apps.folder' and name='${folderName}' and trashed = false`,
@@ -27,7 +19,7 @@ async function iSfolderExist() {
 
   if (res.data.files.length > 0) {
     console.log("folder exist");
-    console.log(res.data.files[0].id);
+    //console.log(res.data.files[0].id);
     return null;
   }
 
@@ -50,11 +42,8 @@ async function createSubFolder(folderName, parentId) {
 }
 
 
-async function cReateFolder() {
-  let email = "shashank.m19@iiits.in";
-  let tokens = await getTokens(email);
-  let newTokens = await getValidTokens(tokens);
-  utils.oAuth2Client.credentials = newTokens;
+async function cReateFolder(tokens) {
+  utils.oAuth2Client.credentials = tokens;
   console.log("creating the new Foler ");
   // creating folder
   var folderMetadata = {
@@ -68,7 +57,7 @@ async function cReateFolder() {
   let myprojectsId = await createSubFolder("MyProjects", res.data.id);
   let sharedprojectsId = await createSubFolder("SharedProjects", res.data.id);
 
-  console.log(`res.data.id${res.data.id}`);
+  //console.log(`res.data.id${res.data.id}`);
 
   const ids = {
     "parentId": res.data.id,
