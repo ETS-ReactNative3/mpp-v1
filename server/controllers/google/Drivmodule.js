@@ -24,7 +24,7 @@ async function iSfolderExist(tokens) {
   }
 
   console.log("folder  dose't exist");
-  return await cReateFolder();
+  return await cReateFolder(tokens);
 }
 
 async function createSubFolder(folderName, parentId) {
@@ -37,7 +37,7 @@ async function createSubFolder(folderName, parentId) {
     resource: folderMetadata,
     fields: 'id,name'
   });
-  console.log("Created Sub Folder", folderName, "parent id : ", parentId);
+  console.log("Created Sub Folder", folderName);
   return res.data.id;
 }
 
@@ -78,9 +78,11 @@ async function sEndFile(res,fileMetadata, media,newTokens) {
      (err, file) => {
     if (err) {
       console.log(err);
+      console.log("! Error Sending File")
       return res.status(401).send({msg:"Error Sending File", error : error});
      } else {
          //console.log(file);
+         console.log("File Successfully sent")
          return res.status(200).send({msg:"File Successfully sent",file})
       }
      }

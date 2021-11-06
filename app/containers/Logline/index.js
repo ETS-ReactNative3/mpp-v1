@@ -64,6 +64,7 @@ class Logline extends React.Component {
     
     this.state = {
       id : "new",
+      deleteId: "1YOEoB7TO8afw6nwRHQjnY-FG8MU0zGyx",
       updatedId: '',
       authToken:"",
       visible: false,
@@ -85,8 +86,7 @@ class Logline extends React.Component {
     if(user){
       this.setState({authToken : user.tokenId})
     };
-    console.log(this.state.authToken);
-    console.log(this.state.id);
+ 
     if(this.state.id === "new") {
       this.setState({isEdit:true});
     }
@@ -116,7 +116,7 @@ class Logline extends React.Component {
   }
 
   delete = () =>{
-    DeleteStory(this.state.id)
+    DeleteStory(this.state.deleteId,this.state.authToken)
     .then((response) =>{
       console.log(response);
     })

@@ -114,6 +114,7 @@ const callBack = async (req, res, next) => {
     let googletokens = await getTokens(user_email);
 
     console.log("Fetching id's");
+    console.log("Email = " + user_email);
     let fids = await driveutils.iSfolderExist(googletokens);
   
     if(fids){
@@ -254,7 +255,7 @@ const uploadFile = async (req, res, next, data) => {
   }
 
   console.log(file_name);
-
+  //console.log("file to be saved at id : " + driveIds.myp_fid);
   try {
     const fileMetadata = {
       name: file_name,

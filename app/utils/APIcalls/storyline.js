@@ -17,7 +17,7 @@ export const GetStory = (id) => {
     })
 }
 
-export const DeleteStory = (id) => {
+export const DeleteStory = (id,authToken) => {
     return fetch(`https://www.googleapis.com/drive/v2/files/${id}`, {
       method: 'DELETE',
       headers: {
