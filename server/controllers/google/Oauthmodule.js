@@ -16,12 +16,9 @@ const oAuth2Client = new google.auth.OAuth2(
   REDIRECT_URL,
 );
 
-// If modifying these scopes, delete token.json.
-
-const TOKEN_PATH = 'token.json';
 
 // Generate an OAuth URL and redirect there
-function gEtURL() {
+function getURL() {
   return oAuth2Client.generateAuthUrl({
     access_type: 'offline',
     scope: SCOPES,
@@ -35,7 +32,7 @@ function oauth2() {
   });
 }
 
-async function sToreToken(email,token) {
+async function storeToken(email,token) {
   // Store the token to disk for later program executions
   await updateTokens(email, token);
   /*fs.writeFile(TOKEN_PATH, JSON.stringify(token), err => {
@@ -50,9 +47,9 @@ const calendar = google.calendar({ version: 'v3', auth: oAuth2Client });
 
 module.exports = {
   oAuth2Client,
-  gEtURL,
+  getURL,
   oauth2,
   drive,
   calendar,
-  sToreToken,
+  storeToken,
 };
