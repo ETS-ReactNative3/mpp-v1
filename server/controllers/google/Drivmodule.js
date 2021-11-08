@@ -8,7 +8,7 @@ const folderName = 'MPP';
 
 // check the folder is exist
 
-async function iSfolderExist(tokens) {
+async function isFolderExist(tokens) {
 
   utils.oAuth2Client.credentials = tokens;
 
@@ -24,7 +24,7 @@ async function iSfolderExist(tokens) {
   }
 
   console.log("folder  dose't exist");
-  return await cReateFolder(tokens);
+  return await createFolder(tokens);
 }
 
 async function createSubFolder(folderName, parentId) {
@@ -42,7 +42,7 @@ async function createSubFolder(folderName, parentId) {
 }
 
 
-async function cReateFolder(tokens) {
+async function createFolder(tokens) {
   utils.oAuth2Client.credentials = tokens;
   console.log("creating the new Foler ");
   // creating folder
@@ -67,7 +67,7 @@ async function cReateFolder(tokens) {
   return ids;
 }
 
-async function sEndFile(res,fileMetadata, media,newTokens) {
+async function sendFile(res,fileMetadata, media,newTokens) {
 
   utils.oAuth2Client.credentials = newTokens;
   return await drive.files.create({
@@ -90,6 +90,6 @@ async function sEndFile(res,fileMetadata, media,newTokens) {
 }
 
 module.exports = {
-  iSfolderExist,
-  sEndFile
+  isFolderExist,
+  sendFile
 };
