@@ -44,7 +44,7 @@ export function Login(props) {
           <center>
             <div className="login-google">
               <GoogleLogin
-                clientId="868456048541-hmp98dlujknnl8dsv9667i9vm7lt8h78.apps.googleusercontent.com"
+                clientId="748260318242-5jro895je7hpt6ltocn1jl3r8160kdae.apps.googleusercontent.com"
                 buttonText={<FormattedMessage {...messages.logingoogle}/>}
                 onSuccess={user => {
                   auth.signin(user);

@@ -25,35 +25,33 @@ import { useAuth, user } from '../../contexts/authContext';
 import history from '../../utils/history';
 import { Link } from 'react-router-dom';
 
-import {GetDashboardInfo} from '../../utils/APIcalls/dashboard';
+import {GetDashboardInfo,linkDrive} from '../../utils/APIcalls/dashboard';
+import {GetLocalStorage} from '../../utils/localStorage/storage.js';
 
 export default function Dashboard() {
   const [stories, setStories] = useState([]);
+  const [authToken,setAuthToken] = useState("");
 
   useEffect(() => {
-    GetDashboardInfo()
+    let user = GetLocalStorage("user");
+    let token;
+    if(user){
+      token = user.tokenId;
+    };
+    console.log(token);
+    
+    GetDashboardInfo(token)
       .then((res)=>{
-        console.log(res);
-        setStories(res.data);
+        setStories(res);
+        console.log(stories);
       })
       .catch((err)=> {
-        console.log(err);
+        console.log(err.response);
       });
   }, []);
 
-  function linkDrive(){
-    fetch('/api/google/linkDrive', {
-        method: 'GET',
-      headers: {
-          'Content-Type': 'application/json'
-        }
-    })
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(res) {
-          window.open(`${res.url}`)
-      });
+  function linkdrive(){
+    linkDrive(authToken);
   };
 
   return (
@@ -74,7 +72,7 @@ export default function Dashboard() {
                 <h3>Description</h3>
                 <br />
                 <br />
-                <Button onClick={linkDrive()} type="primary">
+                <Button onClick={() => linkdrive()} type="primary">
                   Link Drive
                 </Button>
                 <br />
@@ -103,7 +101,7 @@ export default function Dashboard() {
               </Col>
 
               {stories && Object.keys(stories).map((item, i) => (
-                <Col span={8}>
+                <Col span={8} key={stories[item].id}>
                   <Link to={`/storyline/${stories[item].id}`}>
                     <Card title={stories[item].title} bordered />
                   </Link>
