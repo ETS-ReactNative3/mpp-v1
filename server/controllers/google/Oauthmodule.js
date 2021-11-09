@@ -2,8 +2,8 @@ const { google } = require('googleapis');
 const fs = require('fs');
 const { updateTokens } = require('../../service/user.js');
 
-const CLIENT_ID = process.env.CLIENT_ID;
-const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const { CLIENT_ID } = process.env;
+const { CLIENT_SECRET } = process.env;
 const REDIRECT_URL = 'http://localhost:5000/api/google/callback';
 const SCOPES = [
   'https://www.googleapis.com/auth/drive',
@@ -34,11 +34,11 @@ function oauth2() {
 async function storeToken(email, token) {
   // Store the token to disk for later program executions
   await updateTokens(email, token);
-  /*fs.writeFile(TOKEN_PATH, JSON.stringify(token), err => {
+  /* fs.writeFile(TOKEN_PATH, JSON.stringify(token), err => {
     if (err)
       return console.error(err);
     console.log('Token stored to', TOKEN_PATH);
-  });*/
+  }); */
 }
 
 const drive = google.drive({ version: 'v3', auth: oAuth2Client });
