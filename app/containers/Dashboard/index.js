@@ -6,7 +6,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Switch, useHistory, Link } from 'react-router-dom';
 import { CloseCircleOutlined } from '@ant-design/icons';
 
 import { FormattedMessage } from 'react-intl';
@@ -21,11 +21,9 @@ import Col from '../../mppComponents/MppCol/index.js';
 import Skeleton from '../../mppComponents/MppSkeleton/index.js';
 import Avatar from '../../mppComponents/MppAvatar/index.js';
 import Button from '../../mppComponents/MppButton/index.js';
-import ProvideAuth from '../../contexts/authContext';
-import { useAuth, user } from '../../contexts/authContext';
+// import { useAuth, user } from ProvideAuth from '../../contexts/authContext';
 
 import history from '../../utils/history';
-import { Link } from 'react-router-dom';
 
 import { GetDashboardInfo, linkDrive } from '../../utils/APIcalls/dashboard';
 import { GetLocalStorage } from '../../utils/localStorage/storage.js';
