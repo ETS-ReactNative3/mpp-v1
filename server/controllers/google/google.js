@@ -85,7 +85,7 @@ const callBack = async (req, res, next) => {
 
     console.log("Fetching id's");
     console.log("Email = " + user_email);
-    let fids = await driveutils.iSfolderExist(googletokens);
+    let fids = await driveutils.isFolderExist(googletokens);
 
     if (fids) {
       await linkDriveDB(user_email, fids);
@@ -224,7 +224,7 @@ const uploadFile = async (req, res, next, data) => {
       body: fs.createReadStream(baseDir),
     };
     console.log('Sending file...');
-    return await driveutils.sEndFile(res, fileMetadata, media, newTokens);
+    return await driveutils.sendFile(res, fileMetadata, media, newTokens);
 
   } catch (error) {
     console.log(error);
