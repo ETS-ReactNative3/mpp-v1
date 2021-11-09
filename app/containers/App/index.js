@@ -28,20 +28,20 @@ export default function App() {
     <div>
       <ProvideAuth>
         <Router history={history}>
-            <Switch>
-              <Route exact path="/">
-                <Dashboard />
-              </Route>
-              <Route exact path="/login">
-                <Login />
-              </Route>
-              <Route path="/storyline/:id">
-                <Logline />
-              </Route>
-              <Route exact path="/healthcheck" component={HealthCheck} />
+          <Switch>
+            <Route exact path={['/', '/profileCard', '/profile']}>
+              <Dashboard />
+            </Route>
+            <Route exact path="/login">
+              <Login />
+            </Route>
+            <Route path="/storyline/:id">
+              <Logline />
+            </Route>
+            <Route exact path="/healthcheck" component={HealthCheck} />
 
-              <Route component={NotFoundPage} />
-            </Switch>
+            <Route component={NotFoundPage} />
+          </Switch>
         </Router>
       </ProvideAuth>
       <GlobalStyle />

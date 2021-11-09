@@ -1,3 +1,73 @@
+.container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  .section1 {
+    flex: 20%;
+
+    .dashboard-profilecard {
+      border-radius: 10px;
+      .avatarDiv {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .profileCardTop {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .profileContent {
+        margin-top: 30px;
+        .profileButton {
+          margin-top: 20px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+      }
+    }
+  }
+  .section2 {
+    flex: 60%;
+    h1 {
+      font-size: 42px;
+      font-weight: 700;
+      color: #1fb7c8;
+    }
+    h1:hover {
+      color: #266b73;
+    }
+    .storyButton:hover {
+      background-color: #3b82f6;
+      color: white;
+    }
+  }
+  .section3 {
+    flex: 20%;
+    .tool-icons {
+      height: 50%;
+      margin-top: 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+
+      .toolButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+      }
+
+      .toolButton:hover {
+        color: white;
+        background-color: #3b82f6;
+      }
+    }
+  }
+}
+
 /*.container {
   display: grid;
   grid-template-columns: 25% 60% 15%;
