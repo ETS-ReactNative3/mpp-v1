@@ -2,6 +2,8 @@ const express = require('express');
 const storySave = require('../controllers/storyline.js');
 const {getFile, deleteFile, updateFile} = require('../controllers/google/google.js');
 const router = express.Router();
+const {verifyAuthToken} = require('../utills/utills.js');
+router.use(verifyAuthToken);
 
 router.post('/new', function(req, res, next) {
   storySave(req, res, next);

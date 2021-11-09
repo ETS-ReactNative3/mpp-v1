@@ -1,1 +1,6 @@
-{"theme":"Theme 1","subGenre":"Sub-Genre 1","title":"Title 1"}
+{
+  "logline": { "crisis": "", "response": "" },
+  "theme": "",
+  "genre": "Action Adventure",
+  "title": ""
+}

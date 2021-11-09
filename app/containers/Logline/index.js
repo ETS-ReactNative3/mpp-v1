@@ -15,7 +15,8 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 import set from 'lodash/set';
 import './style.scss';
 
-import {GetStory,DeleteStory} from '../../utils/APIcalls/storyline';
+import {GetStory,DeleteStory,CreateStory,UpdateStory} from '../../utils/APIcalls/storyline.js';
+import {GetLocalStorage} from '../../utils/localStorage/storage.js';
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -63,7 +64,9 @@ class Logline extends React.Component {
     
     this.state = {
       id : "new",
-      updatedId: '1X3eEKZL8ack71q7ZI8TThkoA664YXYM8',
+      deleteId: "1WW4_Gw3uC9UVtCrJ7Jkv3uGOkl0VbFBl",
+      updatedId: '1OPs4acz9EKAaOxdgFc6lETTyrIbHp3UW',
+      authToken:"",
       visible: false,
       logline: {
         character: "",
@@ -79,7 +82,11 @@ class Logline extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.state.id);
+    let user = GetLocalStorage("user");
+    if(user){
+      this.setState({authToken : user.tokenId})
+    };
+ 
     if(this.state.id === "new") {
       this.setState({isEdit:true});
     }
@@ -109,7 +116,7 @@ class Logline extends React.Component {
   }
 
   delete = () =>{
-    DeleteStory(this.state.id)
+    DeleteStory(this.state.deleteId,this.state.authToken)
     .then((response) =>{
       console.log(response);
     })
@@ -134,47 +141,43 @@ class Logline extends React.Component {
   };
   onSave = () => {
       this.setState({isEdit: false});
-    fetch('/api/storyline/new', {
-      method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
+     const story = {
+      'logline': {
+        'crisis': this.state.logline.crisis,
+        'response': this.state.logline.response,
       },
-      body: JSON.stringify({
-          'logline': {
-            'crisis': this.state.logline.crisis,
-            'response': this.state.logline.response,
-        },
-          'theme': this.state.theme,
-          'genre': this.state.genre,
-          'subGenre': this.state.subGenre,
-          'title': this.state.title,
-        })
-      })
-        .then(function(response) {
+      'theme': this.state.theme,
+      'genre': this.state.genre,
+      'subGenre': this.state.subGenre,
+      'title': this.state.title,
+     }
+     CreateStory(story,this.state.authToken)
+      .then(function(response) {
           console.log(response);
-    });
+      })
+      .catch(err =>{
+        console.log(err);
+      })
   };
 
   update = () => {
-    fetch(`/api/storyline/${this.state.updatedId}`, {
-      method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
+    const story = {
+      'logline': {
+        'crisis': this.state.logline.crisis,
+        'response': this.state.logline.response,
       },
-      body: JSON.stringify({
-          'logline': {
-            'crisis': this.state.logline.crisis,
-            'response': this.state.logline.response,
-        },
-          'theme': this.state.theme,
-          'genre': this.state.genre,
-          'subGenre': this.state.subGenre,
-          'title': this.state.title,
-        })
-      })
-        .then(function(response) {
-          console.log(response);
-    });
+      'theme': this.state.theme,
+      'genre': this.state.genre,
+      'subGenre': this.state.subGenre,
+      'title': this.state.title,
+    }
+    UpdateStory(story,this.state.updatedId,this.state.authToken)
+    .then(function(response) {
+      console.log(response);
+    })
+    .catch(err =>{
+      console.log(err);
+    })
   }
 
   onEdit = () => {

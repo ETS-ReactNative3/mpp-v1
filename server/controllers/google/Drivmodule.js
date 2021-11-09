@@ -1,57 +1,50 @@
 const utils = require('./Oauthmodule');
 
-const {drive} = utils;
+const {
+  drive
+} = utils;
 
 const folderName = 'MPP';
 
-const {getValidTokens} = require('../../utills/google.js');
 // check the folder is exist
 
-async function iSfolderExist() {
-     let tokens = require('../../../token.json');
-     let newTokens = await getValidTokens(tokens);
-     utils.oAuth2Client.credentials = newTokens;
+async function isFolderExist(tokens) {
 
-     const res = await drive.files.list(
-          {
-               q: `mimeType='application/vnd.google-apps.folder' and name='${folderName}' and trashed = false`,
-               fields: 'files(id, name)',
-                
-          }      
-     );
-     
-     if(res.data.files.length > 0){
-          console.log("folder exist");
-          console.log(res.data.files[0].id);
-          return res.data.files[0].id;
-          
-     }
-     
-          console.log("folder  dose't exist");
-          console.log(res.data.files);
-           return await cReateFolder();
+  utils.oAuth2Client.credentials = tokens;
+
+  const res = await drive.files.list({
+    q: `mimeType='application/vnd.google-apps.folder' and name='${folderName}' and trashed = false`,
+    fields: 'files(id, name)',
+  });
+
+  if (res.data.files.length > 0) {
+    console.log("folder exist");
+    //console.log(res.data.files[0].id);
+    return null;
+  }
+
+  console.log("folder  dose't exist");
+  return await createFolder(tokens);
 }
 
-async function createSubFolder(folderName,parentId) {
+async function createSubFolder(folderName, parentId) {
   var folderMetadata = {
     'name': folderName,
     'mimeType': 'application/vnd.google-apps.folder',
-    parents:[parentId],
+    parents: [parentId],
   };
   const res = await drive.files.create({
     resource: folderMetadata,
     fields: 'id,name'
   });
-  console.log("Created Sub Folder", folderName , "parent id : " , parentId);
-  console.log(res.data);
+  console.log("Created Sub Folder", folderName);
+  return res.data.id;
 }
 
 
-async function cReateFolder() {
-  let tokens = require('../../../token.json');
-  let newTokens = await getValidTokens(tokens);
-  utils.oAuth2Client.credentials = newTokens;
-  console.log("creating the new Foler ")
+async function createFolder(tokens) {
+  utils.oAuth2Client.credentials = tokens;
+  console.log("creating the new Foler ");
   // creating folder
   var folderMetadata = {
     'name': 'MPP',
@@ -61,40 +54,42 @@ async function cReateFolder() {
     resource: folderMetadata,
     fields: 'id,name'
   });
+  let myprojectsId = await createSubFolder("MyProjects", res.data.id);
+  let sharedprojectsId = await createSubFolder("SharedProjects", res.data.id);
 
-  await console.log(res);
-  await createSubFolder("MyProjects",res.data.id);
-  await createSubFolder("SharedProjects",res.data.id);
+  //console.log(`res.data.id${res.data.id}`);
 
-  console.log(`res.data.id${res.data.id}`);
-
-  
-  return res.data.id;
+  const ids = {
+    "parentId": res.data.id,
+    "myprojectsId": myprojectsId,
+    "sharedprojectsId": sharedprojectsId
+  }
+  return ids;
 }
 
-async function sEndFile(fileMetadata, media) {
-  let tokens = require('../../../token.json');
-  let newTokens = await getValidTokens(tokens);
+async function sendFile(res,fileMetadata, media,newTokens) {
 
   utils.oAuth2Client.credentials = newTokens;
-  return await drive.files.create(
-    {
+  return await drive.files.create({
       resource: fileMetadata,
       media: media,
       fields: "id",
-    }
-    // (err, file) => {
-    //   if (err) {
-    //     // Handle error
-    //     console.error(err);
-    //   } else {
-    //     fs.unlinkSync(req.file.path)
-    //     //console.log(file);
-    //     res.render("success", { name: name, pic: pic, success: true })
-    //   }
-
-    // }
+    },
+     (err, file) => {
+    if (err) {
+      console.log(err);
+      console.log("! Error Sending File")
+      return res.status(401).send({msg:"Error Sending File", error : error});
+     } else {
+         //console.log(file);
+         console.log("File Successfully sent")
+         return res.status(200).send({msg:"File Successfully sent",file})
+      }
+     }
   );
 }
 
-module.exports = { iSfolderExist, sEndFile };
+module.exports = {
+  isFolderExist,
+  sendFile
+};
