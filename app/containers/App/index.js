@@ -29,7 +29,7 @@ export default function App() {
       <ProvideAuth>
         <Router history={history}>
           <Switch>
-            <Route exact path={['/', '/profileCard', '/profile']}>
+            <Route exact path={['/', '/profile']}>
               <Dashboard />
             </Route>
             <Route exact path="/login">
