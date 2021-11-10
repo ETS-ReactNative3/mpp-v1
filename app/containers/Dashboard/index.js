@@ -6,8 +6,14 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Route, Switch, useHistory, Link } from 'react-router-dom';
-import { CloseCircleOutlined } from '@ant-design/icons';
+import { Route, Switch, Link } from 'react-router-dom';
+import {
+  CloseCircleOutlined,
+  PlusOutlined,
+  QuestionCircleOutlined,
+  CloudSyncOutlined,
+} from '@ant-design/icons';
+import { Popover, Layout } from 'antd';
 
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
@@ -29,6 +35,7 @@ import { GetDashboardInfo, linkDrive } from '../../utils/APIcalls/dashboard';
 import { GetLocalStorage } from '../../utils/localStorage/storage.js';
 
 export default function Dashboard() {
+  const { Content } = Layout;
   const [stories, setStories] = useState([]);
   const [authToken, setAuthToken] = useState('');
 
@@ -65,7 +72,7 @@ export default function Dashboard() {
             bordered
             className="dashboard-profilecard"
             style={{
-              width: '100%',
+              width: '90%',
               height: '100%',
               marginTop: 16,
               marginLeft: 16,
@@ -99,14 +106,49 @@ export default function Dashboard() {
                     <h3>{profile.profileObj.name}</h3>
                     <h3>{profile.profileObj.email}</h3>
                     <div className="profileButton">
+                      <div className="driveDiv">
+                        <p
+                          style={{
+                            fontSize: 14,
+                            fontWeight: 300,
+                            color: '#6B7280',
+                          }}
+                        >
+                          Save your Work in Google Drive
+                          <Popover
+                            style={{ borderRadius: 100 }}
+                            content={
+                              <p>
+                                You can save all your Work onto your
+                                <strong> Google Drive</strong>, by clicking the
+                                drive icon.
+                              </p>
+                            }
+                          >
+                            <QuestionCircleOutlined
+                              style={{
+                                marginLeft: 10,
+                                cursor: 'pointer',
+                                color: '#9CA3AF',
+                              }}
+                            />
+                          </Popover>
+                        </p>
+                        <CloudSyncOutlined
+                          className="driveIcon"
+                          onClick={() => linkdrive()}
+                          style={{
+                            fontSize: 30,
+                            cursor: 'pointer',
+                            color: '#3b82f6',
+                          }}
+                        />
+                      </div>
                       <Button
-                        onClick={() => linkdrive()}
                         type="primary"
-                        style={{ borderRadius: 8 }}
+                        danger
+                        style={{ borderRadius: 8, marginTop: 8 }}
                       >
-                        Link Drive
-                      </Button>
-                      <Button type="primary" danger style={{ borderRadius: 8 }}>
                         Logout
                       </Button>
                     </div>
@@ -120,31 +162,53 @@ export default function Dashboard() {
           <center>
             <h1>Movie PreProduction</h1>
           </center>
-          <div className="cards-container">
-            <Row gutter={16}>
-              <Col span={8}>
-                <Link to="/storyline/new">
-                  <Button
-                    className="storyButton"
-                    size="large"
-                    shape="round"
-                    style={{ marginLeft: 20, border: 'none' }}
-                  >
-                    <span>Add Story</span>
-                  </Button>
+          <Layout
+            style={{
+              backgroundColor: 'white',
+              margin: 20,
+              borderRadius: 10,
+              height: '50%',
+            }}
+          >
+            <Content>
+              <Button
+                className="storyButton"
+                shape="round"
+                size="large"
+                style={{ marginLeft: 20, border: 'none' }}
+              >
+                <Link className="storyLink" to="/storyline/new">
+                  <span className="storySpan" style={{ fontSize: 18 }}>
+                    Create Story
+                  </span>
+                  <PlusOutlined
+                    className="storyIcon"
+                    style={{ fontSize: 20 }}
+                  />
                 </Link>
-              </Col>
+              </Button>
 
               {stories &&
                 Object.keys(stories).map((item, i) => (
                   <Col span={8} key={stories[item].id}>
                     <Link to={`/storyline/${stories[item].id}`}>
-                      <Card title={stories[item].title} bordered />
+                      <Card
+                        title={stories[item].title}
+                        bordered
+                        style={{
+                          backgroundColor: '#f3f4f6',
+                          marginTop: 20,
+                          marginLeft: 20,
+                          width: 400,
+                          height: 200,
+                          borderRadius: 12,
+                        }}
+                      />
                     </Link>
                   </Col>
                 ))}
-            </Row>
-          </div>
+            </Content>
+          </Layout>
         </div>
         <div className="section section3">
           <div className="tool-icons">

@@ -22,8 +22,17 @@
         .profileButton {
           margin-top: 20px;
           display: flex;
-          justify-content: space-between;
-          align-items: center;
+          flex-direction: column;
+          align-items: start;
+          .driveDiv {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .driveIcon:hover {
+              opacity: 0.8;
+            }
+          }
         }
       }
     }
@@ -38,9 +47,31 @@
     h1:hover {
       color: #266b73;
     }
+    .storyButton {
+      margin-top: 20px;
+      width: 20%;
+      background-color: #f3f4f6;
+      .storyLink {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .storySpan {
+          color: #266b73;
+        }
+        .storyIcon {
+          color: #266b73;
+        }
+      }
+    }
     .storyButton:hover {
       background-color: #3b82f6;
       color: white;
+      .storySpan {
+        color: white;
+      }
+      .storyIcon {
+        color: white;
+      }
     }
   }
   .section3 {
