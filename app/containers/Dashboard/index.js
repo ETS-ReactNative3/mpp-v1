@@ -21,7 +21,7 @@ import Avatar from '../../mppComponents/MppAvatar/index.js';
 import Button from '../../mppComponents/MppButton/index.js';
 import ProvideAuth from '../../contexts/authContext';
 import { useAuth, user } from '../../contexts/authContext';
-
+import {Redirect} from 'react-router-dom';
 import history from '../../utils/history';
 import { Link } from 'react-router-dom';
 
@@ -53,11 +53,19 @@ export default function Dashboard() {
   function linkdrive(){
     linkDrive(authToken);
   };
+  const [redirectTo , setRedirectTo] = useState(false);
+  function performRedirect(){
+    if(redirectTo){
+      return <Redirect to='/login' />
+    }
+    return null;
+  }
 
   return (
     <>
       <div className="container" style={{ backgroundColor: '#eee' }}>
         <div className="section">
+          {performRedirect()}
           <Card
             bordered
             className="dashboard-profilecard"
@@ -76,7 +84,7 @@ export default function Dashboard() {
                   Link Drive
                 </Button>
                 <br />
-                <Button type="primary" danger>
+                <Button type="primary" danger onClick={() => setRedirectTo(true)}>
                   Logout
                 </Button>
               </center>
