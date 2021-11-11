@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { withRouter } from "react-router";
+import { withRouter , useParams } from "react-router";
 import {
   PageHeader,
   Descriptions,
@@ -63,9 +63,7 @@ class Logline extends React.Component {
     console.log(props);
     
     this.state = {
-      id : "new",
-      deleteId: "1WW4_Gw3uC9UVtCrJ7Jkv3uGOkl0VbFBl",
-      updatedId: '1OPs4acz9EKAaOxdgFc6lETTyrIbHp3UW',
+      id : (window.location.href).split("/")[4],
       authToken:"",
       visible: false,
       logline: {
@@ -116,7 +114,7 @@ class Logline extends React.Component {
   }
 
   delete = () =>{
-    DeleteStory(this.state.deleteId,this.state.authToken)
+    DeleteStory(this.state.id,this.state.authToken)
     .then((response) =>{
       console.log(response);
     })
@@ -171,7 +169,7 @@ class Logline extends React.Component {
       'subGenre': this.state.subGenre,
       'title': this.state.title,
     }
-    UpdateStory(story,this.state.updatedId,this.state.authToken)
+    UpdateStory(story,this.state.id,this.state.authToken)
     .then(function(response) {
       console.log(response);
     })
