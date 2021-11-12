@@ -15,7 +15,7 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 import set from 'lodash/set';
 import './style.scss';
 
-import {GetStory,DeleteStory,CreateStory,UpdateStory} from '../../utils/APIcalls/storyline.js';
+import {GetStory,DeleteStory,CreateStory,UpdateStory,getParamsID} from '../../utils/APIcalls/storyline.js';
 import {GetLocalStorage} from '../../utils/localStorage/storage.js';
 
 const { Option } = Select;
@@ -63,7 +63,8 @@ class Logline extends React.Component {
     console.log(props);
     
     this.state = {
-      id : (window.location.href).split("/")[4],
+      id : getParamsID(4),
+      paramsid: this.props.id,
       authToken:"",
       visible: false,
       logline: {
@@ -80,7 +81,9 @@ class Logline extends React.Component {
   }
 
   componentDidMount() {
+    console.log(this.state.id)
     let user = GetLocalStorage("user");
+    this.setState({authToken : null})
     if(user){
       this.setState({authToken : user.tokenId})
     };

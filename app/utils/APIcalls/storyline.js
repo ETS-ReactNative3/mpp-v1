@@ -17,6 +17,10 @@ export const GetStory = async (id) => {
     })
 }
 
+export const getParamsID = (n) => {
+  return (window.location.href).split("/")[n];
+}
+
 export const CreateStory = async (story,authToken) => {
     return await fetch('/api/storyline/new', {
       method: 'POST',
