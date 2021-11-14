@@ -1,101 +1,41 @@
-.container {
-  height: 100vh;
-  width: 100vw;
+.dashboardContent {
+  padding: 10px 25px;
   display: flex;
-  .section1 {
-    flex: 20%;
-
-    .dashboard-profilecard {
-      border-radius: 10px;
-      .avatarDiv {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .profileCardTop {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .profileContent {
-        margin-top: 30px;
-        .profileButton {
-          margin-top: 20px;
-          display: flex;
-          flex-direction: column;
-          align-items: start;
-          .driveDiv {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            .driveIcon:hover {
-              opacity: 0.8;
-            }
-          }
-        }
-      }
-    }
-  }
-  .section2 {
-    flex: 60%;
-    h1 {
-      font-size: 42px;
-      font-weight: 700;
-      color: #1fb7c8;
-    }
-    h1:hover {
-      color: #266b73;
-    }
-    .storyButton {
-      margin-top: 20px;
-      width: 20%;
-      background-color: #f3f4f6;
-      .storyLink {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        .storySpan {
-          color: #266b73;
-        }
-        .storyIcon {
-          color: #266b73;
-        }
-      }
-    }
-    .storyButton:hover {
-      background-color: #3b82f6;
-      color: white;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  .storyButton {
+    background-color: #f3f4f6;
+    .storyLink {
+      display: flex;
+      align-items: center;
       .storySpan {
-        color: white;
+        color: #266b73;
       }
       .storyIcon {
-        color: white;
+        color: #266b73;
       }
     }
   }
-  .section3 {
-    flex: 20%;
-    .tool-icons {
-      height: 50%;
-      margin-top: 25px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-around;
-
-      .toolButton {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: none;
-      }
-
-      .toolButton:hover {
-        color: white;
-        background-color: #3b82f6;
-      }
+  .storyButton:hover {
+    background-color: #3b82f6;
+    color: white;
+    .storySpan {
+      color: white;
     }
+    .storyIcon {
+      color: white;
+    }
+  }
+  .recent {
+  }
+  .allStories {
+  }
+}
+
+@media (max-width: 1080px) {
+  .dashboardContent {
+    padding: 0px 15px;
   }
 }
 

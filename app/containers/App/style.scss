@@ -1,0 +1,56 @@
+.mainLayout {
+  .mainSider {
+    height: 100vh;
+    overflow: auto;
+    position: fixed;
+    left: 0;
+  }
+  .routesLayout {
+    margin-left: 200px;
+    .routesHeader {
+      font-size: 38px;
+      font-weight: 700;
+      color: #1fb7c8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: white;
+      margin: 15px;
+      border-radius: 10px;
+    }
+    .routesHeader:hover {
+      color: #266b73;
+    }
+    .routesContent {
+      overflow: initial;
+      background-color: white;
+      margin: 20px;
+      border-radius: 10px;
+      padding: 15px;
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  .mainLayout {
+    .routesLayout {
+      margin-left: 70px;
+      .routesHeader {
+        font-size: 34px;
+      }
+      .routesContent {
+        padding: 8px;
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .mainLayout {
+    .routesLayout {
+      .routesHeader {
+        font-size: 26px;
+      }
+    }
+  }
+}
