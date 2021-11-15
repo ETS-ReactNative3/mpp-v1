@@ -4,13 +4,13 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo , useState} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { compose } from 'redux';
 import { GoogleLogin } from 'react-google-login';
-
+import {Redirect} from 'react-router-dom';
 //Messages 
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
@@ -35,7 +35,13 @@ export function Login(props) {
   useInjectReducer({ key: 'login', reducer });
   useInjectSaga({ key: 'login', saga });
   const auth = useAuth();
-
+  const [redirectTo , setRedirectTo] = useState(false);
+  function performRedirect(){
+    if(redirectTo){
+      return <Redirect to='/' />
+    }
+    return null;
+  }
   return (
     <div>
       <Row type="flex" className="login-container">  
@@ -51,12 +57,14 @@ export function Login(props) {
                   console.log(user);
                   UserLogin(user);
                   history.push('/');
+                  setRedirectTo(true);
                 }}
                 onFailure={() => {}}
                 cookiePolicy="single_host_origin"
               />
             </div>
           </center>
+          {performRedirect()}
         </Col>
       </Row>
     </div>

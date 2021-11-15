@@ -4,7 +4,7 @@ const {updateTokens} = require('../../service/user.js');
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
-const REDIRECT_URL = 'http://localhost:5000/api/google/callback'
+const REDIRECT_URL = process.env.REDIRECT_URL;
 const SCOPES = [
   'https://www.googleapis.com/auth/drive',
   'https://www.googleapis.com/auth/userinfo.email',
