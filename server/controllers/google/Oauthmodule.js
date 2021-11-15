@@ -2,9 +2,9 @@ const { google } = require('googleapis');
 const fs = require('fs');
 const { updateTokens } = require('../../service/user.js');
 
-const CLIENT_ID = process.env.CLIENT_ID;
-const CLIENT_SECRET = process.env.CLIENT_SECRET;
-const REDIRECT_URL = process.env.REDIRECT_URL;
+const { CLIENT_ID } = process.env;
+const { CLIENT_SECRET } = process.env;
+const { REDIRECT_URL } = process.env;
 const SCOPES = [
   'https://www.googleapis.com/auth/drive',
   'https://www.googleapis.com/auth/userinfo.email',
