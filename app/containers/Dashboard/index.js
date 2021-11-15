@@ -8,7 +8,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { PlusOutlined } from '@ant-design/icons';
-import { Layout } from 'antd';
 
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
@@ -21,7 +20,7 @@ import Row from '../../mppComponents/MppRow/index';
 import Col from '../../mppComponents/MppCol/index';
 import Skeleton from '../../mppComponents/MppSkeleton/index';
 import Button from '../../mppComponents/MppButton/index';
-// import { useAuth, user } from ProvideAuth from '../../contexts/authContext';
+import ProvideAuth, { useAuth, user } from '../../contexts/authContext';
 
 import history from '../../utils/history';
 
@@ -30,7 +29,6 @@ import { GetLocalStorage } from '../../utils/localStorage/storage.js';
 import { data } from './dummyStory';
 
 export default function Dashboard() {
-  const { Content } = Layout;
   const [stories, setStories] = useState(data);
   const [recent, setRecent] = useState(data);
 

@@ -93,7 +93,7 @@ const callBack = async (req, res, next) => {
 
     await updateTokens(user_email, googletokens);
 
-    res.redirect('http://localhost:5000/storyline/new');
+    res.redirect(process.env.REDIRECT_URL);
   } else {
     return res.status(500).send({
       msg: 'Internal server error'

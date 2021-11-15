@@ -1,7 +1,7 @@
 
 
 export const UserLogin = (user) => {
-    return fetch('http://localhost:5000/api/auth/login', {
+    return fetch('/api/auth/login', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'

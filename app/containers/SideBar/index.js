@@ -4,12 +4,12 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { compose } from 'redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import {
   UserOutlined,
   FolderOutlined,
@@ -25,10 +25,18 @@ import messages from './messages';
 import { GetLocalStorage } from '../../utils/localStorage/storage';
 
 export function SideBar() {
+  const [redirectTo, setRedirectTo] = useState(false);
   const User = GetLocalStorage('user');
+  function performRedirect() {
+    if (redirectTo) {
+      return <Redirect to="/login" />;
+    }
+    return null;
+  }
   return (
     <div className="sidebar">
       <div className="sidebarContent">
+        {performRedirect()}
         <Link to="/">
           <div className="link dashboardLink">
             <UserOutlined style={{ fontSize: 22, fontWeight: 700 }} />
@@ -45,6 +53,7 @@ export function SideBar() {
           className="buttonText"
           type="primary"
           danger
+          onClick={() => setRedirectTo(true)}
           style={{ borderRadius: 8, marginTop: 16 }}
         >
           Logout
@@ -53,6 +62,7 @@ export function SideBar() {
           className="buttonIcon"
           type="primary"
           danger
+          onClick={() => setRedirectTo(true)}
           style={{ borderRadius: 8, marginTop: 16 }}
         >
           <PoweroffOutlined />
