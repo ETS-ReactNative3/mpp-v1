@@ -35,12 +35,19 @@ export default function App() {
     <>
       <ProvideAuth>
         <Router history={history}>
+          <Switch>
+            <Route exact path="/login">
+              <Login />
+            </Route>
+          </Switch>
           <Layout className="mainLayout">
             <Sider breakpoint="lg" collapsedWidth="75" className="mainSider">
               <SideBar />
             </Sider>
             <Layout className="routesLayout">
-              <Header className="routesHeader">Movie PreProduction</Header>
+              <Header className="routesHeader">
+                <h1>Movie PreProduction</h1>
+              </Header>
               <Content className="routesContent">
                 <Switch>
                   <Route exact path="/">
@@ -51,9 +58,6 @@ export default function App() {
                   </Route>
                   <Route exact path="/stories">
                     <Stories />
-                  </Route>
-                  <Route exact path="/login">
-                    <Login />
                   </Route>
                   <Route path="/storyline/:id">
                     <Logline />

@@ -23,7 +23,7 @@ export function Profile() {
   const User = GetLocalStorage('user');
 
   function linkdrive() {
-    linkDrive(authToken);
+    linkDrive(User.id_token);
   }
   return (
     <div className="userProfile">
@@ -48,6 +48,8 @@ export function Profile() {
               >
                 Save your Work in Google Drive
                 <Popover
+                  sm="click"
+                  trigger="hover"
                   style={{ borderRadius: 100 }}
                   content={
                     <p>
