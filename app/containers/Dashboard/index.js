@@ -30,7 +30,7 @@ import { GetLocalStorage } from '../../utils/localStorage/storage.js';
 import { data } from './dummyStory';
 
 export default function Dashboard() {
-  const [stories, setStories] = useState(data);
+  const [stories, setStories] = useState([]);
   const [recent, setRecent] = useState(data);
   const { SubMenu } = Menu;
 
@@ -55,8 +55,8 @@ export default function Dashboard() {
     GetDashboardInfo(token)
       .then(res => {
         console.log(res);
-        // setStories(res);
-        // console.log(stories);
+        setStories(res);
+        console.log(stories);
       })
       .catch(err => {
         console.log(err.response);
