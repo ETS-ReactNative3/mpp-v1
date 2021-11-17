@@ -8,7 +8,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu } from 'antd';
-import { PlusOutlined, MoreOutlined } from '@ant-design/icons';
+import { PlusOutlined, MoreOutlined, LoadingOutlined } from '@ant-design/icons';
 
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
@@ -32,18 +32,17 @@ import { data } from './dummyStory';
 export default function Dashboard() {
   const [stories, setStories] = useState([]);
   const [recent, setRecent] = useState(data);
+  const [loading, setLoading] = useState(true);
   const { SubMenu } = Menu;
 
   const profile = GetLocalStorage('user');
-
-  console.log('profile', profile);
 
   useEffect(() => {
     let token;
     if (profile) {
       token = profile.tokenId;
     }
-    console.log(token);
+    // console.log(token);
 
     const recentStory = data.filter(rec => {
       if (rec.timeLine === 'now') {
@@ -61,6 +60,8 @@ export default function Dashboard() {
       .catch(err => {
         console.log(err.response);
       });
+
+    setTimeout(() => setLoading(false), 4000);
   }, []);
 
   return (
@@ -153,34 +154,37 @@ export default function Dashboard() {
               See All
             </Link>
           </div>
-          <Row gutter={[16, 24]}>
-            {stories &&
-              Object.keys(stories)
-                .splice(0, 4)
-                .map((item, i) => (
-                  <Col md={12} lg={8} xl={6} key={stories[item].id}>
+          {loading ? (
+            <>
+              <LoadingOutlined style={{ fontSize: 24, fontWeight: 700 }} />
+            </>
+          ) : (
+            <Row gutter={[16, 24]}>
+              {stories &&
+                // Object.keys(stories)
+                stories.splice(0, 4).map((item, i) => (
+                  <Col md={12} lg={12} key={item.id}>
                     <Card
-                      title={stories[item].title}
+                      title={item.title}
                       extra={
                         <Menu
-                          mode="horizontal"
+                          mode="vertical"
                           style={{
                             backgroundColor: '#F3F4F6',
                             border: 'none',
                           }}
+                          expandIcon={
+                            <MoreOutlined
+                              style={{ fontSize: 18, fontWeight: 600 }}
+                            />
+                          }
                         >
-                          <SubMenu
-                            icon={
-                              <MoreOutlined
-                                style={{ fontSize: 18, fontWeight: 600 }}
-                              />
-                            }
-                          >
+                          <SubMenu key="sub1">
                             <Menu.Item
                               key="1"
                               style={{ backgroundColor: 'white' }}
                             >
-                              <Link to={`/storyline/${stories[item].id}`}>
+                              <Link to={`/storyline/${item.id}`}>
                                 <Button
                                   style={{
                                     width: '100%',
@@ -224,16 +228,18 @@ export default function Dashboard() {
                               key="4"
                               style={{ backgroundColor: 'white' }}
                             >
-                              <Button
-                                danger
-                                style={{
-                                  width: '100%',
-                                  border: 'none',
-                                  boxShadow: 'none',
-                                }}
-                              >
-                                Delete
-                              </Button>
+                              <Link to={`/storyline/${item.id}`}>
+                                <Button
+                                  danger
+                                  style={{
+                                    width: '100%',
+                                    border: 'none',
+                                    boxShadow: 'none',
+                                  }}
+                                >
+                                  Delete
+                                </Button>
+                              </Link>
                             </Menu.Item>
                           </SubMenu>
                         </Menu>
@@ -244,6 +250,7 @@ export default function Dashboard() {
                         backgroundColor: '#f3f4f6',
                         marginLeft: 6,
                         borderRadius: 12,
+                        width: 250,
                       }}
                     >
                       <p style={{ fontSize: 16, fontWeight: 600 }}>
@@ -255,7 +262,7 @@ export default function Dashboard() {
                             fontWeight: 400,
                           }}
                         >
-                          {stories[item].logLine}
+                          {item.ownerNames}
                         </span>
                       </p>
                       <p style={{ fontSize: 16, fontWeight: 600 }}>
@@ -267,7 +274,7 @@ export default function Dashboard() {
                             fontWeight: 400,
                           }}
                         >
-                          {stories[item].theme}
+                          {item.theme}
                         </span>
                       </p>
                       <p style={{ fontSize: 16, fontWeight: 600 }}>
@@ -279,13 +286,14 @@ export default function Dashboard() {
                             fontWeight: 400,
                           }}
                         >
-                          {stories[item].genre}
+                          {item.genre}
                         </span>
                       </p>
                     </Card>
                   </Col>
                 ))}
-          </Row>
+            </Row>
+          )}
         </div>
       </div>
     </>

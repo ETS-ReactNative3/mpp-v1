@@ -160,7 +160,7 @@ export function Stories() {
 }
 
 Stories.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  // dispatch: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
