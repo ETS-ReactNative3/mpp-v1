@@ -8,7 +8,7 @@
  */
 
 import React from 'react';
-import { Switch, Route, Router, Redirect } from 'react-router-dom';
+import { Switch, Route, Router } from 'react-router-dom';
 
 import Dashboard from 'containers/Dashboard/Loadable';
 import Login from 'containers/Login/Loadable';
@@ -19,13 +19,13 @@ import HealthCheck from 'components/HealthCheck';
 import PrivateRoute from 'components/PrivateRoute';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import { createBrowserHistory } from 'history';
+import { Layout } from 'antd';
 import { ProvideAuth } from '../../contexts/authContext';
 import LogLine from '../Logline';
 import GlobalStyle from '../../global-styles';
 import Logline from '../Logline';
 import { GetLocalStorage } from '../../utils/localStorage/storage';
 import './style.scss';
-import { Layout } from 'antd';
 
 const history = createBrowserHistory();
 

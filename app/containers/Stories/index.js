@@ -37,27 +37,25 @@ export function Stories() {
       </div>
       <Row gutter={[16, 24]}>
         {stories &&
-          Object.keys(stories).map((item, i) => (
-            <Col md={12} lg={8} xl={6} key={stories[item].id}>
+          // Object.keys(stories)
+          stories.map((item, i) => (
+            <Col md={12} lg={8} xl={6} key={item.sNo}>
               <Card
-                title={stories[item].title}
+                title={item.title}
                 extra={
                   <Menu
-                    mode="horizontal"
+                    mode="vertical"
                     style={{
                       backgroundColor: '#F3F4F6',
                       border: 'none',
                     }}
+                    expandIcon={
+                      <MoreOutlined style={{ fontSize: 18, fontWeight: 600 }} />
+                    }
                   >
-                    <SubMenu
-                      icon={
-                        <MoreOutlined
-                          style={{ fontSize: 18, fontWeight: 600 }}
-                        />
-                      }
-                    >
+                    <SubMenu key="sub2">
                       <Menu.Item key="1" style={{ backgroundColor: 'white' }}>
-                        <Link to={`/storyline/${stories[item].id}`}>
+                        <Link to={`/storyline/${item.id}`}>
                           <Button
                             style={{
                               width: '100%',
@@ -124,7 +122,7 @@ export function Stories() {
                       fontWeight: 400,
                     }}
                   >
-                    {stories[item].logLine}
+                    {item.logLine}
                   </span>
                 </p>
                 <p style={{ fontSize: 15, fontWeight: 600 }}>
@@ -136,7 +134,7 @@ export function Stories() {
                       fontWeight: 400,
                     }}
                   >
-                    {stories[item].theme}
+                    {item.theme}
                   </span>
                 </p>
                 <p style={{ fontSize: 15, fontWeight: 600 }}>
@@ -148,7 +146,7 @@ export function Stories() {
                       fontWeight: 400,
                     }}
                   >
-                    {stories[item].genre}
+                    {item.genre}
                   </span>
                 </p>
               </Card>

@@ -61,7 +61,7 @@ export default function Dashboard() {
         console.log(err.response);
       });
 
-    setTimeout(() => setLoading(false), 4000);
+    setTimeout(() => setLoading(false), 5000);
   }, []);
 
   return (
@@ -141,50 +141,68 @@ export default function Dashboard() {
         </div>
         {/* All stories section */}
         <div className="allStories">
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginTop: 15,
-            }}
-          >
-            <h3 style={{ color: 'black' }}>All Stories</h3>
-            <Link to="/stories" style={{ fontSize: 15 }}>
-              See All
-            </Link>
-          </div>
           {loading ? (
             <>
-              <LoadingOutlined style={{ fontSize: 24, fontWeight: 700 }} />
+              <LoadingOutlined
+                style={{ fontSize: 24, fontWeight: 700, marginTop: 10 }}
+              />
             </>
           ) : (
-            <Row gutter={[16, 24]}>
-              {stories &&
-                // Object.keys(stories)
-                stories.splice(0, 4).map((item, i) => (
-                  <Col md={12} lg={12} key={item.id}>
-                    <Card
-                      title={item.title}
-                      extra={
-                        <Menu
-                          mode="vertical"
-                          style={{
-                            backgroundColor: '#F3F4F6',
-                            border: 'none',
-                          }}
-                          expandIcon={
-                            <MoreOutlined
-                              style={{ fontSize: 18, fontWeight: 600 }}
-                            />
-                          }
-                        >
-                          <SubMenu key="sub1">
-                            <Menu.Item
-                              key="1"
-                              style={{ backgroundColor: 'white' }}
-                            >
-                              <Link to={`/storyline/${item.id}`}>
+            <>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginTop: 15,
+                }}
+              >
+                <h3 style={{ color: 'black' }}>All Stories</h3>
+                <Link to="/stories" style={{ fontSize: 15 }}>
+                  See All
+                </Link>
+              </div>
+              <Row gutter={[16, 24]}>
+                {stories &&
+                  // Object.keys(stories)
+                  stories.splice(0, 4).map((item, i) => (
+                    <Col md={12} lg={8} key={item.id}>
+                      <Card
+                        title={item.title}
+                        extra={
+                          <Menu
+                            mode="vertical"
+                            style={{
+                              backgroundColor: '#F3F4F6',
+                              border: 'none',
+                            }}
+                            expandIcon={
+                              <MoreOutlined
+                                style={{ fontSize: 18, fontWeight: 600 }}
+                              />
+                            }
+                          >
+                            <SubMenu key="sub1">
+                              <Menu.Item
+                                key="1"
+                                style={{ backgroundColor: 'white' }}
+                              >
+                                <Link to={`/storyline/${item.id}`}>
+                                  <Button
+                                    style={{
+                                      width: '100%',
+                                      border: 'none',
+                                      boxShadow: 'none',
+                                    }}
+                                  >
+                                    Edit
+                                  </Button>
+                                </Link>
+                              </Menu.Item>
+                              <Menu.Item
+                                key="2"
+                                style={{ backgroundColor: 'white' }}
+                              >
                                 <Button
                                   style={{
                                     width: '100%',
@@ -192,107 +210,92 @@ export default function Dashboard() {
                                     boxShadow: 'none',
                                   }}
                                 >
-                                  Edit
+                                  Share
                                 </Button>
-                              </Link>
-                            </Menu.Item>
-                            <Menu.Item
-                              key="2"
-                              style={{ backgroundColor: 'white' }}
-                            >
-                              <Button
-                                style={{
-                                  width: '100%',
-                                  border: 'none',
-                                  boxShadow: 'none',
-                                }}
+                              </Menu.Item>
+                              <Menu.Item
+                                key="3"
+                                style={{ backgroundColor: 'white' }}
                               >
-                                Share
-                              </Button>
-                            </Menu.Item>
-                            <Menu.Item
-                              key="3"
-                              style={{ backgroundColor: 'white' }}
-                            >
-                              <Button
-                                style={{
-                                  width: '100%',
-                                  border: 'none',
-                                  boxShadow: 'none',
-                                }}
-                              >
-                                Print
-                              </Button>
-                            </Menu.Item>
-                            <Menu.Item
-                              key="4"
-                              style={{ backgroundColor: 'white' }}
-                            >
-                              <Link to={`/storyline/${item.id}`}>
                                 <Button
-                                  danger
                                   style={{
                                     width: '100%',
                                     border: 'none',
                                     boxShadow: 'none',
                                   }}
                                 >
-                                  Delete
+                                  Print
                                 </Button>
-                              </Link>
-                            </Menu.Item>
-                          </SubMenu>
-                        </Menu>
-                      }
-                      headStyle={{ fontSize: 18 }}
-                      bordered
-                      style={{
-                        backgroundColor: '#f3f4f6',
-                        marginLeft: 6,
-                        borderRadius: 12,
-                        width: 250,
-                      }}
-                    >
-                      <p style={{ fontSize: 16, fontWeight: 600 }}>
-                        LogLine:
-                        <span
-                          style={{
-                            marginLeft: 5,
-                            fontSize: 15,
-                            fontWeight: 400,
-                          }}
-                        >
-                          {item.ownerNames}
-                        </span>
-                      </p>
-                      <p style={{ fontSize: 16, fontWeight: 600 }}>
-                        Theme:
-                        <span
-                          style={{
-                            marginLeft: 5,
-                            fontSize: 15,
-                            fontWeight: 400,
-                          }}
-                        >
-                          {item.theme}
-                        </span>
-                      </p>
-                      <p style={{ fontSize: 16, fontWeight: 600 }}>
-                        Genre:
-                        <span
-                          style={{
-                            marginLeft: 5,
-                            fontSize: 15,
-                            fontWeight: 400,
-                          }}
-                        >
-                          {item.genre}
-                        </span>
-                      </p>
-                    </Card>
-                  </Col>
-                ))}
-            </Row>
+                              </Menu.Item>
+                              <Menu.Item
+                                key="4"
+                                style={{ backgroundColor: 'white' }}
+                              >
+                                <Link to={`/storyline/${item.id}`}>
+                                  <Button
+                                    danger
+                                    style={{
+                                      width: '100%',
+                                      border: 'none',
+                                      boxShadow: 'none',
+                                    }}
+                                  >
+                                    Delete
+                                  </Button>
+                                </Link>
+                              </Menu.Item>
+                            </SubMenu>
+                          </Menu>
+                        }
+                        headStyle={{ fontSize: 18 }}
+                        bordered
+                        style={{
+                          backgroundColor: '#f3f4f6',
+                          marginLeft: 6,
+                          borderRadius: 12,
+                        }}
+                      >
+                        <p style={{ fontSize: 16, fontWeight: 600 }}>
+                          LogLine:
+                          <span
+                            style={{
+                              marginLeft: 5,
+                              fontSize: 15,
+                              fontWeight: 400,
+                            }}
+                          >
+                            {item.ownerNames}
+                          </span>
+                        </p>
+                        <p style={{ fontSize: 16, fontWeight: 600 }}>
+                          Theme:
+                          <span
+                            style={{
+                              marginLeft: 5,
+                              fontSize: 15,
+                              fontWeight: 400,
+                            }}
+                          >
+                            {item.theme}
+                          </span>
+                        </p>
+                        <p style={{ fontSize: 16, fontWeight: 600 }}>
+                          Genre:
+                          <span
+                            style={{
+                              marginLeft: 5,
+                              fontSize: 15,
+                              fontWeight: 400,
+                            }}
+                          >
+                            {item.genre}
+                          </span>
+                        </p>
+                      </Card>
+                    </Col>
+                  ))}
+              </Row>
+            </>
           )}
         </div>
       </div>
