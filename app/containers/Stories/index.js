@@ -16,24 +16,27 @@ import Card from '../../mppComponents/MppCard/index';
 import Row from '../../mppComponents/MppRow/index';
 import Col from '../../mppComponents/MppCol/index';
 import Button from '../../mppComponents/MppButton/index';
-
-import { data } from '../Dashboard/dummyStory';
-
+import './style.scss';
+import variables from '../Dashboard/variable.module.scss';
 import messages from './messages';
 
 export function Stories() {
-  const [stories, setStories] = useState(data);
+  const [stories, setStories] = useState([]);
   const { SubMenu } = Menu;
+
+  const menu = {
+    backgroundColor: variables.whiteColor,
+  };
+
+  const menuButton = {
+    border: variables.border,
+    boxShadow: variables.boxShadow,
+    width: variables.width,
+  };
   return (
     <>
-      <div
-        style={{
-          marginTop: 15,
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        <h3 style={{ color: 'black' }}>Stories</h3>
+      <div className="storiesMainDiv">
+        <h3>Stories</h3>
       </div>
       <Row gutter={[16, 24]}>
         {stories &&
@@ -41,63 +44,30 @@ export function Stories() {
           stories.map((item, i) => (
             <Col md={12} lg={8} xl={6} key={item.sNo}>
               <Card
+                className="storiesCard"
                 title={item.title}
                 extra={
                   <Menu
+                    className="cardMenu"
                     mode="vertical"
-                    style={{
-                      backgroundColor: '#F3F4F6',
-                      border: 'none',
-                    }}
                     expandIcon={
                       <MoreOutlined style={{ fontSize: 18, fontWeight: 600 }} />
                     }
                   >
                     <SubMenu key="sub2">
-                      <Menu.Item key="1" style={{ backgroundColor: 'white' }}>
+                      <Menu.Item key="1" style={menu}>
                         <Link to={`/storyline/${item.id}`}>
-                          <Button
-                            style={{
-                              width: '100%',
-                              border: 'none',
-                              boxShadow: 'none',
-                            }}
-                          >
-                            Edit
-                          </Button>
+                          <Button style={menuButton}>Edit</Button>
                         </Link>
                       </Menu.Item>
-                      <Menu.Item key="2" style={{ backgroundColor: 'white' }}>
-                        <Button
-                          style={{
-                            width: '100%',
-                            border: 'none',
-                            boxShadow: 'none',
-                          }}
-                        >
-                          Share
-                        </Button>
+                      <Menu.Item key="2" style={menu}>
+                        <Button style={menuButton}>Share</Button>
                       </Menu.Item>
-                      <Menu.Item key="3" style={{ backgroundColor: 'white' }}>
-                        <Button
-                          style={{
-                            width: '100%',
-                            border: 'none',
-                            boxShadow: 'none',
-                          }}
-                        >
-                          Print
-                        </Button>
+                      <Menu.Item key="3" style={menu}>
+                        <Button style={menuButton}>Print</Button>
                       </Menu.Item>
-                      <Menu.Item key="4" style={{ backgroundColor: 'white' }}>
-                        <Button
-                          danger
-                          style={{
-                            width: '100%',
-                            border: 'none',
-                            boxShadow: 'none',
-                          }}
-                        >
+                      <Menu.Item key="4" style={menu}>
+                        <Button danger style={menuButton}>
                           Delete
                         </Button>
                       </Menu.Item>
@@ -106,48 +76,18 @@ export function Stories() {
                 }
                 headStyle={{ fontSize: 18 }}
                 bordered
-                style={{
-                  backgroundColor: '#f3f4f6',
-                  marginLeft: 8,
-                  marginTop: 10,
-                  borderRadius: 12,
-                }}
               >
-                <p style={{ fontSize: 15, fontWeight: 600 }}>
+                <p>
                   LogLine:
-                  <span
-                    style={{
-                      marginLeft: 5,
-                      fontSize: 14,
-                      fontWeight: 400,
-                    }}
-                  >
-                    {item.logLine}
-                  </span>
+                  <span>{item.logLine}</span>
                 </p>
-                <p style={{ fontSize: 15, fontWeight: 600 }}>
+                <p>
                   Theme:
-                  <span
-                    style={{
-                      marginLeft: 5,
-                      fontSize: 14,
-                      fontWeight: 400,
-                    }}
-                  >
-                    {item.theme}
-                  </span>
+                  <span>{item.theme}</span>
                 </p>
-                <p style={{ fontSize: 15, fontWeight: 600 }}>
+                <p>
                   Genre:
-                  <span
-                    style={{
-                      marginLeft: 5,
-                      fontSize: 14,
-                      fontWeight: 400,
-                    }}
-                  >
-                    {item.genre}
-                  </span>
+                  <span>{item.genre}</span>
                 </p>
               </Card>
             </Col>

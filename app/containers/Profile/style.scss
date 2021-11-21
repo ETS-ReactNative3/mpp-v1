@@ -11,6 +11,10 @@
       display: flex;
       justify-content: start;
       align-items: center;
+      .profileAvatar {
+        width: 60px;
+        height: 60px;
+      }
     }
     .profileContent {
       margin-top: 30px;
@@ -24,6 +28,21 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
+          .driveDivPara {
+            font-size: 14px;
+            font-weight: 300;
+            color: #6b7280;
+            .popoverIcon {
+              margin-left: 10px;
+              cursor: pointer;
+              color: #9ca3af;
+            }
+          }
+          .driveIcon {
+            font-size: 30px;
+            cursor: pointer;
+            color: #3b82f6;
+          }
           .driveIcon:hover {
             opacity: 0.8;
           }

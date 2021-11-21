@@ -18,9 +18,7 @@ import {
 } from '@ant-design/icons';
 import Avatar from '../../mppComponents/MppAvatar';
 import Button from '../../mppComponents/MppButton';
-
 import './style.scss';
-
 import messages from './messages';
 import { GetLocalStorage } from '../../utils/localStorage/storage';
 
@@ -39,47 +37,41 @@ export function SideBar() {
         {performRedirect()}
         <Link to="/">
           <div className="link dashboardLink">
-            <UserOutlined style={{ fontSize: 22, fontWeight: 700 }} />
+            <UserOutlined className="linkIcon" />
             <h3>DashBoard</h3>
           </div>
         </Link>
         <Link to="/stories">
           <div className="link storiesLink">
-            <FolderOutlined style={{ fontSize: 22, fontWeight: 700 }} />
+            <FolderOutlined className="linkIcon" />
             <h3>All Stories</h3>
           </div>
         </Link>
         <Button
-          className="buttonText"
+          className="logoutButton buttonText"
           type="primary"
           danger
           onClick={() => setRedirectTo(true)}
-          style={{ borderRadius: 8, marginTop: 16 }}
         >
           Logout
         </Button>
         <Button
-          className="buttonIcon"
+          className="logoutButton buttonIcon"
           type="primary"
           danger
           onClick={() => setRedirectTo(true)}
-          style={{ borderRadius: 8, marginTop: 16 }}
         >
           <PoweroffOutlined />
         </Button>
       </div>
       <Link to="/profile">
         <div className="avatarLink">
-          <div className="settingsIcon">
-            <SettingOutlined style={{ fontSize: 20 }} />
+          <div className="settings">
+            <SettingOutlined className="settingIcon" />
             <span>{User.profileObj.givenName}</span>
           </div>
 
-          <Avatar
-            className="avatar"
-            style={{ width: 52, height: 52 }}
-            src={User.profileObj.imageUrl}
-          />
+          <Avatar className="avatar" src={User.profileObj.imageUrl} />
         </div>
       </Link>
     </div>

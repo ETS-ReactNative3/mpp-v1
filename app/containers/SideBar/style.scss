@@ -17,6 +17,10 @@
       align-items: center;
       margin-top: 10px;
       padding: 3px 6px;
+      .linkIcon {
+        font-size: 22px;
+        font-weight: 700;
+      }
       h3 {
         font-size: 17px;
         font-weight: 600;
@@ -27,6 +31,10 @@
       border-radius: 25px;
       opacity: 0.8;
     }
+    .logoutButton {
+      border-radius: 8px;
+      margin-top: 16px;
+    }
     .buttonIcon {
       display: none;
     }
@@ -35,13 +43,20 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .settingsIcon {
+    .settings {
       display: flex;
       align-items: center;
+      .settingIcon {
+        font-size: 20px;
+      }
       span {
         margin-left: 5px;
         font-weight: 500;
       }
+    }
+    .avatar {
+      width: 52px;
+      height: 52px;
     }
     .avatar:hover {
       transform: scale(1.1);
@@ -83,7 +98,7 @@
     }
     .avatarLink {
       justify-content: center;
-      .settingsIcon {
+      .settings {
         display: none;
       }
     }
