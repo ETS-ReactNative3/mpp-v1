@@ -112,6 +112,7 @@ export default function Dashboard() {
               </div>
               <Row gutter={[16, 24]}>
                 {stories &&
+                  stories.length > 0 &&
                   // Object.keys(stories)
                   stories.splice(0, 4).map((item, i) => (
                     <Col md={12} lg={8} key={item.id}>
