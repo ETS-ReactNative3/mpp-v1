@@ -87,11 +87,12 @@ const callBack = async (req, res, next) => {
 };
 
 const deleteFile = async (req, res, next) => {
-  const { email, newTokens } = await validateAccess(req, res, next);
+  const { email, newTokens , error} = await validateAccess(req, res, next);
 
   if(!email || !newTokens) {
-    return res.status(401).send({mg : "Failed Validating Tokens"});
+    return res.status(401).send({msg : error });
   }
+
   utils.oAuth2Client.credentials = newTokens;
   drive.files.delete(
     {
@@ -114,11 +115,12 @@ const deleteFile = async (req, res, next) => {
 };
 
 const updateFile = async (req, res, next) => {
-  const { email, newTokens } = await validateAccess(req, res, next);
+  const { email, newTokens ,error} = await validateAccess(req, res, next);
 
   if(!email || !newTokens) {
-    return res.status(401).send({mg : "Failed Validating Tokens"});
+    return res.status(401).send({msg : error });
   }
+
   utils.oAuth2Client.credentials = newTokens;
   const content = JSON.stringify(req.body);
   const buf = Buffer.from(content, 'binary');
@@ -155,10 +157,10 @@ const updateFile = async (req, res, next) => {
 };
 
 const getFile = async (req, res, next) => {
-  const { email, newTokens } = await validateAccess(req, res, next);
+  const { email, newTokens , error } = await validateAccess(req, res, next);
 
   if(!email || !newTokens) {
-    return res.status(401).send({mg : "Failed Validating Tokens"});
+    return res.status(401).send({msg : error });
   }
 
   await fetch(
@@ -186,7 +188,11 @@ const getFile = async (req, res, next) => {
 };
 
 const uploadFile = async (req, res, next, data) => {
-  const {email,newTokens} = await validateAccess(req, res, next);
+  const {email,newTokens,error} = await validateAccess(req, res, next);
+  if(!email || !newTokens) {
+    return res.status(401).send({msg : error });
+  }
+
   const driveIds = await getDriveDetails(email);
   if (!driveIds || !email || !newTokens) {
     return res.status(401).send({
@@ -227,7 +233,10 @@ const uploadFile = async (req, res, next, data) => {
 
 const listFiles = async (req, res, next) => {
  
-  const {email,newTokens} = await validateAccess(req, res, next);
+  const {email,newTokens,error} = await validateAccess(req, res, next);
+  if(!email || !newTokens) {
+    return res.status(401).send({msg : error });
+  }
   const driveIds = await getDriveDetails(email);
   if (!driveIds || !email || !newTokens) {
     return res.status(403).send({
@@ -240,13 +249,13 @@ const listFiles = async (req, res, next) => {
   console.log('Successfully upated tokens to DB...');
   const access_token = newTokens.access_token ? newTokens.access_token : null;
 
-  if(!access_token){
+  fileList = await getFileList(access_token, driveIds);
+
+  if(!access_token || !fileList){
     return res.status(401).send({
       msg: "Drive Not Linked Properly/Refresh Token Expired.Please link drive again."
     })
   }
-
-  fileList = await getFileList(access_token, driveIds);
 
   const lists = await getListOfFiles(fileList.items, access_token);
 
