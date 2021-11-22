@@ -19,8 +19,14 @@ async function isFolderExist(tokens) {
 
   if (res.data.files.length > 0) {
     console.log("folder exist");
-    //console.log(res.data.files[0].id);
-    return null;
+    console.log(res.data.files[0].id);
+    console.log(res.data);
+    const ids = {
+      "parentId": res.data.files[0].id,
+      "myprojectsId": "",
+      "sharedprojectsId": ""
+    }
+    return ids;
   }
 
   console.log("folder  dose't exist");
