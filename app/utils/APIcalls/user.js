@@ -11,4 +11,5 @@ export const UserLogin = user =>
     })
     .catch(error => {
       console.log(error);
+      return error;
     });

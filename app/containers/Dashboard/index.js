@@ -9,7 +9,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu } from 'antd';
 import { PlusOutlined, MoreOutlined, LoadingOutlined } from '@ant-design/icons';
-
+import { Redirect } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import './styles.scss';
@@ -52,13 +52,13 @@ export default function Dashboard() {
 
     GetDashboardInfo(token)
       .then(res => {
-        console.log(res);
+        console.log(res.msg);
+        if(res.msg === "NOT VALID"){
+          return history.push('/login');
+        }
         setStories(res);
         console.log(stories);
       })
-      .catch(err => {
-        console.log(err.response);
-      });
 
     setTimeout(() => setLoading(false), 5000);
   }, []);

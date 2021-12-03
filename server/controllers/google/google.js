@@ -164,9 +164,7 @@ const getFile = async (req, res, next) => {
   }
 
   await fetch(
-    `https://www.googleapis.com/drive/v2/files/${
-      req.params.id
-    }?alt=media&source=downloadUrl`,
+    `https://www.googleapis.com/drive/v2/files/${req.params.id}?alt=media&source=downloadUrl`,
     {
       method: 'GET',
       headers: {
@@ -174,7 +172,7 @@ const getFile = async (req, res, next) => {
       },
     },
   )
-    .then(result => result.json())
+    .then(result => {return result.json()})
     .then(response =>
       res.status(200).send({
         response,

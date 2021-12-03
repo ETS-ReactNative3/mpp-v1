@@ -20,17 +20,17 @@ const verifyAuthToken = async (req, res, next) => {
           next();
         }
         else{
-          return res.status(401).json({ msg: "Not valid" });
+          return res.status(401).json({ msg: "NOT VALID" });
         }
       })
       .catch(error => {
         console.log(error);
-         return res.status(401).json({ msg: "Not valid" });
+         return res.status(401).json({ msg: "NOT VALID" });
       });
 
     } catch (err) {
       console.log(err);
-      return res.status(401).json({ msg: "Not valid" });
+      return res.status(401).json({ msg: "NOT VALID" });
     }
 };
 

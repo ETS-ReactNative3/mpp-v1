@@ -14,6 +14,7 @@ export const GetDashboardInfo = authToken => {
     })
     .catch(err => {
       console.log(err);
+      return err;
     });
 };
 
@@ -34,5 +35,6 @@ export const linkDrive = authToken => {
     })
     .catch(err => {
       console.log(err);
+      return err;
     });
 };
