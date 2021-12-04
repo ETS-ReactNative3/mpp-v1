@@ -101,32 +101,40 @@ class Logline extends React.Component {
       this.setState({ isEdit: true });
     } else {
       this.setState({ isEdit: false, isUpdate: true });
-      GetStory(this.state.id)
+      GetStory(this.state.id,user.tokenId)
         .then(json => {
-          console.log(json.data);
-          this.setState({ genre: json.data.genre });
-          this.setState({ theme: json.data.theme });
-          this.setState({ title: json.data.title });
+          if(json.msg === "NOT VALID"){
+            return history.push('/login');
+          }
+          console.log("Fetch story")
+          console.log(json);
+          this.setState({ 
+            theme: json.theme ? json.theme : null ,
+            title: json.title ? json.title : null,
+          });
           this.setState(prevstate => ({
             logline: {
               ...prevstate.logline,
-              character: json.data.logline.character,
-              crisis: json.data.logline.crisis,
-              response: json.data.logline.response,
+              character: json.logline ? (json.logline.character ? json.logline.character : null) : null ,
+              crisis: json.logline ? (json.logline.crisis ? json.logline.crisis : null) : null,
+              response: json.logline ? (json.logline.response ? json.logline.response : null) : null,
             },
           }));
+          console.log(this.state);
         })
         .catch(error => {
           console.log(error);
         });
     }
-    console.log(this.state);
   }
 
   delete = () => {
     DeleteStory(this.state.id, this.state.authToken)
       .then(response => {
         console.log(response);
+        if(response.msg === "NOT VALID"){
+          return history.push('/login');
+        }
       })
       .catch(err => {
         console.log(err);
@@ -164,6 +172,9 @@ class Logline extends React.Component {
     CreateStory(story, this.state.authToken)
       .then(function(response) {
         console.log(response);
+        if(response.msg === "NOT VALID"){
+          return history.push('/login');
+        }
       })
       .catch(err => {
         console.log(err);
@@ -184,6 +195,9 @@ class Logline extends React.Component {
     UpdateStory(story, this.state.id, this.state.authToken)
       .then(function(response) {
         console.log(response);
+        if(response.msg === "NOT VALID"){
+          return history.push('/login');
+        }
       })
       .catch(err => {
         console.log(err);

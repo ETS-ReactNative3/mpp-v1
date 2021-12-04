@@ -4,12 +4,17 @@ const {
   addCredentialsService,
 } = require('../service/user.js');
 
+const { 
+  LOGIN_SUCCESS,
+  LOGIN_FAILED
+} = require('../utills/errors/constants.js');
+
 const loginUser = async (req, res, next) => {
   try {
     const user = await loginUserService(req.body.email,req);
-      return res.status(200).send({msg: 'User successfully logged in',user})
-  } catch (ex) {
-    return next(ex);
+      return res.status(200).send({msg: LOGIN_SUCCESS,user})
+  } catch (err) {
+    return res.status(401).send({msg: LOGIN_FAILED,err});
   }
 };
 

@@ -63,14 +63,14 @@ const getTokens = async (email) => {
   const currUser = await User.findOne({
     email: email
   });
-  return (currUser ? JSON.parse(currUser.tokens) : null);
+  return (currUser.tokens ? JSON.parse(currUser.tokens) : null);
 }
 
 const getRefreshToken = async (email) => {
   const currUser = await User.findOne({
     email: email
   });
-  return (currUser ? (currUser.refreshToken) : null);
+  return (currUser.refreshToken ? (currUser.refreshToken) : null);
 }
 
 const updateTokens = async (email, tokens) => {

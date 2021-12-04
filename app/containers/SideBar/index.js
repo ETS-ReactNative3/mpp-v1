@@ -64,16 +64,17 @@ export function SideBar() {
           <PoweroffOutlined />
         </Button>
       </div>
-      <Link to="/profile">
-        <div className="avatarLink">
-          <div className="settings">
-            <SettingOutlined className="settingIcon" />
-            <span>{User.profileObj.givenName}</span>
+      {User && (
+        <Link to="/profile">
+          <div className="avatarLink">
+            <div className="settings">
+              <SettingOutlined className="settingIcon" />
+              <span>{User.profileObj.givenName}</span>
+            </div>
+            <Avatar className="avatar" src={User.profileObj.imageUrl} />
           </div>
-
-          <Avatar className="avatar" src={User.profileObj.imageUrl} />
-        </div>
-      </Link>
+        </Link>
+      )}
     </div>
   );
 }

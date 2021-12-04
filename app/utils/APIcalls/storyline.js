@@ -1,15 +1,18 @@
-export const GetStory = async id =>
-  await fetch(`/api/storyline/${id}`, {
-    method: 'GET',
-    headers: {
-      'x-auth-token': authToken,
-    },
-  })
-    .then(response => response.json())
-    .then(json => json)
-    .catch(error => {
-      console.log(error);
-    });
+export const GetStory = async (id,authToken) =>{
+    var myHeaders = new Headers();
+    myHeaders.append("x-auth-token",authToken);
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+
+    return await fetch(`/api/storyline/${id}`, requestOptions)
+      .then(response => response.json())
+      .then(result => { return result.response;})
+      .catch(error => {console.log('error', error); return error;});
+}
+
 
 export const getParamsID = n => window.location.href.split('/')[n];
 
@@ -81,4 +84,5 @@ export const DeleteStory = async (id, authToken) =>
     .catch(err => {
       console.log(err.response);
       console.log(err);
+      return err;
     });
