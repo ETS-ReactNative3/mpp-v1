@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const express = require('express');
 const logger = require('./logger');
-const Mongoose = require('./db/db.js');
+const Mongoose = require('./db/db.js')
 const apiRouter = require('./routes/index');
 const argv = require('./argv');
 const port = require('./port');
@@ -28,20 +28,20 @@ const options = {
   maxPoolSize: 10, // Maintain up to 10 socket connections
   serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
   socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
-  family: 4, // Use IPv4, skip trying IPv6
+  family: 4 // Use IPv4, skip trying IPv6
 };
 
-Mongoose.connect(process.env.MONGODB_URL, options);
+Mongoose.connect(process.env.MONGODB_URL,options);
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // app.use('/api', myApi);
 app.use('/api', apiRouter);
 
 // In production we need to pass these values in instead of relying on webpack
-// setup(app, {
-//   outputPath: resolve(process.cwd(), 'build'),
-//   publicPath: '/',
-// });
+setup(app, {
+  outputPath: resolve(process.cwd(), 'build'),
+  publicPath: '/',
+});
 
 // get the intended host and port number, use localhost and port 3000 if not provided
 const customHost = argv.host || process.env.HOST;
