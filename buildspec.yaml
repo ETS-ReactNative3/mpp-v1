@@ -15,8 +15,12 @@ phases:
 # Include only the files required for your application to run.
 artifacts:
   files:
+    - package.json
+    - package-lock.json
+    - .env
     - index.js
     - build/**/*
+    - server/**/*
     - request-map.js
     - credentials.json
     - node_modules/**/*
