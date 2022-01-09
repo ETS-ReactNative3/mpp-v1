@@ -25,3 +25,4 @@ artifacts:
     - credentials.json
     - node_modules/**/*
     - .ebextensions/**/*
+    - Procfile
