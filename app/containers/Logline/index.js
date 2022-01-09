@@ -101,7 +101,7 @@ class Logline extends React.Component {
       this.setState({ isEdit: true });
     } else {
       this.setState({ isEdit: false, isUpdate: true });
-      GetStory(this.state.id,user.tokenId)
+      GetStory(this.state.id, user && user.tokenId)
         .then(json => {
           if(json.msg === "NOT VALID"){
             return history.push('/login');
