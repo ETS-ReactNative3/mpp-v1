@@ -7,7 +7,7 @@ export const GetLocalStorage = (key) => {
     if(localStorage.getItem(key) !== undefined && localStorage.getItem(key) !== null) {
         return JSON.parse(localStorage.getItem(key));
     }
-    return null;
+    return {profileObj: {}};
 }
 
 export const RemoveLocalStorage = (key) => {
