@@ -19,20 +19,20 @@ import { GetLocalStorage } from '../../utils/localStorage/storage';
 
 export function Profile() {
   const [authToken, setAuthToken] = useState('');
-  const User = GetLocalStorage('user');
+  const user = GetLocalStorage('user');
 
   function linkdrive() {
-    linkDrive(User.id_token);
+    linkDrive(user.id_token);
   }
   return (
     <div className="userProfile">
       <div className="userDetails">
         <div className="profileCardTop">
-          <Avatar className="profileAvatar" src={User.profileObj.imageUrl} />
+          <Avatar className="profileAvatar" src={user && user.profileObj.imageUrl} />
         </div>
         <div className="profileContent">
-          <h3>{User.profileObj.name}</h3>
-          <h3>{User.profileObj.email}</h3>
+          <h3>{user && user.profileObj.name}</h3>
+          <h3>{user && user.profileObj.email}</h3>
           <div className="profileButton">
             <div className="driveDiv">
               <p className="driveDivPara">
