@@ -64,7 +64,7 @@ export function SideBar() {
           <PoweroffOutlined />
         </Button>
       </div>
-      {User && (
+      {User && User.profileObj && (
         <Link to="/profile">
           <div className="avatarLink">
             <div className="settings">

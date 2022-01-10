@@ -24,6 +24,9 @@ export function Profile() {
   function linkdrive() {
     linkDrive(user.id_token);
   }
+  if(!user.profileObj) {
+    return null;
+  }
   return (
     <div className="userProfile">
       <div className="userDetails">
