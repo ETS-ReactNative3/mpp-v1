@@ -8,7 +8,7 @@
   },
   "engines": {
     "npm": ">=5",
-    "node": ">=8.15.1"
+    "node": "14.x"
   },
   "author": "Max Stoiber",
   "license": "MIT",
@@ -25,7 +25,7 @@
     "start": "node node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=development REACT_APP_GOOGLE_CLIIENT_ID=868456048541-hmp98dlujknnl8dsv9667i9vm7lt8h78.apps.googleusercontent.com node server",
     "start:tunnel": "node node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=development ENABLE_TUNNEL=true nodemon server",
     "start:production": "npm run test && npm run build && npm run start:prod",
-    "start:prod": "node node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=production node server --openssl-legacy-provider",
+    "start:prod": "node node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=production node server",
     "aws-eb:prod": "npm run build && npm run start:prod",
     "presetup": "npm i chalk shelljs",
     "setup": "node ./internals/scripts/setup.js",
