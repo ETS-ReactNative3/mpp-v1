@@ -9,7 +9,7 @@
 
 import React from 'react';
 import { Switch, Route, Router } from 'react-router-dom';
-import {withRouter} from 'react-router';
+
 import Dashboard from 'containers/Dashboard/Loadable';
 import Login from 'containers/Login/Loadable';
 import SideBar from 'containers/SideBar';
@@ -36,8 +36,10 @@ export default function App() {
       <ProvideAuth>
         <Router history={history}>
           <Switch>
-            <Route exact path="/login" component={withRouter(Login)} />
-      
+            <Route exact path="/login">
+              <Login />
+            </Route>
+          </Switch>
           <Layout className="mainLayout">
             <Sider breakpoint="lg" collapsedWidth="75" className="mainSider">
               <SideBar />
@@ -47,6 +49,7 @@ export default function App() {
                 <h1>Movie PreProduction</h1>
               </Header>
               <Content className="routesContent">
+                <Switch>
                   <Route exact path="/">
                     <Dashboard />
                   </Route>
@@ -62,11 +65,10 @@ export default function App() {
                   <Route exact path="/healthcheck" component={HealthCheck} />
 
                   <Route component={NotFoundPage} />
-              
+                </Switch>
               </Content>
             </Layout>
           </Layout>
-          </Switch>
         </Router>
       </ProvideAuth>
       <GlobalStyle />
