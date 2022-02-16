@@ -73,11 +73,16 @@ $bg-color: #f3f4f6;
         font-size: 15px;
       }
     }
+    .stories-list{
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
     .storiesCard {
       background-color: $bg-color;
       border-radius: 15px;
       margin-left: 6px;
-
+      width: 300px;
       p {
         font-size: 16px;
         font-weight: 600;

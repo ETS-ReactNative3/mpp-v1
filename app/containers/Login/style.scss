@@ -5,6 +5,9 @@
 		background-image: url('https://therichpost.com/wp-content/uploads/2021/02/login-split.jpg');
 		background-repeat: no-repeat;
 		background-size: 100vh 100vh;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 	.login-form {
 		min-height: 100vh;

@@ -75,7 +75,7 @@ export default function Dashboard() {
         {/* recent stories section */}
         <div className="recent">
           <h3>Recent</h3>
-          <Row gutter={[16, 24]}>
+          
             {recent.map((item, i) => (
               <Col md={12} lg={8} key={item.sNo}>
                 <Card className="recentCard" title={item.title} bordered>
@@ -94,7 +94,7 @@ export default function Dashboard() {
                 </Card>
               </Col>
             ))}
-          </Row>
+         
         </div>
         {/* All stories section */}
         <div className="allStories">
@@ -110,12 +110,11 @@ export default function Dashboard() {
                   See All
                 </Link>
               </div>
-              <Row gutter={[16, 24]}>
+              <div className="stories-list">
                 {stories &&
                   stories.length > 0 &&
                   // Object.keys(stories)
                   stories.splice(0, 4).map((item, i) => (
-                    <Col md={12} lg={8} key={item.id}>
                       <Card
                         className="storiesCard"
                         title={item.title}
@@ -167,9 +166,8 @@ export default function Dashboard() {
                           <span>{item.genre}</span>
                         </p>
                       </Card>
-                    </Col>
                   ))}
-              </Row>
+              </div>
             </>
           )}
         </div>
