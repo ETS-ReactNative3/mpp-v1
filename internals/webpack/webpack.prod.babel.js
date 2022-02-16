@@ -39,7 +39,7 @@ module.exports = require('./webpack.base.babel')({
           },
         },
         parallel: true,
-        cache: true,
+        cache: false,
         sourceMap: true,
       }),
     ],
@@ -116,9 +116,9 @@ module.exports = require('./webpack.base.babel')({
     }),
 
     new WebpackPwaManifest({
-      name: 'React Boilerplate',
-      short_name: 'React BP',
-      description: 'My React Boilerplate-based project!',
+      name: 'Movie Preproduction',
+      short_name: 'MPP',
+      description: 'A product by movie pre productions.',
       background_color: '#fafafa',
       theme_color: '#b1624d',
       inject: true,
