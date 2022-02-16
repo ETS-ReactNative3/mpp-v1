@@ -1,0 +1,13 @@
+.dialogue{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    div.dialogue-container{
+        max-width: 60%;
+        div{
+            margin-right: 8px;
+            min-width: 300px;
+        }
+    }
+}

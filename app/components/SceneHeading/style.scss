@@ -1,0 +1,45 @@
+.scene-heading-summary-header{
+    display: flex;
+    flex-direction: row;
+    .scene-heading-summary {
+        min-width: 300px;
+        text-align: left;
+    }
+}
+.scene-heading{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    
+    div{
+        margin-right: 8px;
+        text-transform: uppercase;     
+    }
+    .int-ext, .location, .time{
+        text-align: left;
+    }
+    .time{
+        min-width: 100px;
+        &:before{
+            content: "- ";
+        }
+    }
+    .int-ext {
+        min-width: 25px;
+        &.input{
+            max-width: 100px;
+            margin: 0 4px 0 4px;
+            height: 24px;
+        }
+        &:after{
+            content: ".";
+        }
+    }
+    .location{
+        min-width: 50px;
+    }
+   
+    .scene-number{ 
+        margin-right: 4px;
+    }
+}

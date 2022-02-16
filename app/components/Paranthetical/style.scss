@@ -1,0 +1,16 @@
+.paranthetical{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    div{
+        margin-right: 8px;  
+        min-width: 300px;
+        &:before{
+            content: "(";
+        }
+        &:after{
+            content: ")";
+        }
+    }
+}

@@ -8,9 +8,14 @@ $bg-color: #f3f4f6;
   flex-direction: column;
   align-items: start;
   justify-content: center;
+  .actions{
+    display: flex;
+    flex-direction: row;
+  }
   .storyButton {
     background-color: $bg-color;
     border: none;
+    margin: 8px;
     .storyLink {
       display: flex;
       align-items: center;

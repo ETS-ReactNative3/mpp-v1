@@ -24,6 +24,7 @@ import { ProvideAuth } from '../../contexts/authContext';
 import LogLine from '../Logline';
 import GlobalStyle from '../../global-styles';
 import Logline from '../Logline';
+import Screenplay from '../Screeplay';
 import { GetLocalStorage } from '../../utils/localStorage/storage';
 import './style.scss';
 
@@ -61,6 +62,9 @@ export default function App() {
                   </Route>
                   <Route path="/storyline/:id">
                     <Logline />
+                  </Route>
+                  <Route path="/screenplay/:id">
+                    <Screenplay />
                   </Route>
                   <Route exact path="/healthcheck" component={HealthCheck} />
 

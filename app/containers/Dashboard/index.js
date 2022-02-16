@@ -6,10 +6,10 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { Menu } from 'antd';
 import { PlusOutlined, MoreOutlined, LoadingOutlined } from '@ant-design/icons';
-import { Redirect } from 'react-router-dom';
+
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import './styles.scss';
@@ -50,15 +50,14 @@ export default function Dashboard() {
     }
     // console.log(token);
 
-    GetDashboardInfo(token)
-      .then(res => {
-        console.log(res.msg);
-        if(res.msg === "NOT VALID"){
-          return history.push('/login');
-        }
-        setStories(res);
-        console.log(stories);
-      })
+    GetDashboardInfo(token).then(res => {
+      console.log(res.msg);
+      if (res.msg === 'NOT VALID') {
+        return history.push('/login');
+      }
+      setStories(res);
+      console.log(stories);
+    });
 
     setTimeout(() => setLoading(false), 5000);
   }, []);
@@ -66,35 +65,42 @@ export default function Dashboard() {
   return (
     <>
       <div className="dashboardContent">
-        <Button className="storyButton" shape="round" size="large">
-          <Link className="storyLink" to="/storyline/new">
-            <span className="storySpan">Create Story</span>
-            <PlusOutlined className="storyIcon" />
-          </Link>
-        </Button>
+        <div className="actions">
+          <Button className="storyButton" shape="round" size="large">
+            <Link className="storyLink" to="/storyline/new">
+              <span className="storySpan">Create Story</span>
+              <PlusOutlined className="storyIcon" />
+            </Link>
+          </Button>
+          <Button className="storyButton" shape="round" size="large">
+            <Link className="storyLink" to="/screenplay/new">
+              <span className="storySpan">Write screenplay</span>
+              <PlusOutlined className="storyIcon" />
+            </Link>
+          </Button>
+        </div>
         {/* recent stories section */}
         <div className="recent">
           <h3>Recent</h3>
-          
-            {recent.map((item, i) => (
-              <Col md={12} lg={8} key={item.sNo}>
-                <Card className="recentCard" title={item.title} bordered>
-                  <p>
-                    LogLine:
-                    <span>{item.logLine}</span>
-                  </p>
-                  <p>
-                    Theme:
-                    <span>{item.theme}</span>
-                  </p>
-                  <p>
-                    Genre:
-                    <span>{item.genre}</span>
-                  </p>
-                </Card>
-              </Col>
-            ))}
-         
+
+          {recent.map((item, i) => (
+            <Col md={12} lg={8} key={item.sNo}>
+              <Card className="recentCard" title={item.title} bordered>
+                <p>
+                  LogLine:
+                  <span>{item.logLine}</span>
+                </p>
+                <p>
+                  Theme:
+                  <span>{item.theme}</span>
+                </p>
+                <p>
+                  Genre:
+                  <span>{item.genre}</span>
+                </p>
+              </Card>
+            </Col>
+          ))}
         </div>
         {/* All stories section */}
         <div className="allStories">
@@ -115,57 +121,57 @@ export default function Dashboard() {
                   stories.length > 0 &&
                   // Object.keys(stories)
                   stories.splice(0, 4).map((item, i) => (
-                      <Card
-                        className="storiesCard"
-                        title={item.title}
-                        extra={
-                          <Menu
-                            className="storiesMenu"
-                            mode="vertical"
-                            expandIcon={
-                              <MoreOutlined
-                                style={{ fontSize: 18, fontWeight: 600 }}
-                              />
-                            }
-                          >
-                            <SubMenu key="sub1">
-                              <Menu.Item key="1" style={menu}>
-                                <Link to={`/storyline/${item.id}`}>
-                                  <Button style={menuButton}>Edit</Button>
-                                </Link>
-                              </Menu.Item>
-                              <Menu.Item key="2" style={menu}>
-                                <Button style={menuButton}>Share</Button>
-                              </Menu.Item>
-                              <Menu.Item key="3" style={menu}>
-                                <Button style={menuButton}>Print</Button>
-                              </Menu.Item>
-                              <Menu.Item key="4" style={menu}>
-                                <Link to={`/storyline/${item.id}`}>
-                                  <Button danger style={menuButton}>
-                                    Delete
-                                  </Button>
-                                </Link>
-                              </Menu.Item>
-                            </SubMenu>
-                          </Menu>
-                        }
-                        headStyle={{ fontSize: 18 }}
-                        bordered
-                      >
-                        <p>
-                          LogLine:
-                          <span>{item.ownerNames}</span>
-                        </p>
-                        <p>
-                          Theme:
-                          <span>{item.theme}</span>
-                        </p>
-                        <p>
-                          Genre:
-                          <span>{item.genre}</span>
-                        </p>
-                      </Card>
+                    <Card
+                      className="storiesCard"
+                      title={item.title}
+                      extra={
+                        <Menu
+                          className="storiesMenu"
+                          mode="vertical"
+                          expandIcon={
+                            <MoreOutlined
+                              style={{ fontSize: 18, fontWeight: 600 }}
+                            />
+                          }
+                        >
+                          <SubMenu key="sub1">
+                            <Menu.Item key="1" style={menu}>
+                              <Link to={`/storyline/${item.id}`}>
+                                <Button style={menuButton}>Edit</Button>
+                              </Link>
+                            </Menu.Item>
+                            <Menu.Item key="2" style={menu}>
+                              <Button style={menuButton}>Share</Button>
+                            </Menu.Item>
+                            <Menu.Item key="3" style={menu}>
+                              <Button style={menuButton}>Print</Button>
+                            </Menu.Item>
+                            <Menu.Item key="4" style={menu}>
+                              <Link to={`/storyline/${item.id}`}>
+                                <Button danger style={menuButton}>
+                                  Delete
+                                </Button>
+                              </Link>
+                            </Menu.Item>
+                          </SubMenu>
+                        </Menu>
+                      }
+                      headStyle={{ fontSize: 18 }}
+                      bordered
+                    >
+                      <p>
+                        LogLine:
+                        <span>{item.ownerNames}</span>
+                      </p>
+                      <p>
+                        Theme:
+                        <span>{item.theme}</span>
+                      </p>
+                      <p>
+                        Genre:
+                        <span>{item.genre}</span>
+                      </p>
+                    </Card>
                   ))}
               </div>
             </>

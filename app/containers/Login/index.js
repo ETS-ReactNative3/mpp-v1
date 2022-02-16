@@ -45,9 +45,17 @@ export function Login(props) {
   return (
     <div>
       <Row type="flex" className="login-container">
-        <Col span={10} className="login-bg" >
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/R1n85swPlc0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          </Col>
+        <Col span={10} className="login-bg">
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/R1n85swPlc0"
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </Col>
         <Col span={12} className="login-form">
           <center>
             <div className="login-google">
