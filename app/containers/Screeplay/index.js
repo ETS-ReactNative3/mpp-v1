@@ -146,7 +146,7 @@ class App extends React.Component {
           
         </div>
         <footer>
-          {isMobile() && <div className="mobile-footer">
+          {true && <div className="mobile-footer">
             <div className="mobile-options">
         
               <Button onClick={() => {
