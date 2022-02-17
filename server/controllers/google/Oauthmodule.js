@@ -4,16 +4,17 @@ const { updateTokens } = require('../../service/user.js');
 
 const { CLIENT_ID } = process.env;
 const { CLIENT_SECRET } = process.env;
-const { REDIRECT_URL } = process.env;
+const { REDIRECT_URL, PROD_REDIRECT_URL } = process.env;
 const SCOPES = [
   'https://www.googleapis.com/auth/drive',
   'https://www.googleapis.com/auth/userinfo.email',
 ];
-
+const redirectUrl =
+  process.env.NODE_ENV === 'production' ? PROD_REDIRECT_URL : REDIRECT_URL;
 const oAuth2Client = new google.auth.OAuth2(
   CLIENT_ID,
   CLIENT_SECRET,
-  REDIRECT_URL,
+  redirectUrl,
 );
 
 // Generate an OAuth URL and redirect there
