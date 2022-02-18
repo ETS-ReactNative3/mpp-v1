@@ -1,15 +1,19 @@
 .charector{
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: center;
+    padding-top: 1.5ex;
+    margin-left: 25%; 
+    padding-right: 25%;
+    text-align: center;
+    // display: flex;
+    // flex-direction: row;
+    // align-items: flex-start;
+    // justify-content: center;
     div{
-        margin-top: 8px;
-        margin-right: 8px;
+        // margin-top: 8px;
+        // margin-right: 8px;
         text-transform: uppercase;    
-        min-width: 300px;
+        // min-width: 300px;
     }
-    button{
-        margin-right: 8px;
-    }
+    // button{
+    //     margin-right: 8px;
+    // }
 }

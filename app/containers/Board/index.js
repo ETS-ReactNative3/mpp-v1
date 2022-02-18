@@ -62,7 +62,7 @@ function Board(props) {
     }
     const commonProps = {removeElement, addAction, addTransition,addDialogue, addParanthetical, insChar: insertChar, addSceneHeading, onContentChange, content, onFocus: setCurrentElement}
 
-    return <div className="board">
+    return <div className="board page">
         {elementsList.map(el => <Elements {...el} {...commonProps} elementRef={el.id === currentElement ? setFocusedElement : null}/>)}
     </div>
 }

@@ -1,11 +1,13 @@
 .paranthetical{
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: center;
+    margin-left: 30%; padding-right: 30%; 
+    text-align: center;
+    // display: flex;
+    // flex-direction: row;
+    // align-items: flex-start;
+    // justify-content: center;
     div{
-        margin-right: 8px;  
-        min-width: 300px;
+        // margin-right: 8px;  
+        // min-width: 300px;
         &:before{
             content: "(";
         }

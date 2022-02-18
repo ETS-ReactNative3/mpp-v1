@@ -1,13 +1,15 @@
 .dialogue{
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: center;
-    div.dialogue-container{
-        max-width: 60%;
-        div{
-            margin-right: 8px;
-            min-width: 300px;
-        }
-    }
+    margin-left: 20%; padding-right: 20%; 
+    text-align: center;
+    // display: flex;
+    // flex-direction: row;
+    // align-items: flex-start;
+    // justify-content: center;
+    // div.dialogue-container{
+    //     max-width: 60%;
+    //     div{
+    //         margin-right: 8px;
+    //         min-width: 300px;
+    //     }
+    // }
 }

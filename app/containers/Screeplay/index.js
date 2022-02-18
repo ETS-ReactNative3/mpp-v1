@@ -110,7 +110,39 @@ class App extends React.Component {
     const {activeBoard, currentElement, elementsCount, currentElementsList} = this.state;
     return (
       <div className="App">
-       
+        <header>
+        {true && <div className="mobile-footer">
+            <div className="mobile-options">
+        
+              <Button onClick={() => {
+                this.setElementCount({ sceneHeading: elementsCount.sceneHeading + 1});
+                this.addBoard();
+              }} >Scene heading</Button>
+              <Button onClick={() => {
+                this.setElemetsList(elementTypes.action(elementsCount, activeBoard));
+                this.setElementCount({ action: elementsCount.action + 1});
+              }}>Action</Button>
+              <Button onClick={() => {
+                this.setElemetsList(elementTypes.charecter(elementsCount, activeBoard));
+                this.setElementCount({ charector: elementsCount.charector + 1});
+              }} >Character</Button>
+              <Button onClick={() => {
+                this.setElemetsList(elementTypes.paranthetical(elementsCount, activeBoard));
+                this.setElementCount({parantheticals: elementsCount.parantheticals + 1});
+              }} >Paranthetical</Button>
+              <Button onClick={() => {
+                this.setElemetsList(elementTypes.dialogue(elementsCount, activeBoard));
+                this.setElementCount({dialogue: elementsCount.dialogue + 1});
+
+              }} >Dialogue</Button>
+              <Button onClick={() => {
+                this.setElemetsList(elementTypes.transition(elementsCount, activeBoard));
+                this.setElementCount({ transition: elementsCount.transition + 1});
+
+              }} >Transition</Button>
+            </div>
+            </div>}
+        </header>
         <div className="App-container">
           {/* <Elements onAddElement={this.onAddElement}/> */}
           {/* <Editor onChange={this.onContentChange} editorRef={this.editor} /> */}
@@ -146,37 +178,7 @@ class App extends React.Component {
           
         </div>
         <footer>
-          {true && <div className="mobile-footer">
-            <div className="mobile-options">
-        
-              <Button onClick={() => {
-                this.setElementCount({ sceneHeading: elementsCount.sceneHeading + 1});
-                this.addBoard();
-              }} >Scene heading</Button>
-              <Button onClick={() => {
-                this.setElemetsList(elementTypes.action(elementsCount, activeBoard));
-                this.setElementCount({ action: elementsCount.action + 1});
-              }}>Action</Button>
-              <Button onClick={() => {
-                this.setElemetsList(elementTypes.charecter(elementsCount, activeBoard));
-                this.setElementCount({ charector: elementsCount.charector + 1});
-              }} >Character</Button>
-              <Button onClick={() => {
-                this.setElemetsList(elementTypes.paranthetical(elementsCount, activeBoard));
-                this.setElementCount({parantheticals: elementsCount.parantheticals + 1});
-              }} >Paranthetical</Button>
-              <Button onClick={() => {
-                this.setElemetsList(elementTypes.dialogue(elementsCount, activeBoard));
-                this.setElementCount({dialogue: elementsCount.dialogue + 1});
-
-              }} >Dialogue</Button>
-              <Button onClick={() => {
-                this.setElemetsList(elementTypes.transition(elementsCount, activeBoard));
-                this.setElementCount({ transition: elementsCount.transition + 1});
-
-              }} >Transition</Button>
-            </div>
-            </div>}
+          
         </footer>
       </div>
     );
