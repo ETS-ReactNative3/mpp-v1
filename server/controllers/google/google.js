@@ -78,7 +78,11 @@ const callBack = async (req, res, next) => {
 
     await updateTokens(user_email, googletokens);
 
-    res.redirect(process.env.REDIRECT_URL_UI);
+    res.redirect(
+      process.env.NODE_ENV === 'production'
+        ? process.env.PROD_REDIRECT_URL_UI
+        : process.env.REDIRECT_URL_UI,
+    );
   } else {
     return res.status(500).send({
       msg: 'Internal server error',
